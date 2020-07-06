@@ -12,7 +12,15 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import HomeIcon from '@material-ui/icons/Home';
 import withRouter from "react-router-dom/es/withRouter";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import {LocalShipping, SaveAltOutlined, ShoppingBasket, Store} from "@material-ui/icons";
+import {
+    LocalShipping,
+    People,
+    PersonAdd,
+    SaveAltOutlined,
+    ShoppingBasket,
+    ShoppingCart, ShopTwo,
+    Store
+} from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
@@ -72,10 +80,27 @@ class UpperBar extends React.Component {
         this.props.history.push('/supplier-orders');
     }
 
+    goToUserOrderPage = () => {
+        this.props.history.push('/new-order');
+    }
+
+    goToUserOrdersPage = () => {
+        this.props.history.push('/users-orders');
+    }
+
+    goToNewClientPage = () => {
+        this.props.history.push('/new-customer');
+    }
+
+    goToClientsPage = () => {
+        this.props.history.push('/customers');
+    }
+
 
     render() {
         const { classes } = this.props;
         const supplierLinks = { "information": this.goToSuppliersPage, "newOrder": this.goToSupplierOrderPage, "orders": this.goToSupplierOrdersPage, "reception": this.goToReceptionPage };
+        const clientLinks = { "newCustomer": this.goToNewClientPage, "information": this.goToClientsPage, "newOrder": this.goToUserOrderPage, "orders": this.goToUserOrdersPage }
 
         return (
             <div>
@@ -95,6 +120,8 @@ class UpperBar extends React.Component {
                             </Hidden>
 
                             <SupplierMenu links={supplierLinks} />
+                            <ClientMenu links={clientLinks} />
+
                             <IconButton
                                 aria-label="account of current user"
                                 aria-controls="menu-appbar"
@@ -210,6 +237,64 @@ function SupplierMenu(props) {
     );
 }
 
+function ClientMenu(props) {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = (event) => {
+        setAnchorEl(null);
+    };
+
+    return (
+        <div>
+            <StyledButton
+                aria-controls="customized-menu"
+                aria-haspopup="true"
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={handleClick}
+            >
+                Clientes
+            </StyledButton>
+            <StyledMenu
+                id="customized-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <PersonAdd fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Nuevo cliente" onClick={props.links.newCustomer} />
+                </StyledMenuItem>
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <People fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Informacion" onClick={props.links.information} />
+                </StyledMenuItem>
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <ShoppingCart fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Nuevo pedido" onClick={props.links.newOrder} />
+                </StyledMenuItem>
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <ShopTwo fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Pedidos" onClick={props.links.orders} />
+                </StyledMenuItem>
+            </StyledMenu>
+        </div>
+    );
+}
 
 
 

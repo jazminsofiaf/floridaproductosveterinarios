@@ -28,10 +28,10 @@ class Home extends React.Component{
                                     <PetsIcon/>
                                 </Box>
                                 <Typography variant="h4"  align="left"  className={classes.mainTitle}>
-                                    Productos Veterinarios
+                                    Productos Veterinarios Online
                                 </Typography>
                                 <Typography variant="h6"  align="left"  className={classes.mainTitle}>
-                                    Tu distribuidora de medicamentos preferida!
+                                    Ahora toda la ayuda que necesitas a un click de distancia!
                                 </Typography>
                             </Box>
                         </Grid>
