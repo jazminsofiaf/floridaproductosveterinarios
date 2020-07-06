@@ -11,6 +11,11 @@ import Hidden from "@material-ui/core/Hidden";
 import withStyles from "@material-ui/core/styles/withStyles";
 import HomeIcon from '@material-ui/icons/Home';
 import withRouter from "react-router-dom/es/withRouter";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import {LocalShipping, SaveAltOutlined, ShoppingBasket, Store} from "@material-ui/icons";
+import ListItemText from "@material-ui/core/ListItemText";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 
 
 
@@ -51,11 +56,27 @@ class UpperBar extends React.Component {
     }
 
 
+    goToSuppliersPage = () => {
+        this.props.history.push('/supplier-orders');
+    }
 
+    goToSupplierOrderPage = () => {
+        this.props.history.push('/supplier-order');
+    }
+
+    goToSupplierOrdersPage = () => {
+        this.props.history.push('/supplier-orders');
+    }
+
+    goToReceptionPage = () => {
+        this.props.history.push('/supplier-orders');
+    }
 
 
     render() {
         const { classes } = this.props;
+        const supplierLinks = { "information": this.goToSuppliersPage, "newOrder": this.goToSupplierOrderPage, "orders": this.goToSupplierOrdersPage, "reception": this.goToReceptionPage };
+
         return (
             <div>
                 <CssBaseline />
@@ -73,6 +94,7 @@ class UpperBar extends React.Component {
                                         onClick={this.goFAQ}>Preguntas frecuentes</Button>
                             </Hidden>
 
+                            <SupplierMenu links={supplierLinks} />
                             <IconButton
                                 aria-label="account of current user"
                                 aria-controls="menu-appbar"
@@ -89,6 +111,103 @@ class UpperBar extends React.Component {
             </div>
         );
     }
+}
+
+const StyledMenu = withStyles({
+    paper: {
+        border: '1px solid #d3d4d5',
+    },
+})((props) => (
+    <Menu
+        elevation={0}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+        }}
+        transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+        }}
+        {...props}
+    />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+    root: {
+        '&:focus': {
+            backgroundColor: theme.palette.primary.main,
+            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+                color: theme.palette.common.white,
+            },
+        },
+    },
+}))(MenuItem);
+
+const StyledButton = withStyles((theme) => ({
+    root: {
+        textTransform: 'none',
+    },
+}))(Button);
+
+function SupplierMenu(props) {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = (event) => {
+        setAnchorEl(null);
+    };
+
+
+    return (
+        <div>
+            <StyledButton
+                aria-controls="customized-menu"
+                aria-haspopup="true"
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={handleClick}
+            >
+                Proveedores
+            </StyledButton>
+            <StyledMenu
+                id="customized-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <Store fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Informacion" onClick={props.links.information} />
+                </StyledMenuItem>
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <ShoppingBasket fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Nueva orden" onClick={props.links.newOrder} />
+                </StyledMenuItem>
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <LocalShipping fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Pedidos" onClick={props.links.orders} />
+                </StyledMenuItem>
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <SaveAltOutlined fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Recepcion" onClick={props.links.reception} />
+                </StyledMenuItem>
+            </StyledMenu>
+        </div>
+    );
 }
 
 
