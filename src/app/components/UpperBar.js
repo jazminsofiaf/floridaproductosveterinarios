@@ -125,7 +125,7 @@ function UpperBar(props) {
                                 Florida Productos veterinarios
                             </Typography>
                         </Hidden>
-                        
+
                         <IconButton
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
