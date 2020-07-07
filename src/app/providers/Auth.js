@@ -13,10 +13,8 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (currentUser) {
-            console.log("USE EFFECT: " + JSON.stringify(currentUser, null, 2));
             const token = Object.entries(currentUser)[5][1].b.g;
             setToken(token);
-            console.log("USE EFFECT TOKEN: " + token);
         }
     }, [currentUser])
 

@@ -102,9 +102,6 @@ function Login(props) {
                                 label="Contraseña"
                                 type="password"
                                 id="password"
-                                // onChange={(e) => {
-                                //     console.log(e.target.value);
-                                //     setPassword(e.target.value);}}
                                 autoComplete="current-password"
                             />
                             <FormControlLabel
