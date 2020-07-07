@@ -24,8 +24,9 @@ import {
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import AccountBar from "./AccountBar";
-import {AuthContext} from "../providers/Auth";
+import AccountBar from "./AccountMenu";
+import {AuthContext} from "../../providers/Auth";
+import SupplierMenu2 from "./SupplierMenu";
 
 
 function HideOnScroll(props) {
@@ -124,6 +125,7 @@ function UpperBar(props) {
 
                         <SupplierMenu links={supplierLinks}/>
                         <ClientMenu links={clientLinks}/>
+                        <SupplierMenu2 />
 
                         <AccountBar isLogged={isLogged} />
 

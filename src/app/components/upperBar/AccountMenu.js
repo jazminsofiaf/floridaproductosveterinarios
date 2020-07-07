@@ -4,7 +4,7 @@ import {AccountCircle} from "@material-ui/icons";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {withRouter} from "react-router-dom";
-import Fire from "../providers/Fire"
+import Fire from "../../providers/Fire"
 
 
 function Line() {
@@ -18,7 +18,7 @@ function Line() {
     );
 }
 
-function AccountBar(props) {
+function AccountMenu(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleMenu = (event) => {
@@ -106,4 +106,4 @@ function AccountBar(props) {
     )
 }
 
-export default withRouter(AccountBar);
+export default withRouter(AccountMenu);

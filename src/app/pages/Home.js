@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import PetsIcon from "@material-ui/icons/Pets";
 import Toolbar from "@material-ui/core/Toolbar";
-import UpperBar from "../components/UpperBar";
+import UpperBar from "../components/upperBar/UpperBar";
 
 function Home(props) {
 
