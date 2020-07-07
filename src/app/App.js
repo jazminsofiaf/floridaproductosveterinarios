@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import {createMuiTheme, MuiThemeProvider, responsiveFontSizes} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import SupplierOrdersPage from "./pages/SupplierOrdersPage";
 
 let theme = createMuiTheme({
     palette: {
@@ -51,6 +52,7 @@ function App() {
                             <Route exact path="/" component={Home}/>
                             <Route exact path="/login" component={Login}/>
                             <Route exact path="/faq" component={Faq}/>
+                            <Route exact path="/supplier-orders" component={SupplierOrdersPage} />
                         </Switch>
                     </div>
                 </BrowserRouter>
