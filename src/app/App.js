@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './App.css';
 import Faq from "./pages/Faq";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import {createMuiTheme, MuiThemeProvider, responsiveFontSizes} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
@@ -48,6 +49,7 @@ function App() {
                     <div>
                         <Switch>
                             <Route exact path="/home" component={Home}/>
+                            <Route exact path="/login" component={Login} />
                             <Route exact path="/faq" component={Faq}/>
                         </Switch>
                     </div>

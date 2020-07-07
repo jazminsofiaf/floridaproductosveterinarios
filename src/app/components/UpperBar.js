@@ -125,12 +125,7 @@ function UpperBar(props) {
                                 Florida Productos veterinarios
                             </Typography>
                         </Hidden>
-
-                        <Hidden only={['sm', 'xs']}>
-                            <Button variant="text" className={classes.menuBarItem}
-                                    onClick={goFAQ}>Preguntas frecuentes</Button>
-                        </Hidden>
-
+                        
                         <IconButton
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
