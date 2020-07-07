@@ -20,8 +20,7 @@ import Fire from "../providers/Fire";
 
 function Login(props) {
 
-    const { currentUser, token } = useContext(AuthContext)
-    console.log(token);
+    const { currentUser } = useContext(AuthContext)
 
     const handleLogIn = useCallback(
         async event => {
