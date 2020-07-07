@@ -14,34 +14,33 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 import PetsIcon from '@material-ui/icons/Pets';
-// import { AuthContext } from "../providers/Auth";
+import { AuthContext } from "../providers/Auth";
 import Copyright from "../components/Copyright";
+import Fire from "../providers/Fire";
 
 function Login(props) {
 
-    // const { currentUser, setToken } = useContext(AuthContext)
-    const currentUser = undefined;
+    const { currentUser, token } = useContext(AuthContext)
+    console.log(token);
 
     const handleLogIn = useCallback(
         async event => {
             event.preventDefault();
             const { email, password } = event.target.elements;
-            // try {
-            //     await
-            //         Fire
-            //             .auth()
-            //             .signInWithEmailAndPassword(email.value, password.value)
-            //             .then(async res => {
-            //                 const token = await Object.entries(res.user)[5][1].b
-            //                 //set token to localStorage
-            //                 localStorage.setItem('token', token)
-            //                 setToken(window.localStorage.token)
-            //                 console.log(res)
-            //                 props.history.push("/");
-            //             })
-            // } catch (error) {
-            //     alert(error);
-            // }
+            try {
+                await
+                    Fire
+                        .auth()
+                        .signInWithEmailAndPassword(email.value, password.value)
+                        .then(async res => {
+                            const token = await Object.entries(res.user)[5][1].b
+                            localStorage.setItem('token', token)
+                            console.log(res)
+                            props.history.push("/");
+                        })
+            } catch (error) {
+                alert(error);
+            }
         },
         [props.history]
     );

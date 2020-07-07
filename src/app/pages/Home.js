@@ -7,41 +7,37 @@ import PetsIcon from "@material-ui/icons/Pets";
 import Toolbar from "@material-ui/core/Toolbar";
 import UpperBar from "../components/UpperBar";
 
-class Home extends React.Component{
+function Home(props) {
 
-    render() {
-        const { classes } = this.props;
-        return (
-            <div className={classes.root}>
-                <UpperBar/>
-                <Toolbar />
-                <div>
+    const {classes} = props;
 
-                    <Grid container spacing={3} className={classes.image}>
-                        <Grid item xs={false} sm={4} md={7} ></Grid>
-                        <Grid item xs={12} sm={8} md={5} elevation={6}  className={classes.titleContainer}>
-                            <Box  p={3} >
-                                <Box display="flex" justifyContent="flex-start" >
-                                    <Typography variant="h3" noWrap className={classes.mainTitle}>
-                                        Florida
-                                    </Typography>
-                                    <PetsIcon/>
-                                </Box>
-                                <Typography variant="h4"  align="left"  className={classes.mainTitle}>
-                                    Productos Veterinarios Online
+    return (
+        <div className={classes.root}>
+            <UpperBar/>
+            <Toolbar/>
+            <div>
+                <Grid container spacing={3} className={classes.image}>
+                    <Grid item xs={false} sm={4} md={7}></Grid>
+                    <Grid item xs={12} sm={8} md={5} elevation={6} className={classes.titleContainer}>
+                        <Box p={3}>
+                            <Box display="flex" justifyContent="flex-start">
+                                <Typography variant="h3" noWrap className={classes.mainTitle}>
+                                    Florida
                                 </Typography>
-                                <Typography variant="h6"  align="left"  className={classes.mainTitle}>
-                                    Ahora toda la ayuda que necesitas a un click de distancia!
-                                </Typography>
+                                <PetsIcon/>
                             </Box>
-                        </Grid>
+                            <Typography variant="h4" align="left" className={classes.mainTitle}>
+                                Productos Veterinarios Online
+                            </Typography>
+                            <Typography variant="h6" align="left" className={classes.mainTitle}>
+                                Ahora toda la ayuda que necesitas a un click de distancia!
+                            </Typography>
+                        </Box>
                     </Grid>
-
-
-                </div>
+                </Grid>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 const styles = theme => ({
@@ -72,9 +68,9 @@ const styles = theme => ({
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.primary.main,
-        height:300,
+        height: 300,
     },
 });
 
 
-export default  withStyles(styles)(Home);
+export default withStyles(styles)(Home);

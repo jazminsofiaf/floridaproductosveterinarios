@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import withStyles from "@material-ui/core/styles/withStyles";
-import withRouter from "react-router-dom/es/withRouter";
+import { withRouter } from "react-router-dom";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {
     LocalShipping,
@@ -19,13 +19,13 @@ import {
     ShoppingBasket,
     ShoppingCart, ShopTwo,
     Store,
-    AccountCircle,
     Home
 } from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountBar from "./AccountBar";
+import {AuthContext} from "../providers/Auth";
 
 
 function HideOnScroll(props) {
@@ -39,31 +39,19 @@ function HideOnScroll(props) {
     );
 }
 
-function Line() {
-    return (
-        <hr style={{
-            color: 'black',
-            backgroundColor: 'black',
-            height: 2
-        }}
-        />
-    );
-}
+
 
 function UpperBar(props) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const { currentUser } = useContext(AuthContext);
+    const isLogged = Boolean(currentUser);
 
     const goHomePage = () => {
         props.history.push('/home');
     }
 
-    const goToLogin = () => {
-        props.history.push('/login');
-    }
-
-    function goFAQ() {
-        props.history.push('/faq');
-    }
+    // function goFAQ() {
+    //     props.history.push('/faq');
+    // }
 
     const goToSuppliersPage = () => {
         props.history.push('/supplier-orders');
@@ -112,8 +100,6 @@ function UpperBar(props) {
         "orders": goToUserOrdersPage
     }
 
-    const isLogged = false;
-
     return (
         <div>
             <CssBaseline/>
@@ -139,7 +125,7 @@ function UpperBar(props) {
                         <SupplierMenu links={supplierLinks}/>
                         <ClientMenu links={clientLinks}/>
 
-                        <AccountBar props={{isLogged}} />
+                        <AccountBar isLogged={isLogged} />
 
                     </Toolbar>
                 </AppBar>

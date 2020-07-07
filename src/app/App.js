@@ -49,7 +49,7 @@ function App() {
                     <div>
                         <Switch>
                             <Route exact path="/home" component={Home}/>
-                            <Route exact path="/login" component={Login} />
+                            <Route exact path="/login" component={Login}/>
                             <Route exact path="/faq" component={Faq}/>
                         </Switch>
                     </div>
