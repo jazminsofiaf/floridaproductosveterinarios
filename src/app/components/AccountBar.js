@@ -46,7 +46,7 @@ function AccountBar(props) {
             await
                 Fire.auth()
                     .signOut()
-                    .then(props.history.push('/home'))
+                    .then(props.history.push('/'))
         } catch (error) {
             alert(error);
         }

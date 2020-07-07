@@ -56,7 +56,7 @@ function Login(props) {
     const { classes } = props;
 
     return (
-        currentUser ? <Redirect to="/home" /> :
+        currentUser ? <Redirect to="/" /> :
             <Grid container component="main" className={classes.root}>
                 <CssBaseline />
                 <Grid item xs={false} sm={4} md={7} className={classes.image} >

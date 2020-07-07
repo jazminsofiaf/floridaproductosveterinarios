@@ -46,7 +46,7 @@ function UpperBar(props) {
     const isLogged = Boolean(currentUser);
 
     const goHomePage = () => {
-        props.history.push('/home');
+        props.history.push('/');
     }
 
     // function goFAQ() {
