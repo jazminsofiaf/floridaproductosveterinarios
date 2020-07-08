@@ -103,8 +103,8 @@ function SupplierOrdersPage() {
         return order && order.owner_summary ? !(order.owner_summary.toLowerCase().indexOf(filterText.toLowerCase()) === -1) : false;
     }
 
-    const ordersView = orders.filter((order) => passesFilter(order))
-        .map((order) => (<SupplierOrderRow key={order.id} order={order} openModal={clickView} />));
+    const ordersView = orders ? orders.filter((order) => passesFilter(order))
+        .map((order) => (<SupplierOrderRow key={order.id} order={order} openModal={clickView} />)) : [];
 
     const orderModal = OrderModal({ modalOrder, openReception });
 
