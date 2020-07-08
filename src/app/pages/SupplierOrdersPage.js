@@ -23,8 +23,10 @@ async function loadSupplierOrders(props) {
         headers: {
             'Content-Type': 'application/json',
             'Cache-Control': 'no-cache',
-            'If-Modified-Since': 'Sun, 23 Jun 2002 00:54:48 GMT'
-            // 'Authorization': 'Token '+props.token
+            'If-Modified-Since': 'Sun, 23 Jun 2002 00:54:48 GMT',
+            'Sec-Fetch-Site': 'cross-site'
+
+    // 'Authorization': 'Token '+props.token
         }
     };
     console.log(options);
