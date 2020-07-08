@@ -22,7 +22,8 @@ async function loadSupplierOrders(props) {
     const options = {
         headers: {
             'Content-Type': 'application/json',
-            'Cache-Control': 'no-cache'
+            'Cache-Control': 'no-cache',
+            'If-Modified-Since': 'Sun, 23 Jun 2002 00:54:48 GMT'
             // 'Authorization': 'Token '+props.token
         }
     };
