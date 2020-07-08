@@ -22,16 +22,12 @@ async function loadSupplierOrders(props) {
     const options = {
         headers: {
             'Content-Type': 'application/json',
-            'Cache-Control': 'no-cache',
-            'If-Modified-Since': 'Sun, 23 Jun 2002 00:54:48 GMT',
-            'Access-Control-Allow-Origin': '*'
-
     // 'Authorization': 'Token '+props.token
         }
     };
     console.log(options);
     try {
-        return await axios.get("/suppliers/orders/complete", options)
+        return await axios.get("https://morita-backend.herokuapp.com/api/suppliers/orders/complete", options)
             .then(function (response) {
                 alert(JSON.stringify(response.data, null, 2));
                 props.setOrders(response.data.order_list);
