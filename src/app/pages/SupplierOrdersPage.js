@@ -24,7 +24,7 @@ async function loadSupplierOrders(props) {
             'Content-Type': 'application/json',
             'Cache-Control': 'no-cache',
             'If-Modified-Since': 'Sun, 23 Jun 2002 00:54:48 GMT',
-            'Sec-Fetch-Site': 'cross-site'
+            'Access-Control-Allow-Origin': '*'
 
     // 'Authorization': 'Token '+props.token
         }
