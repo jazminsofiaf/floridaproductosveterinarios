@@ -7,6 +7,9 @@ import Login from "./pages/Login";
 import {createMuiTheme, MuiThemeProvider, responsiveFontSizes} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import SupplierOrdersPage from "./pages/SupplierOrdersPage";
+import { Orders } from "./components/supplier"
+import {Provider} from 'react-redux';
+import createStore from './create-store';
 
 let theme = createMuiTheme({
     palette: {
@@ -43,21 +46,24 @@ theme = responsiveFontSizes(theme);
 
 function App() {
     return (
-        <div className="App">
-            <MuiThemeProvider theme={theme}>
-                <CssBaseline/>
-                <BrowserRouter>
-                    <div>
-                        <Switch>
-                            <Route exact path="/" component={Home}/>
-                            <Route exact path="/login" component={Login}/>
-                            <Route exact path="/faq" component={Faq}/>
-                            <Route exact path="/supplier-orders" component={SupplierOrdersPage} />
-                        </Switch>
-                    </div>
-                </BrowserRouter>
-            </MuiThemeProvider>
-        </div>
+        <Provider store={createStore()}>
+            <div className="App">
+                <MuiThemeProvider theme={theme}>
+                    <CssBaseline/>
+                    <BrowserRouter>
+                        <div>
+                            <Switch>
+                                <Route exact path="/" component={Home}/>
+                                <Route exact path="/login" component={Login}/>
+                                <Route exact path="/faq" component={Faq}/>
+                                <Route exact path="/supplier-orders" component={SupplierOrdersPage}/>
+                                <Route exact path="/orders" component={Orders}/>
+                            </Switch>
+                        </div>
+                    </BrowserRouter>
+                </MuiThemeProvider>
+            </div>
+        </Provider>
     );
 }
 

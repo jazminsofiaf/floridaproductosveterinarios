@@ -25,11 +25,9 @@ async function loadSupplierOrders(props) {
     // 'Authorization': 'Token '+props.token
         }
     };
-    console.log(options);
     try {
         return await axios.get("https://morita-backend.herokuapp.com/api/suppliers/orders/complete", options)
             .then(function (response) {
-                alert(JSON.stringify(response.data, null, 2));
                 props.setOrders(response.data.order_list);
             })
             .catch(function (error) {

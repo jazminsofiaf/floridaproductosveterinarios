@@ -34,7 +34,6 @@ function Login(props) {
                         .then(async res => {
                             const token = await Object.entries(res.user)[5][1].b
                             localStorage.setItem('token', token)
-                            console.log(res)
                             props.history.push("/");
                         })
             } catch (error) {
