@@ -12,6 +12,7 @@ export const FETCH_SUPPLIER_PRODUCTS = 'fetch_supplier_products';
 export const FETCH_SUPPLIERS = 'fetch_suppliers';
 
 export const CREATE_USER = 'create_user';
+export const CREATE_CUSTOMER = 'create_customer'
 export const CREATE_SUPPLIER_ORDER = 'create_supplier_order';
 export const CREATE_SERVICE = 'create_service';
 export const CREATE_CATEGORY = 'create_category';

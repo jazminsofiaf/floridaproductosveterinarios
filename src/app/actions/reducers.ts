@@ -13,6 +13,7 @@ import {
     FETCH_SUPPLIERS,
     //
     CREATE_USER,
+    CREATE_CUSTOMER,
     CREATE_SUPPLIER_ORDER,
     CREATE_SERVICE,
     CREATE_CATEGORY,
@@ -80,6 +81,8 @@ export default (state: [] = [], action: IAction) => {
 
         case CREATE_USER:
             return {...state, success: 'User created successfully.', error: false, submitting: false, loading: false};
+        case CREATE_CUSTOMER:
+            return {...state, success: 'Customer created successfully.', error: false, submitting: false, loading: false};
         case CREATE_SUPPLIER_ORDER:
             return {...state, success: 'Order created successfully.', error: false, submitting: false, loading: false};
         case CREATE_SERVICE:

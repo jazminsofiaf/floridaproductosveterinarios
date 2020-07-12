@@ -64,8 +64,7 @@ const rowStyles = createStyles({
 });
 
 const SupplierOrderRow = withStyles(rowStyles)((props: any) => {
-    const order = props.order;
-    const { classes } = props;
+    const { classes, order } = props;
 
     return (
         <Paper className={order.status === 'RECEIVED' ? classes.received : classes.pending}>

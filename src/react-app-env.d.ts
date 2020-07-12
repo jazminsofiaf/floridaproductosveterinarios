@@ -1,5 +1,5 @@
 /// <reference types="react-scripts" />
-import { match, RouteComponentProps } from 'react-router-dom';
+import {match, RouteComponentProps} from 'react-router-dom';
 
 declare global {
     // export interface IResponse extends express.Response {
@@ -123,6 +123,29 @@ declare global {
         payload: any;
     }
 
+    export interface ICustomer {
+        first_name: string;
+        surname: string;
+        business_name: string;
+        id_number: string;
+        email: string;
+        phone: string;
+        category: string;
+        addresses: IAddress[];
+    }
+
+    export interface IAddress {
+        id?: string;
+        country: string;
+        province:string;
+        city: string;
+        locality: string;
+        street_name: string;
+        street_number: number;
+        postal_code: string;
+        floor_number: string;
+    }
+
     export interface IUserPostData {
         email?: string;
         email_verified?: string;
@@ -155,5 +178,6 @@ declare global {
         disabled: boolean;
     }
 
-    export interface ICountryPostData extends ICountry {}
+    export interface ICountryPostData extends ICountry {
+    }
 }

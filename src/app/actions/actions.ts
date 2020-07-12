@@ -8,6 +8,7 @@ import {
     FETCH_SUPPLIER_PRODUCTS,
     FETCH_SUPPLIERS,
     //
+    CREATE_CUSTOMER,
     CREATE_RECEPTION,
     CREATE_SUPPLIER_ORDER,
     //
@@ -21,6 +22,7 @@ import {
 import {Dispatch} from 'redux';
 import SupplierService from '../services/backoffice/supplier-service'
 import ReceptionService from '../services/backoffice/reception-service'
+import CustomerService from "../services/backoffice/customer-service"
 
 
 export const stopLoading = (dispatch: Dispatch) => {
@@ -28,6 +30,32 @@ export const stopLoading = (dispatch: Dispatch) => {
         type: STOP_LOADING
     });
 }
+
+export const createCustomer = async (dispatch: Dispatch, data: ICustomer) => {
+    dispatch({
+        type: SUBMITTING,
+    });
+
+    try {
+        await CustomerService.createCustomer(data);
+
+        setTimeout(() => {
+            dispatch({
+                type: CREATE_CUSTOMER,
+            });
+        }, 200);
+        alert("Felicidades, creacion exitosa!");
+
+    } catch (e) {
+        setTimeout(() => {
+            dispatch({
+                type: ERROR,
+                payload: {message: e.message},
+            });
+        }, 200);
+        alert("Error, perfil invalido.\nSi el error persiste contactenos.");
+    }
+};
 
 export const fetchSuppliers = async (dispatch: Dispatch) => {
     dispatch({

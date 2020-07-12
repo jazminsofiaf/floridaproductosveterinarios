@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import CartDrawer from '../cart/cart-drawer';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -10,25 +10,29 @@ import Grid from '@material-ui/core/Grid'
 import SupplierProductFilter from './SupplierProductFilter'
 
 
-function supplierSelection(props: any){
+function supplierSelection(props: any) {
     return (
         <Autocomplete
-                    id="users-box"
-                    options={props.suppliers? props.suppliers : []}
-                    getOptionLabel={(option: ISupplier) => option.name_summary}
-                    disabled={props.cartHasItems}
-                    onChange={(event, newValue) => {
-                        props.setSupplier(newValue);
-                      }}
-                    renderInput={(params) => <TextField {...params} label="Seleccionar proveedor" variant="outlined" />}
-                />
+            id="users-box"
+            options={props.suppliers ? props.suppliers : []}
+            getOptionLabel={(option: ISupplier) => option.name_summary}
+            disabled={props.cartHasItems}
+            onChange={(event, newValue) => {
+                props.setSupplier(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} label="Seleccionar proveedor" variant="outlined"/>}
+        />
     )
 }
 
-const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSupplierProducts, suppliers, fetchSuppliers, cartItems, addToCart, removeFromCart, emptyCart} : ICreateOrder) => {
+const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSupplierProducts, suppliers, fetchSuppliers, cartItems, addToCart, removeFromCart, emptyCart}: ICreateOrder) => {
     useEffect(() => {
-        fetchSuppliers();
-    }, [fetchSuppliers])
+        console.log(suppliers);
+        if (!suppliers) {
+            fetchSuppliers();
+        }
+    }, [fetchSuppliers, suppliers])
+
     const [supplier, setSupplier] = useState<ISupplier>();
 
     useEffect(() => {
@@ -60,11 +64,11 @@ const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSuppli
 
     function createOrder() {
         if (cartHasItems)
-        uploadOrder({supplier, cartItems})
+            uploadOrder({supplier, cartItems})
     }
 
     async function uploadOrder(props: any) {
-        props.cartItems.forEach((item: IOrderProduct) => item.name='');
+        props.cartItems.forEach((item: IOrderProduct) => item.name = '');
         await createSupplierOrder({
             owner_id: props.supplier.id,
             products: props.cartItems
@@ -72,30 +76,29 @@ const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSuppli
     }
 
     return (
-        //Select supplier
-        //Product searcher
-        //cart
         <>
-        <UpperBar/>
-        <Container maxWidth="lg" style={{marginTop: "6em"}}>
-            <Typography variant="h3">Orden a proveedor</Typography>
-            <Grid container spacing={1}>
-            <Grid item container style={{backgroundColor:"#FDF0D5", borderRadius: '20px 20px 20px 20px', padding: '10px'}}>
-                <Grid item xs={2}></Grid>
-                    <Grid item xs={8}>
-                        <Paper aria-disabled={cartHasItems}>
-                            {supplierSelection({setSupplier, suppliers, cartHasItems})}
-                        </Paper>
+            <UpperBar/>
+            <Container maxWidth="lg" style={{marginTop: "6em"}}>
+                <Typography variant="h3">Orden a proveedor</Typography>
+                <Grid container spacing={1}>
+                    <Grid item container
+                          style={{backgroundColor: "#FDF0D5", borderRadius: '20px 20px 20px 20px', padding: '10px'}}>
+                        <Grid item xs={2}></Grid>
+                        <Grid item xs={8}>
+                            <Paper aria-disabled={cartHasItems}>
+                                {supplierSelection({setSupplier, suppliers, cartHasItems})}
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                        {supplier ? <SupplierProductFilter items={supplierProducts} onClick={addItemToCart}/> : null}
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        {supplier ? <CartDrawer cartItems={cartItems} createSupplierOrder={createOrder}
+                                                removeFromCart={removeItem}/> : null}
                     </Grid>
                 </Grid>
-            <Grid item xs={12} sm={8}>
-                {supplier ? <SupplierProductFilter items={supplierProducts} onClick={addItemToCart}/> : null}
-            </Grid>
-            <Grid item xs={12} sm={4}>
-                {supplier ?<CartDrawer cartItems={cartItems} createSupplierOrder={createOrder} removeFromCart={removeItem} /> : null}
-            </Grid>
-            </Grid>
-        </Container>
+            </Container>
         </>
     )
 }

@@ -10,6 +10,7 @@ import { SupplierOrders } from "./views/supplier"
 import {Provider} from 'react-redux';
 import createStore from './create-store';
 import { CreateSupplierOrder } from "./views/supplierOrder";
+import { CreateCustomer } from "./views/customer"
 
 let theme = createMuiTheme({
     palette: {
@@ -56,6 +57,7 @@ function App() {
                                 <Route exact path="/" component={Home}/>
                                 <Route exact path="/login" component={Login}/>
                                 <Route exact path="/faq" component={Faq}/>
+                                <Route exact path="/new-customer" component={CreateCustomer} />
                                 <Route exact path="/supplier-orders" component={SupplierOrders}/>
                                 <Route exact path="/supplier-order" component={CreateSupplierOrder} />
                             </Switch>
