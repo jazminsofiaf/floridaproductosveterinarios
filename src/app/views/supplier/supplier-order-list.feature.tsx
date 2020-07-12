@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import SupplierOrderList from './supplier-order-list';
 import { Dispatch } from 'redux';
-import {createReception, fetchOrders} from '../../actions/actions';
+import {createReception, fetchSupplierOrders} from '../../actions/actions';
 
 const mapStateToProps = (state: any) => {
     return { error: state.error, success: state.success, orders: state.orders };
@@ -10,7 +10,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         fetchOrders: () => {
-            fetchOrders(dispatch);
+            fetchSupplierOrders(dispatch);
         },
         createReception: (data: IReceptionOrderPostData) => {
             createReception(dispatch, data);

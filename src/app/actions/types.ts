@@ -4,13 +4,15 @@ export const SUBMITTING = 'fetching';
 export const STOP_LOADING = 'stop_loading'
 
 export const FETCH_USERS = 'fetch_users';
-export const FETCH_ORDERS = 'fetch_orders';
+export const FETCH_SUPPLIER_ORDERS = 'fetch_supplier_orders';
 export const FETCH_SERVICES = 'fetch_services';
 export const FETCH_CATEGORIES = 'fetch_categories';
 export const FETCH_COUNTRIES = 'fetch_countries';
+export const FETCH_SUPPLIER_PRODUCTS = 'fetch_supplier_products';
+export const FETCH_SUPPLIERS = 'fetch_suppliers';
 
 export const CREATE_USER = 'create_user';
-export const CREATE_ORDER = 'create_order';
+export const CREATE_SUPPLIER_ORDER = 'create_supplier_order';
 export const CREATE_SERVICE = 'create_service';
 export const CREATE_CATEGORY = 'create_category';
 export const CREATE_COUNTRY = 'create_country';
@@ -33,3 +35,7 @@ export const EDIT_ORDER = 'edit_order';
 export const EDIT_SERVICE = 'edit_service';
 export const EDIT_CATEGORY = 'edit_category';
 export const EDIT_COUNTRY = 'edit_country';
+
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const EMPTY_CART = 'EMPTY_CART';

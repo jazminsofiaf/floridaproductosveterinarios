@@ -9,6 +9,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { SupplierOrders } from "./views/supplier"
 import {Provider} from 'react-redux';
 import createStore from './create-store';
+import { CreateSupplierOrder } from "./views/supplierOrder";
 
 let theme = createMuiTheme({
     palette: {
@@ -56,6 +57,7 @@ function App() {
                                 <Route exact path="/login" component={Login}/>
                                 <Route exact path="/faq" component={Faq}/>
                                 <Route exact path="/supplier-orders" component={SupplierOrders}/>
+                                <Route exact path="/supplier-order" component={CreateSupplierOrder} />
                             </Switch>
                         </div>
                     </BrowserRouter>

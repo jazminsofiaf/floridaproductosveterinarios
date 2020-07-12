@@ -1,0 +1,23 @@
+.item-box {
+    background: rgb(234, 239, 243);
+    margin-bottom: 15px;
+    text-align:"left";
+    padding: '0.4em';
+  }
+
+.product-title {
+    color: rgb(35, 28, 7);
+    font-family: Arial;
+    font-size:1.1em;
+    font-weight: bold;
+    word-break: break-word;
+  }
+
+ .product-price {
+    color: #3E3B62;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 1.1em;
+    word-break: break-word;
+
+  }

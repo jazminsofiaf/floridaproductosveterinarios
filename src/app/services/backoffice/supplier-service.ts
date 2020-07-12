@@ -6,12 +6,14 @@ class SupplierService extends Service {
     public async fetchOrders() {
         const response = await axios.get(`${this.BACKEND_URL}/suppliers/orders/complete`);
 
-        return response.data;
+        return response.data.order_list;
     }
 
     public async createOrder(data: IOrderPostData) {
+        const order = {order : data };
+
         const response = await axios.post(`${this.BACKEND_URL}/suppliers/new-order`, {
-            ...data,
+            ...order,
         });
 
         return response.data;
@@ -21,6 +23,18 @@ class SupplierService extends Service {
         const response = await axios.get(`${this.BACKEND_URL}/suppliers/orders/${id}`);
 
         return response.data;
+    }
+
+    async fetchSupplierProducts(id: string) {
+        const response = await axios.get(`${this.BACKEND_URL}/suppliers/${id}/products`);
+
+        return response.data.supplier_products;
+    }
+
+    async fetchSuppliers() {
+        const response = await axios.get(`${this.BACKEND_URL}/suppliers/summary`);
+
+        return response.data.supplier_list;
     }
 }
 

@@ -15,12 +15,12 @@ function CartElement(props) {
                 <Grid item xs={2}>{element.price}</Grid>
                 {props.onClick ?
                     <>
-                        <Grid item xs={2}>{element.price * element.amount}</Grid>
+                        <Grid item xs={2}>{(element.price * element.amount).toFixed(2)}</Grid>
                         <Grid item xs={1}>
-                            <button onClick={(e) => props.onClick(element)}>X</button>
+                            <button onClick={(e) => props.onClick(element.id)}>X</button>
                         </Grid>
                     </> :
-                    <Grid item xs={3}>{element.price * element.amount}</Grid>}
+                    <Grid item xs={3}>{(element.price * element.amount).toFixed(2)}</Grid>}
             </Grid>
         </Paper>
     )

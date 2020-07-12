@@ -5,9 +5,9 @@ import Grid from '@material-ui/core/Grid';
 
 function CartElementContainer(props) {
 
-    const elements = props.elements.map((element) => (
+    const elements = props.elements ? props.elements.map((element) => (
         <CartElement key={element.id} element={element} onClick={props.onClick}/>
-    ));
+    )) : [];
 
     return (
         <div>
