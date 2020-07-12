@@ -14,9 +14,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 import PetsIcon from '@material-ui/icons/Pets';
-import { AuthContext } from "../providers/Auth";
-import Copyright from "../components/Copyright";
-import Fire from "../providers/Fire";
+import { AuthContext } from "../../providers/Auth";
+import Copyright from "../Copyright";
+import Fire from "../../providers/Fire";
 
 function Login(props) {
 

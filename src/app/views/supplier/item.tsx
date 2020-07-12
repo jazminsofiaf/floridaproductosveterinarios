@@ -11,8 +11,7 @@ import { Field } from "formik";
 import { Typography } from '@material-ui/core';
 
 
-
-function ReceptionRow(props) {
+function ReceptionRow(props: any) {
     const {item, index} = props;
     const [selectedDate, setSelectedDate] = useState(
         new Date()
@@ -20,7 +19,7 @@ function ReceptionRow(props) {
 
     item.expiration_date = selectedDate;
 
-    const handleDateChange = date => {
+    const handleDateChange = (date: any)  => {
         setSelectedDate(date);
         item.expiration_date = selectedDate;
     };
@@ -32,7 +31,7 @@ function ReceptionRow(props) {
                 <Grid item xs={1} style={{ paddingTop: '10px' }}>${item.original_price}</Grid>
                 <Grid item xs={1}>
                     <Field name={`received_products[${index}].amount`}>
-                        {({ field, meta }) =>
+                        {({ field, meta } : any) =>
                             <TextField
                                 {...field}
                                 variant="standard"
@@ -51,13 +50,13 @@ function ReceptionRow(props) {
                 <Grid item xs={3}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Field name={`received_products[${index}].expiration_date`}>
-                            {({ field, meta }) =>
+                            {({ field, meta } : any) =>
                                 <KeyboardDatePicker
                                     {...field}
                                     disableToolbar
                                     disablePast
                                     key={field.name}
-                                    emptyLabel='Fecha venc.'
+                                    emptyLabel="Fecha venc."
                                     format="dd/MM/yyyy"
                                     value={selectedDate}
                                     onChange={handleDateChange}
@@ -71,7 +70,7 @@ function ReceptionRow(props) {
                 </Grid>
                 <Grid item xs={1}>
                     <Field name={`received_products[${index}].price`}>
-                        {({ field, meta }) =>
+                        {({ field, meta } : any) =>
                             <TextField
                                 {...field}
                                 variant="standard"

@@ -1,25 +1,25 @@
-import React from 'react';
+import React from "react";
+import {format} from "date-fns";
+import {Field, Form, Formik} from "formik";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Reception from "./Reception";
-import { Form, Field, Formik } from "formik";
+import Grid from "@material-ui/core/Grid";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import ReceptionItems from "./reception-items";
+import Button from "@material-ui/core/Button";
 import * as Yup from "yup";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import { format } from "date-fns"
 
 
 const item = {
     id: '',
     name: '',
-    price: '',
+    price: 0,
     expiration_date: '',
-    amount: '',
+    amount: 1,
 }
 
 const initialValues = {
@@ -27,7 +27,7 @@ const initialValues = {
     bill_number: 123,
     bill_type: 'A',
     received_products: [item],
-    total: '',
+    total: 0,
 };
 
 const validationSchema = Yup.object().shape({
@@ -38,7 +38,7 @@ const validationSchema = Yup.object().shape({
     received_products: Yup.array().of(Yup.object({
         id: Yup.string()
             .required(),
-        expiration_date: Yup.date('Falta fecha')
+        expiration_date: Yup.date()
             .required('Fecha requerida'),
         price: Yup.string().matches(/^\d*\.{1}\d*$/).required("Falta precio"),
         amount: Yup.string()
@@ -48,29 +48,32 @@ const validationSchema = Yup.object().shape({
     })),
 });
 
-function receptionTotal(receptionRequest) {
+function receptionTotal(receptionRequest: any) {
 
-    return receptionRequest && receptionRequest.received_products ? receptionRequest.received_products.map((item) => (item.amount * item.price)).reduce((acc, next) => acc + next) : 0;
+    return receptionRequest && receptionRequest.received_products ? receptionRequest.received_products.map((item: IOrderProduct) => (item.amount * item.price)).reduce((acc: number, next: number) => acc + next) : 0;
 }
 
-function validateReception(receptionRequest) {
-    var valid = receptionRequest.received_products.map((item) => (item.expiration_date && item.expiration_date && !isNaN(item.expiration_date))).reduce((acc, next) => acc && next);
+function validateReception(receptionRequest: any) {
+    let valid = receptionRequest.received_products.map((item: IOrderProduct) => (item.expiration_date && item.expiration_date && !isNaN(item.expiration_date))).reduce((acc: boolean, next: boolean) => acc && next);
     return valid;
 }
 
-function ReceptionModal(props) {
+function CreateReception(props: any) {
     const modalOrder = props.modalOrder;
+    if (!modalOrder) {
+        return null;
+    }
     const items = modalOrder.products;
 
     if (items) {
-        var originalItems = items.map((item) => ({ 'id': item.id, 'name': item.name, 'amount': item.amount, 'original_price': item.price, 'price': item.price }));
+        let originalItems = items.map((item: IOrderProduct) => ({ 'id': item.id, 'name': item.name, 'amount': item.amount, 'original_price': item.price, 'price': item.price, 'expiration_date': '' }));
         initialValues.order_id = modalOrder.id;
         initialValues.received_products = originalItems;
         initialValues.total = modalOrder.total;
     }
 
-    function onSubmit(values) {
-        var validReception = validateReception(values);
+    function onSubmit(values: any) {
+        let validReception = validateReception(values);
         if (validReception) {
             props.sendRequest(values);
         } else {
@@ -78,12 +81,13 @@ function ReceptionModal(props) {
         }
     }
 
-    var formattedDate = format(new Date(), "dd/MM/yy HH:mm");
+    let formattedDate = format(new Date(), "dd/MM/yy HH:mm");
+
 
     return (
         <Formik initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
         >
             {({ values }) => (
                 <Form>
@@ -105,19 +109,18 @@ function ReceptionModal(props) {
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Field name={"bill_type"}>
-                                        {({ field, meta }) =>
+                                        {({ field, meta } : any) =>
                                             <FormControl fullWidth
-                                                variant="standard"
-                                                error={(meta.touched && meta.error)}
-                                                key={field.name}
-                                                size='small'
+                                                         variant="standard"
+                                                         error={(meta.touched && meta.error)}
+                                                         key={field.name}
+                                                         size='small'
                                             >
                                                 <InputLabel>Tipo coprobante</InputLabel>
                                                 <Select
                                                     defaultValue={values.bill_type}
-                                                    onChange={(e) => (values.bill_type = e.target.value)}
+                                                    onChange={(e) => (values.bill_type = String(e.target.value))}
                                                     label="Comprobante"
-                                                    size='small'
                                                 >
                                                     <MenuItem value={'A'}>Fact. A</MenuItem>
                                                     <MenuItem value={'B'}>Fact. B</MenuItem>
@@ -129,7 +132,7 @@ function ReceptionModal(props) {
                                 </Grid>
                                 <Grid item xs={5}>
                                     <Field name={'bill_number'}>
-                                        {({ field, meta }) =>
+                                        {({ field, meta } : any) =>
                                             <TextField
                                                 {...field}
                                                 type="number"
@@ -147,7 +150,7 @@ function ReceptionModal(props) {
                                 </Grid>
                             </Grid>
                             <Grid item xs={12}>
-                                <Reception values={values} />
+                                <ReceptionItems values={values} />
                             </Grid>
                             <Grid container style={{textAlign:'right', padding:'0.5em'}}>
                                 <Grid item xs={8}></Grid>
@@ -163,8 +166,8 @@ function ReceptionModal(props) {
                             <Grid item xs={8}></Grid>
                             <Grid item xs={4}>
                                 <Field name={'total'}>
-                                    {({ field, meta }) =>
-                                        <TextField
+                                    {({ field, meta } : any) => {
+                                        return <TextField
                                             {...field}
                                             type="number"
                                             required
@@ -175,7 +178,8 @@ function ReceptionModal(props) {
                                             error={(meta.touched && meta.error !== undefined)}
                                             helperText={((meta.touched) && meta.error)}
                                             size='small'
-                                        />
+                                        />;
+                                    }
                                     }
                                 </Field>
                             </Grid>
@@ -191,4 +195,4 @@ function ReceptionModal(props) {
     )
 }
 
-export default ReceptionModal;
+export default CreateReception;

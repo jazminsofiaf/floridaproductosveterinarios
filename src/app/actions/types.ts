@@ -1,6 +1,7 @@
 export const ERROR = 'error';
 export const LOADING = 'loading';
 export const SUBMITTING = 'fetching';
+export const STOP_LOADING = 'stop_loading'
 
 export const FETCH_USERS = 'fetch_users';
 export const FETCH_ORDERS = 'fetch_orders';
@@ -13,6 +14,7 @@ export const CREATE_ORDER = 'create_order';
 export const CREATE_SERVICE = 'create_service';
 export const CREATE_CATEGORY = 'create_category';
 export const CREATE_COUNTRY = 'create_country';
+export const CREATE_RECEPTION = 'create_reception';
 
 export const DELETE_USER = 'delete_user';
 export const DELETE_ORDER = 'delete_order';

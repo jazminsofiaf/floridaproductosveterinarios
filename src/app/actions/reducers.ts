@@ -2,6 +2,7 @@ import {
     ERROR,
     LOADING,
     SUBMITTING,
+    STOP_LOADING,
     //
     FETCH_USERS,
     FETCH_ORDERS,
@@ -31,7 +32,7 @@ import {
     EDIT_ORDER,
     EDIT_SERVICE,
     EDIT_CATEGORY,
-    EDIT_COUNTRY,
+    EDIT_COUNTRY, CREATE_RECEPTION,
 } from './types';
 
 export default (state: [] = [], action: IAction) => {
@@ -42,6 +43,8 @@ export default (state: [] = [], action: IAction) => {
             return { ...state, error: false, success: false, submitting: true, loading: false };
         case LOADING:
             return { ...state, error: false, success: false, submitting: false, loading: true };
+        case STOP_LOADING:
+            return { ...state, loading: false}
 
         case FETCH_USERS:
             return { ...state, users: action.payload, error: false, submitting: false, loading: false };
@@ -75,6 +78,8 @@ export default (state: [] = [], action: IAction) => {
             return { ...state, success: 'Category created successfully.', error: false, submitting: false, loading: false };
         case CREATE_COUNTRY:
             return { ...state, success: 'Country created successfully.', error: false, submitting: false, loading: false };
+        case CREATE_RECEPTION:
+            return { ...state, success: 'ReceptionItems created successfully.', error: false, submitting: false, loading: false };
 
         case DELETE_USER:
             return { ...state, success: 'User deleted successfully.', error: false, submitting: false, loading: false };

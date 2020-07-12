@@ -62,16 +62,25 @@ declare global {
         number: string;
         emission_date: string;
         status: string;
-        products: ISupplierProduct[];
-        total?: string;
+        products: IOrderProduct[];
+        total: number;
     }
 
-    interface ISupplierProduct {
+    interface IOrderProduct {
         id: string,
         name: string,
-        price?: number,
+        price: number,
         expiration_date?: any,
         amount: number,
+    }
+
+    export interface IReceptionOrderPostData {
+        order_id: string;
+        bill_number: number;
+        bill_type: string;
+        gross_revenue: boolean;
+        received_products: IOrderProduct[];
+        total: number;
     }
 
     export interface IService {
@@ -114,7 +123,7 @@ declare global {
 
     export interface IOrderPostData {
         owner_id: string;
-        products: ISupplierProduct[];
+        products: IOrderProduct[];
     }
 
     export interface IServicePostData {

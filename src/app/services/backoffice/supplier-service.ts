@@ -16,6 +16,12 @@ class SupplierService extends Service {
 
         return response.data;
     }
+
+    public async fetchOrderById(id: string) {
+        const response = await axios.get(`${this.BACKEND_URL}/suppliers/orders/${id}`);
+
+        return response.data;
+    }
 }
 
 export default new SupplierService();

@@ -1,13 +1,12 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './App.css';
-import Faq from "./pages/Faq";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
+import Faq from "./views/pages/Faq";
+import Home from "./views/pages/Home";
+import Login from "./views/pages/Login";
 import {createMuiTheme, MuiThemeProvider, responsiveFontSizes} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import SupplierOrdersPage from "./pages/SupplierOrdersPage";
-import { Orders } from "./components/supplier"
+import { SupplierOrders } from "./views/supplier"
 import {Provider} from 'react-redux';
 import createStore from './create-store';
 
@@ -56,8 +55,7 @@ function App() {
                                 <Route exact path="/" component={Home}/>
                                 <Route exact path="/login" component={Login}/>
                                 <Route exact path="/faq" component={Faq}/>
-                                <Route exact path="/supplier-orders" component={SupplierOrdersPage}/>
-                                <Route exact path="/orders" component={Orders}/>
+                                <Route exact path="/supplier-orders" component={SupplierOrders}/>
                             </Switch>
                         </div>
                     </BrowserRouter>

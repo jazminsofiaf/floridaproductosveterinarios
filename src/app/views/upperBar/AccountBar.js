@@ -4,7 +4,7 @@ import {AccountCircle} from "@material-ui/icons";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {withRouter} from "react-router-dom";
-import Fire from "../providers/Fire"
+import Fire from "../../providers/Fire"
 
 
 function Line() {
