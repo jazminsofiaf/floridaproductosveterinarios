@@ -11,6 +11,7 @@ import {
     FETCH_COUNTRIES,
     FETCH_SUPPLIER_PRODUCTS,
     FETCH_SUPPLIERS,
+    FETCH_CUSTOMERS,
     //
     CREATE_USER,
     CREATE_CUSTOMER,
@@ -40,6 +41,8 @@ import {
     EDIT_SERVICE,
     EDIT_CATEGORY,
     EDIT_COUNTRY, CREATE_RECEPTION,
+    //
+    ADD_CUSTOMER_PAYMENT
 } from './types';
 
 export default (state: [] = [], action: IAction) => {
@@ -67,6 +70,8 @@ export default (state: [] = [], action: IAction) => {
             return {...state, supplierProducts: action.payload, error: false, submitting: false, loading: false};
         case FETCH_SUPPLIERS:
             return {...state, suppliers: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_CUSTOMERS:
+            return {...state, customers: action.payload, error: false, submitting: false, loading: false};
 
         case FETCH_USER_BY_ID:
             return {...state, user: action.payload, error: false, submitting: false, loading: false};
@@ -170,6 +175,8 @@ export default (state: [] = [], action: IAction) => {
             return {...state, cartItems: action.payload};
         case EMPTY_CART:
             return {...state, cartItems: []};
+        case ADD_CUSTOMER_PAYMENT:
+            return {...state, success: 'Country edited successfully.', error: false, submitting: false, loading: false};
 
         default:
             return {...state, error: false, success: false, submitting: false, loading: false};

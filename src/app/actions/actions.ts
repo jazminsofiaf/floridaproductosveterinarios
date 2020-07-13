@@ -7,6 +7,7 @@ import {
     FETCH_SUPPLIER_ORDERS,
     FETCH_SUPPLIER_PRODUCTS,
     FETCH_SUPPLIERS,
+    FETCH_CUSTOMERS,
     //
     CREATE_CUSTOMER,
     CREATE_RECEPTION,
@@ -16,7 +17,7 @@ import {
     //
     ADD_TO_CART,
     REMOVE_FROM_CART,
-    EMPTY_CART
+    EMPTY_CART, ADD_CUSTOMER_PAYMENT
 } from './types';
 
 import {Dispatch} from 'redux';
@@ -30,6 +31,26 @@ export const stopLoading = (dispatch: Dispatch) => {
         type: STOP_LOADING
     });
 }
+
+export const fetchCustomers = async (dispatch: Dispatch) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    try {
+        const response = await CustomerService.fetchCustomers();
+
+        return dispatch({
+            type: FETCH_CUSTOMERS,
+            payload: response,
+        });
+    } catch (e) {
+        return dispatch({
+            type: ERROR,
+            payload: e.response.data,
+        });
+    }
+};
 
 export const createCustomer = async (dispatch: Dispatch, data: ICustomer) => {
     dispatch({
@@ -54,6 +75,28 @@ export const createCustomer = async (dispatch: Dispatch, data: ICustomer) => {
             });
         }, 200);
         alert("Error, perfil invalido.\nSi el error persiste contactenos.");
+    }
+};
+
+export const addCustomerPayment = async (dispatch: Dispatch, data: IPaymentPostData) => {
+    dispatch({
+        type: SUBMITTING,
+    });
+
+    try {
+        await CustomerService.addPayment(data);
+
+        dispatch({
+            type: ADD_CUSTOMER_PAYMENT,
+        });
+        alert("Felicidades, Pago exitoso!");
+
+    } catch (e) {
+        dispatch({
+            type: ERROR,
+            payload: {message: e.message},
+        });
+        alert("Error, el pago fallo");
     }
 };
 
@@ -203,7 +246,7 @@ export const addToCart = (dispatch: Dispatch, newItem: ICartItem, cartItems: ICa
             updatedCartItems.push(newItem);
         }
     }
-    dispatch ({
+    dispatch({
         type: ADD_TO_CART,
         payload: updatedCartItems
     });
@@ -212,14 +255,14 @@ export const addToCart = (dispatch: Dispatch, newItem: ICartItem, cartItems: ICa
 export const removeFromCart = (dispatch: Dispatch, removeId: string, cartItems: ICartItem[]) => {
     let updatedCartItems: ICartItem[] = cartItems.filter((item: ICartItem) => item.id !== removeId);
 
-    dispatch ({
+    dispatch({
         type: REMOVE_FROM_CART,
         payload: updatedCartItems
     });
 };
 
 export const emptyCart = (dispatch: Dispatch) => {
-    dispatch ({
+    dispatch({
         type: EMPTY_CART,
     });
 };

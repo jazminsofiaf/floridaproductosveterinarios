@@ -12,6 +12,22 @@ class CustomerService extends Service {
 
         return response.data;
     }
+
+    async fetchCustomers() {
+        const response = await axios.get(`${this.BACKEND_URL}/profiles/summary`);
+
+        return response.data.customers_summary;
+    }
+
+    async addPayment(data: IPaymentPostData) {
+        const payment = {payment: data};
+
+        const response = await axios.post(`${this.BACKEND_URL}/profiles/payment`, {
+            ...payment,
+        });
+
+        return response.data;
+    }
 }
 
 export default new CustomerService();

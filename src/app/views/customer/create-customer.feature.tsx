@@ -5,7 +5,7 @@ import { createCustomer } from '../../actions/actions';
 
 const mapStateToProps = (state: any, ownProps: any) => {
     const classes = ownProps.classes;
-    return { error: state.error, success: state.success, orders: state.orders, classes: classes };
+    return { error: state.error, success: state.success, classes: classes };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {

@@ -10,6 +10,7 @@ export const FETCH_CATEGORIES = 'fetch_categories';
 export const FETCH_COUNTRIES = 'fetch_countries';
 export const FETCH_SUPPLIER_PRODUCTS = 'fetch_supplier_products';
 export const FETCH_SUPPLIERS = 'fetch_suppliers';
+export const FETCH_CUSTOMERS = 'fetch_customers';
 
 export const CREATE_USER = 'create_user';
 export const CREATE_CUSTOMER = 'create_customer'
@@ -37,6 +38,8 @@ export const EDIT_SERVICE = 'edit_service';
 export const EDIT_CATEGORY = 'edit_category';
 export const EDIT_COUNTRY = 'edit_country';
 
-export const ADD_TO_CART = 'ADD_TO_CART';
-export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
-export const EMPTY_CART = 'EMPTY_CART';
+export const ADD_TO_CART = 'add_to_cart';
+export const REMOVE_FROM_CART = 'remove_from_cart';
+export const EMPTY_CART = 'empty_cart';
+
+export const ADD_CUSTOMER_PAYMENT = 'add_customer_payment'

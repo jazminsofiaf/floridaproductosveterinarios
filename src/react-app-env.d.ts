@@ -124,6 +124,7 @@ declare global {
     }
 
     export interface ICustomer {
+        id: string;
         first_name: string;
         surname: string;
         business_name: string;
@@ -132,6 +133,15 @@ declare global {
         phone: string;
         category: string;
         addresses: IAddress[];
+    }
+
+    export interface ICustomerSummary {
+        id: string;
+        name_summary: string;
+        contact_summary: string;
+        address_summary: string;
+        category: string;
+        balance: string;
     }
 
     export interface IAddress {
@@ -144,6 +154,17 @@ declare global {
         street_number: number;
         postal_code: string;
         floor_number: string;
+    }
+
+    export interface IPaymentPostData {
+        owner_id: string,
+        payments: [IPayment]
+    }
+
+    export interface IPayment {
+        payment_method: string;
+        amount: number;
+        ref_number: string;
     }
 
     export interface IUserPostData {
