@@ -13,8 +13,10 @@ const CustomerList = ({fetchCustomers, customers, addCustomerPayment , classes}:
     const [selected, setSelected] = useState<ICustomerSummary>()
 
     useEffect(() => {
-        fetchCustomers();
-    }, [fetchCustomers])
+        if(!customers) {
+            fetchCustomers();
+        }
+    }, [fetchCustomers, customers])
 
     const [open, setOpen] = useState(false);
 

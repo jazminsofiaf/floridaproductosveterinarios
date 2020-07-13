@@ -28,6 +28,28 @@ class CustomerService extends Service {
 
         return response.data;
     }
+
+    async fetchProducts(userId: string) {
+        const response = await axios.get(`${this.BACKEND_URL}/price-list/${userId}`);
+
+        return response.data.price_list;
+    }
+
+    async createOrder(data: IOrderPostData) {
+        const order = {order : data };
+
+        const response = await axios.post(`${this.BACKEND_URL}/orders`, {
+            ...order,
+        });
+
+        return response.data;
+    }
+
+    async fetchOrders() {
+        const response = await axios.get(`${this.BACKEND_URL}/orders/users/complete`);
+
+        return response.data.order_list;
+    }
 }
 
 export default new CustomerService();

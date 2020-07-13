@@ -56,7 +56,7 @@ declare global {
     //     token?: string;
     // }
 
-    export interface ISupplierOrder {
+    export interface IOrder {
         id: string;
         owner_summary: string;
         number: string;

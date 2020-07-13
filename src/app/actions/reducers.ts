@@ -10,12 +10,15 @@ import {
     FETCH_CATEGORIES,
     FETCH_COUNTRIES,
     FETCH_SUPPLIER_PRODUCTS,
+    FETCH_CUSTOMER_PRODUCTS,
     FETCH_SUPPLIERS,
     FETCH_CUSTOMERS,
+    FETCH_CUSTOMERS_ORDERS,
     //
     CREATE_USER,
     CREATE_CUSTOMER,
     CREATE_SUPPLIER_ORDER,
+    CREATE_CUSTOMER_ORDER,
     CREATE_SERVICE,
     CREATE_CATEGORY,
     CREATE_COUNTRY,
@@ -68,10 +71,14 @@ export default (state: [] = [], action: IAction) => {
             return {...state, countries: action.payload, error: false, submitting: false, loading: false};
         case FETCH_SUPPLIER_PRODUCTS:
             return {...state, supplierProducts: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_CUSTOMER_PRODUCTS:
+            return {...state, customerProducts: action.payload, error: false, submitting: false, loading: false};
         case FETCH_SUPPLIERS:
             return {...state, suppliers: action.payload, error: false, submitting: false, loading: false};
         case FETCH_CUSTOMERS:
             return {...state, customers: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_CUSTOMERS_ORDERS:
+            return {...state, customersOrders: action.payload, error: false, submitting: false, loading: false};
 
         case FETCH_USER_BY_ID:
             return {...state, user: action.payload, error: false, submitting: false, loading: false};
@@ -87,9 +94,11 @@ export default (state: [] = [], action: IAction) => {
         case CREATE_USER:
             return {...state, success: 'User created successfully.', error: false, submitting: false, loading: false};
         case CREATE_CUSTOMER:
-            return {...state, success: 'Customer created successfully.', error: false, submitting: false, loading: false};
+            return {...state, customers: null, success: 'Customer created successfully.', error: false, submitting: false, loading: false};
         case CREATE_SUPPLIER_ORDER:
-            return {...state, success: 'Order created successfully.', error: false, submitting: false, loading: false};
+            return {...state, success: 'Supplier order created successfully.', error: false, submitting: false, loading: false};
+        case CREATE_CUSTOMER_ORDER:
+            return {...state, success: 'Customer order created successfully.', error: false, submitting: false, loading: false};
         case CREATE_SERVICE:
             return {
                 ...state,

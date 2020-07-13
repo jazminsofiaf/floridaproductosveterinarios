@@ -6,12 +6,15 @@ import {
     //
     FETCH_SUPPLIER_ORDERS,
     FETCH_SUPPLIER_PRODUCTS,
+    FETCH_CUSTOMER_PRODUCTS,
     FETCH_SUPPLIERS,
     FETCH_CUSTOMERS,
+    FETCH_CUSTOMERS_ORDERS,
     //
     CREATE_CUSTOMER,
     CREATE_RECEPTION,
     CREATE_SUPPLIER_ORDER,
+    CREATE_CUSTOMER_ORDER,
     //
     FETCH_ORDER_BY_ID,
     //
@@ -40,12 +43,32 @@ export const fetchCustomers = async (dispatch: Dispatch) => {
     try {
         const response = await CustomerService.fetchCustomers();
 
-        return dispatch({
+        dispatch({
             type: FETCH_CUSTOMERS,
             payload: response,
         });
     } catch (e) {
-        return dispatch({
+        dispatch({
+            type: ERROR,
+            payload: e.response.data,
+        });
+    }
+};
+
+export const fetchCustomersOrders = async (dispatch: Dispatch) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    try {
+        const response = await CustomerService.fetchOrders();
+
+        dispatch({
+            type: FETCH_CUSTOMERS_ORDERS,
+            payload: response,
+        });
+    } catch (e) {
+        dispatch({
             type: ERROR,
             payload: e.response.data,
         });
@@ -97,6 +120,26 @@ export const addCustomerPayment = async (dispatch: Dispatch, data: IPaymentPostD
             payload: {message: e.message},
         });
         alert("Error, el pago fallo");
+    }
+};
+
+export const fetchCustomerProducts = async (dispatch: Dispatch, id: string) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    try {
+        const response = await CustomerService.fetchProducts(id);
+
+        return dispatch({
+            type: FETCH_CUSTOMER_PRODUCTS,
+            payload: response,
+        });
+    } catch (e) {
+        return dispatch({
+            type: ERROR,
+            payload: e.response.data,
+        });
     }
 };
 
@@ -157,6 +200,30 @@ export const fetchSupplierOrders = async (dispatch: Dispatch) => {
             type: ERROR,
             payload: e.response.data,
         });
+    }
+};
+
+export const createCustomerOrder = async (dispatch: Dispatch, data: IOrderPostData) => {
+    dispatch({
+        type: SUBMITTING,
+    });
+
+    try {
+        await CustomerService.createOrder(data);
+
+        setTimeout(() => {
+            dispatch({
+                type: CREATE_CUSTOMER_ORDER,
+            });
+        }, 200);
+
+    } catch (e) {
+        setTimeout(() => {
+            dispatch({
+                type: ERROR,
+                payload: {message: e.message},
+            });
+        }, 200);
     }
 };
 

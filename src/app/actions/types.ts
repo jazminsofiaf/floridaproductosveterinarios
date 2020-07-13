@@ -9,12 +9,18 @@ export const FETCH_SERVICES = 'fetch_services';
 export const FETCH_CATEGORIES = 'fetch_categories';
 export const FETCH_COUNTRIES = 'fetch_countries';
 export const FETCH_SUPPLIER_PRODUCTS = 'fetch_supplier_products';
+export const FETCH_CUSTOMER_PRODUCTS = 'fetch_customer_products';
 export const FETCH_SUPPLIERS = 'fetch_suppliers';
 export const FETCH_CUSTOMERS = 'fetch_customers';
+export const FETCH_CUSTOMERS_ORDERS = 'fetch_customers_orders';
+
+export const FETCH_ASSEMBLE_INSTRUCTIONS = 'fetch_assemble_instructions';
+export const DELIVER_CUSTOMER_ORDER = 'deliver_customer_order';
 
 export const CREATE_USER = 'create_user';
 export const CREATE_CUSTOMER = 'create_customer'
 export const CREATE_SUPPLIER_ORDER = 'create_supplier_order';
+export const CREATE_CUSTOMER_ORDER = 'create_customer_order';
 export const CREATE_SERVICE = 'create_service';
 export const CREATE_CATEGORY = 'create_category';
 export const CREATE_COUNTRY = 'create_country';

@@ -98,7 +98,7 @@ const SupplierOrderList = ({ orders, fetchOrders, success, createReception, erro
     const [filterText, setFilterText] = useState('');
 
     //Order modal
-    const [modalOrder, setModalOrder] = useState<ISupplierOrder>();
+    const [modalOrder, setModalOrder] = useState<IOrder>();
     const [open, setOpen] = useState(false);
 
     let orderModal = OrderModal({ modalOrder, openReception });
@@ -107,12 +107,12 @@ const SupplierOrderList = ({ orders, fetchOrders, success, createReception, erro
         setOpen(false);
     };
 
-    function clickView(order: ISupplierOrder) {
+    function clickView(order: IOrder) {
         setModalOrder(order);
         setOpen(true);
     }
 
-    function passesFilter(order: ISupplierOrder) {
+    function passesFilter(order: IOrder) {
         return order && order.owner_summary ? !(order.owner_summary.toLowerCase().indexOf(filterText.toLowerCase()) === -1) : false;
     }
 
@@ -128,7 +128,7 @@ const SupplierOrderList = ({ orders, fetchOrders, success, createReception, erro
     };
 
     const receptionModal = CreateReception({ modalOrder, sendRequest });;
-    function openReception(order: ISupplierOrder) {
+    function openReception(order: IOrder) {
         setOpenReceptionModal(true);
     }
 
@@ -198,7 +198,7 @@ const SupplierOrderList = ({ orders, fetchOrders, success, createReception, erro
 }
 
 interface IOrdersList extends IComponent {
-    orders?: ISupplierOrder[];
+    orders?: IOrder[];
     fetchOrders: () => {};
     createReception: (receptionOrderPostData: IReceptionOrderPostData) => void;
 }

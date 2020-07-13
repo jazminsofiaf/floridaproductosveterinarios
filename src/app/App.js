@@ -11,6 +11,7 @@ import {Provider} from 'react-redux';
 import createStore from './create-store';
 import { CreateSupplierOrder } from "./views/supplierOrder";
 import { CreateCustomer, CustomerList } from "./views/customer"
+import { CreateCustomerOrder, CustomerOrderList } from "./views/customerOrder"
 
 let theme = createMuiTheme({
     palette: {
@@ -59,6 +60,8 @@ function App() {
                                 <Route exact path="/faq" component={Faq}/>
                                 <Route exact path="/new-customer" component={CreateCustomer} />
                                 <Route exact path="/customers" component={CustomerList} />
+                                <Route exact path="/new-order" component={CreateCustomerOrder} />
+                                <Route exact path="/users-orders" component={CustomerOrderList} />
                                 <Route exact path="/supplier-orders" component={SupplierOrders}/>
                                 <Route exact path="/supplier-order" component={CreateSupplierOrder} />
                             </Switch>
