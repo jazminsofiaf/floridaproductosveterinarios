@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import SupplierOrderList from './supplier-order-list';
 import { Dispatch } from 'redux';
-import {createReception, fetchSupplierOrders} from '../../actions/actions';
+import {createReception, fetchSupplierOrders, refreshWithDelay} from '../../actions/actions';
 
 const mapStateToProps = (state: any) => {
-    return { error: state.error, success: state.success, orders: state.orders };
+    return { submitting: state.submitting, error: state.error, success: state.success, orders: state.orders };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         createReception: (data: IReceptionOrderPostData) => {
             createReception(dispatch, data);
         },
+        refreshWithDelay: () => {
+            refreshWithDelay(dispatch);
+        }
     };
 };
 

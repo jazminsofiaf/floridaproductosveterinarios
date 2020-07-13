@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {createStyles, Theme} from "@material-ui/core";
+import Loader from "../shared/Loader";
 
 
 function Copyright() {
@@ -126,11 +127,15 @@ const styles = (theme : Theme) => createStyles({
 });
 
 
-const CreateCustomer = (({createCustomer, classes} : ICreateCustomer) => {
+const CreateCustomer = (({createCustomer, classes, success, error, submitting, refreshWithDelay} : ICreateCustomer) => {
 
         function onSubmit(values: any) {
             console.log(values);
             createCustomer(values);
+        }
+
+        if (error || success) {
+            refreshWithDelay();
         }
 
         return (
@@ -470,6 +475,7 @@ const CreateCustomer = (({createCustomer, classes} : ICreateCustomer) => {
                         <Copyright />
                     </Box>
                 </Container>
+                <Loader isLoading={submitting} isSuccess={success} error={error} />
             </>
         );
 });

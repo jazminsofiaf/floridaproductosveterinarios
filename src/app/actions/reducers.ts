@@ -2,7 +2,7 @@ import {
     ERROR,
     LOADING,
     SUBMITTING,
-    STOP_LOADING,
+    REFRESH,
     //
     FETCH_USERS,
     FETCH_SUPPLIER_ORDERS,
@@ -56,8 +56,8 @@ export default (state: [] = [], action: IAction) => {
             return {...state, error: false, success: false, submitting: true, loading: false};
         case LOADING:
             return {...state, error: false, success: false, submitting: false, loading: true};
-        case STOP_LOADING:
-            return {...state, loading: false}
+        case REFRESH:
+            return {...state, error: false, success: false, submitting: false, loading: false};
 
         case FETCH_USERS:
             return {...state, users: action.payload, error: false, submitting: false, loading: false};

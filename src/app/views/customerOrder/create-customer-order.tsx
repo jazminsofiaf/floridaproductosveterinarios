@@ -28,11 +28,8 @@ function getUserSelectionBox(props: any) {
 }
 
 
-const CreateCustomerOrder = ({createCustomerOrder, fetchCustomers, customers, fetchCustomerProducts, customerProducts, cartItems, addToCart, removeFromCart, emptyCart, success, error}: ICustomerCreateOrder) => {
-    const [loading, setLoading] = useState(false);
-    const [succ, setSucc] = useState(false);
-    const [err, setErr] = useState(false);
-
+const CreateCustomerOrder = ({refreshWithDelay, createCustomerOrder, fetchCustomers, customers, fetchCustomerProducts,
+                                 customerProducts, cartItems, addToCart, removeFromCart, emptyCart, success, error, submitting}: ICustomerCreateOrder) => {
     useEffect(() => {
         if (!customers) {
             fetchCustomers();
@@ -75,7 +72,6 @@ const CreateCustomerOrder = ({createCustomerOrder, fetchCustomers, customers, fe
     }
 
     async function uploadOrder(props: any) {
-        setLoading(true);
         props.cartItems.forEach((item: IOrderProduct) => item.name = '');
         await createCustomerOrder({
             owner_id: props.selected.id,
@@ -85,17 +81,11 @@ const CreateCustomerOrder = ({createCustomerOrder, fetchCustomers, customers, fe
 
     React.useEffect(() => {
         if (error || success) {
-            setErr(Boolean(error));
-            setSucc(Boolean(success))
-            setTimeout(() => {
-                setLoading(false);
-                setSucc(false);
-                setErr(false);
-                setSelected(undefined);
-                emptyCart();
-            }, 1500);
+            refreshWithDelay();
+            setSelected(undefined);
+            emptyCart();
         }
-    }, [error, success, emptyCart]);
+    }, [error, success, emptyCart, refreshWithDelay]);
 
     return (
         <>
@@ -120,7 +110,7 @@ const CreateCustomerOrder = ({createCustomerOrder, fetchCustomers, customers, fe
                                                 removeFromCart={removeItem}/> : null}
                     </Grid>
                 </Grid>
-                <Loader isLoading={loading} isSuccess={succ} error={err}/>
+                <Loader isLoading={submitting} isSuccess={success} error={error}/>
             </Container>
         </>
     )

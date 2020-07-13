@@ -5,12 +5,12 @@ import {
     addToCart,
     createSupplierOrder, emptyCart,
     fetchSupplierProducts,
-    fetchSuppliers,
+    fetchSuppliers, refreshWithDelay,
     removeFromCart
 } from '../../actions/actions';
 
 const mapStateToProps = (state: any) => {
-    return { error: state.error, success: state.success, suppliers: state.suppliers, supplierProducts: state.supplierProducts, cartItems: state.cartItems };
+    return { submitting: state.submitting, error: state.error, success: state.success, suppliers: state.suppliers, supplierProducts: state.supplierProducts, cartItems: state.cartItems };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -32,6 +32,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         },
         emptyCart: () => {
             emptyCart(dispatch);
+        },
+        refreshWithDelay: () => {
+            refreshWithDelay(dispatch);
         }
     };
 };

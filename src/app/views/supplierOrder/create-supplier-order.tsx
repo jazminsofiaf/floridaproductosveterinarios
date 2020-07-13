@@ -8,6 +8,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import UpperBar from "../upperBar/UpperBar";
 import Grid from '@material-ui/core/Grid'
 import SupplierProductFilter from './SupplierProductFilter'
+import Loader from "../shared/Loader";
 
 
 function supplierSelection(props: any) {
@@ -25,7 +26,7 @@ function supplierSelection(props: any) {
     )
 }
 
-const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSupplierProducts, suppliers, fetchSuppliers, cartItems, addToCart, removeFromCart, emptyCart}: ICreateOrder) => {
+const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSupplierProducts, suppliers, fetchSuppliers, cartItems, addToCart, removeFromCart, emptyCart, submitting, success, error, refreshWithDelay}: ICreateOrder) => {
     useEffect(() => {
         console.log(suppliers);
         if (!suppliers) {
@@ -75,6 +76,13 @@ const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSuppli
         });
     }
 
+    React.useEffect(() => {
+        if (error || success) {
+            refreshWithDelay();
+            emptyCart();
+        }
+    }, [error, success, refreshWithDelay,emptyCart]);
+
     return (
         <>
             <UpperBar/>
@@ -99,6 +107,8 @@ const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSuppli
                     </Grid>
                 </Grid>
             </Container>
+            <Loader isLoading={submitting} isSuccess={success} error={error} />
+
         </>
     )
 }

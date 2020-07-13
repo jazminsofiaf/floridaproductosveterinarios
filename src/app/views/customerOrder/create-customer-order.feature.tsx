@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import CreateCustomerOrder from './create-customer-order';
 import { Dispatch } from 'redux';
 import {
-    addToCart, createCustomerOrder, emptyCart, fetchCustomerProducts, fetchCustomers,
+    addToCart, createCustomerOrder, emptyCart, fetchCustomerProducts, fetchCustomers, refreshWithDelay,
     removeFromCart
 } from '../../actions/actions';
 
 const mapStateToProps = (state: any) => {
-    return { error: state.error, success: state.success, customers: state.customers, customerProducts: state.customerProducts, cartItems: state.cartItems };
+    return { submitting: state.submitting, error: state.error, success: state.success, customers: state.customers, customerProducts: state.customerProducts, cartItems: state.cartItems };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -29,6 +29,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         },
         emptyCart: () => {
             emptyCart(dispatch);
+        },
+        refreshWithDelay: () => {
+            refreshWithDelay(dispatch);
         }
     };
 };

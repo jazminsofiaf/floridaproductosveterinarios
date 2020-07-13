@@ -82,17 +82,11 @@ const SupplierOrderRow = withStyles(rowStyles)((props: any) => {
 });
 
 
-const SupplierOrderList = ({ orders, fetchOrders, success, createReception, error}: IOrdersList) => {
+const SupplierOrderList = ({ orders, fetchOrders, success, createReception, error, submitting, refreshWithDelay}: IOrdersList) => {
     //New Order management
     React.useEffect(() => {
         fetchOrders();
     }, [fetchOrders]);
-
-    //Post state
-    const [load, setLoading] = useState(false);
-    const [succ, setSucc] = useState(false);
-    const [err, setErr] = useState(false);
-
 
     //Filter text
     const [filterText, setFilterText] = useState('');
@@ -133,7 +127,6 @@ const SupplierOrderList = ({ orders, fetchOrders, success, createReception, erro
     }
 
     async function sendRequest(values: any) {
-        setLoading(true);
         values.received_products.forEach((item: any) => { item.original_price = undefined; item.expiration_date = format(item.expiration_date, "dd/MM/yyyy");});
         createReception({
             order_id: values.order_id,
@@ -153,29 +146,14 @@ const SupplierOrderList = ({ orders, fetchOrders, success, createReception, erro
     }
 
     React.useEffect(() => {
-        if(success) {
-            setSucc(true)
-            if (modalOrder) {
+        if (error || success) {
+            if (success && modalOrder) {
                 modalOrder.status = 'RECEIVED'
             }
-            setTimeout(() => {
-                setLoading(false);
-                setSucc(false);
-                cleanPage()
-            }, 1500);
+            refreshWithDelay();
+            cleanPage()
         }
-    }, [success, modalOrder]);
-
-    React.useEffect(() => {
-        if(error) {
-            setErr(true);
-            setTimeout(() => {
-                setLoading(false);
-                setErr(false);
-                cleanPage()
-            }, 1500);
-        }
-    }, [error]);
+    }, [error, success, modalOrder, refreshWithDelay]);
 
     return (
         <>
@@ -191,7 +169,7 @@ const SupplierOrderList = ({ orders, fetchOrders, success, createReception, erro
                 {orderModal ? <CommonModal render={orderModal} state={open} handleClose={handleClose} /> : null }
                 {receptionModal ? <CommonModal render={receptionModal} state={openReceptionModal} handleClose={handleCloseReception} /> : null }
             </Container>
-            <Loader isLoading={load} isSuccess={succ} error={err} />
+            <Loader isLoading={submitting} isSuccess={success} error={error} />
 
         </>
     )

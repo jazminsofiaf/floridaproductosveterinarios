@@ -42,6 +42,7 @@ declare global {
         currentPathname?: string;
         initialState?: IInitialState;
         deviceType?: string;
+        refreshWithDelay: () => void;
     }
 
     // export interface IUser extends firebase.User {

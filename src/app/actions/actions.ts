@@ -2,7 +2,7 @@ import {
     ERROR,
     LOADING,
     SUBMITTING,
-    STOP_LOADING,
+    REFRESH,
     //
     FETCH_SUPPLIER_ORDERS,
     FETCH_SUPPLIER_PRODUCTS,
@@ -29,10 +29,12 @@ import ReceptionService from '../services/backoffice/reception-service'
 import CustomerService from "../services/backoffice/customer-service"
 
 
-export const stopLoading = (dispatch: Dispatch) => {
-    dispatch({
-        type: STOP_LOADING
-    });
+export const refreshWithDelay = (dispatch: Dispatch) => {
+    setTimeout(() => {
+        dispatch({
+            type: REFRESH
+        });
+    }, 1500);
 }
 
 export const fetchCustomers = async (dispatch: Dispatch) => {
@@ -88,8 +90,6 @@ export const createCustomer = async (dispatch: Dispatch, data: ICustomer) => {
                 type: CREATE_CUSTOMER,
             });
         }, 200);
-        alert("Felicidades, creacion exitosa!");
-
     } catch (e) {
         setTimeout(() => {
             dispatch({
@@ -97,7 +97,6 @@ export const createCustomer = async (dispatch: Dispatch, data: ICustomer) => {
                 payload: {message: e.message},
             });
         }, 200);
-        alert("Error, perfil invalido.\nSi el error persiste contactenos.");
     }
 };
 

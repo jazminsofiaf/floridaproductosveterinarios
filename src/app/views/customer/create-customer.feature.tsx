@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import CreateCustomer from './create-customer';
 import { Dispatch } from 'redux';
-import { createCustomer } from '../../actions/actions';
+import {createCustomer, refreshWithDelay} from '../../actions/actions';
 
 const mapStateToProps = (state: any, ownProps: any) => {
     const classes = ownProps.classes;
-    return { error: state.error, success: state.success, classes: classes };
+    return { submitting: state.submitting, error: state.error, success: state.success, classes: classes };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -13,6 +13,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         createCustomer: (data: ICustomer) => {
             createCustomer(dispatch, data);
         },
+        refreshWithDelay: () => {
+        refreshWithDelay(dispatch);
+    }
     };
 };
 

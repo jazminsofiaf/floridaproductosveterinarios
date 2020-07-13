@@ -1,7 +1,8 @@
 export const ERROR = 'error';
 export const LOADING = 'loading';
 export const SUBMITTING = 'fetching';
-export const STOP_LOADING = 'stop_loading'
+export const REFRESH = 'REFRESH'
+
 
 export const FETCH_USERS = 'fetch_users';
 export const FETCH_SUPPLIER_ORDERS = 'fetch_supplier_orders';

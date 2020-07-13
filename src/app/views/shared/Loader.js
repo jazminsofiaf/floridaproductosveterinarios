@@ -37,30 +37,28 @@ const successPrompt = () => {
 
 
 function Loader(props) {
-    const open = props.isLoading;
-    const success = props.isSuccess;
-    const error = props.error;
+    const loading = Boolean(props.isLoading);
+    const success = Boolean(props.isSuccess);
+    const error = Boolean(props.error);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-    if (!open && !error && !success) {
-        return null;
-    }
-
-    const showLoading = open && !error && !success;
-    const showError = error && !success;
+    let show = loading || error || success;
 
     return (
         <>
             <Dialog
                 fullScreen={fullScreen}
-                open={open}
+                open={show}
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle
-                    id="responsive-dialog-title">{showLoading ? "Cargando, espere unos segundos por favor..." :  showError ? "Se produjo un error!" : "Carga exitosa!"}</DialogTitle>
+                    id="responsive-dialog-title">
+                    {loading ? "Cargando, espere unos segundos por favor..." :
+                        error ? "Se produjo un error!" :
+                            "Carga exitosa!"}
+                </DialogTitle>
                 <DialogContent>
-                    {showLoading ? <LinearProgress color="secondary" style={{height: "0.6em"}}/> : showError? errorPrompt() : successPrompt()}
+                    {loading ? <LinearProgress color="secondary" style={{height: "0.6em"}}/> : error ? errorPrompt() : successPrompt()}
                 </DialogContent>
             </Dialog>
         </>
