@@ -8,9 +8,10 @@ import withStyles from "@material-ui/core/styles/withStyles";
 function OrderRow(props) {
     const {classes} = props;
     const order = props.order;
+    const color = order.status === "DELIVERED" ? "#CCFFCC" : order.status === "INCOMPLETE"? "#f5b8bf" : order.status === "ASSEMBLED"? "#ffe7be": "#FFFFCC";
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} style={{backgroundColor:`${color}` }}>
             <Grid container spacing={1} className={classes.orderInfo}>
                 <Grid item xs={4}>NroPedido: {order ? order.number : ''}</Grid>
                 <Grid item xs={4}>Emision: {order ? order.emission_date : ''}</Grid>
@@ -21,13 +22,15 @@ function OrderRow(props) {
                 <Grid item xs={4}>Items available: {order ? order.items_count : ''}</Grid>
                 <Grid item xs={4}>Items missing: {order ? order.items_count : ''}</Grid>
                 <Grid item xs={4}></Grid>
-                {order.status !== 'DELIVERED' ?
-                    <>
-                        <Grid item xs={4}><Button variant='outlined' color='primary'>Eliminar</Button></Grid>
-                        <Grid item xs={4}><Button variant='outlined' color='primary'>Editar</Button></Grid>
-                    </>
-                    : <Grid item xs={8}></Grid>}
-                <Grid item xs={4}><Button variant='outlined' color='primary'
+                {/*{order.status !== 'DELIVERED' ?*/}
+                {/*    <>*/}
+                {/*        <Grid item xs={4}><Button variant='contained' color='primary'>Eliminar</Button></Grid>*/}
+                {/*        <Grid item xs={4}><Button variant='contained' color='primary'>Editar</Button></Grid>*/}
+                {/*    </>*/}
+                {/*    : */}
+                    <Grid item xs={8}></Grid>
+                {/*}*/}
+                <Grid item xs={4}><Button variant='contained' color='primary'
                                           onClick={() => props.onClick(order)}>{order.status === 'COMPLETE' ? "Armar" : order.status === 'ASSEMBLED' ? "Entregar" : "Ver"}</Button></Grid>
             </Grid>
         </Paper>
@@ -37,7 +40,7 @@ function OrderRow(props) {
 const styles = theme => ({
     paper: {
         marginBottom: '10px',
-        padding: '0.5em'
+        padding: '0.5em',
     },
     orderInfo: {
         textAlign: 'left',

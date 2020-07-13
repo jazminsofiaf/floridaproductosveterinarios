@@ -20,13 +20,14 @@ import {
     //
     ADD_TO_CART,
     REMOVE_FROM_CART,
-    EMPTY_CART, ADD_CUSTOMER_PAYMENT
+    EMPTY_CART, ADD_CUSTOMER_PAYMENT, FETCH_ASSEMBLE_INSTRUCTIONS, DELIVER_CUSTOMER_ORDER, MARK_ORDER_ASSEMBLED
 } from './types';
 
 import {Dispatch} from 'redux';
 import SupplierService from '../services/backoffice/supplier-service'
 import ReceptionService from '../services/backoffice/reception-service'
 import CustomerService from "../services/backoffice/customer-service"
+import OrderService from "../services/backoffice/order-service"
 
 
 export const refreshWithDelay = (dispatch: Dispatch) => {
@@ -36,6 +37,66 @@ export const refreshWithDelay = (dispatch: Dispatch) => {
         });
     }, 1500);
 }
+
+export const fetchAssembleInstructions = async (dispatch: Dispatch, orderId: string) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    try {
+        const response = await OrderService.fetchAssembleInstructions(orderId);
+
+        dispatch({
+            type: FETCH_ASSEMBLE_INSTRUCTIONS,
+            payload: response,
+        });
+    } catch (e) {
+        dispatch({
+            type: ERROR,
+            payload: e.response.data,
+        });
+    }
+};
+
+export const deliverCustomerOrder = async (dispatch: Dispatch, orderId: string) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    try {
+        const response = await OrderService.deliverOrder(orderId);
+
+        dispatch({
+            type: DELIVER_CUSTOMER_ORDER,
+            payload: response,
+        });
+    } catch (e) {
+        dispatch({
+            type: ERROR,
+            payload: e.response.data,
+        });
+    }
+};
+
+export const markOrderAssembled = async (dispatch: Dispatch, orderId: string) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    try {
+        const response = await OrderService.markAssembled(orderId);
+
+        dispatch({
+            type: MARK_ORDER_ASSEMBLED,
+            payload: response,
+        });
+    } catch (e) {
+        dispatch({
+            type: ERROR,
+            payload: e.response.data,
+        });
+    }
+};
 
 export const fetchCustomers = async (dispatch: Dispatch) => {
     dispatch({

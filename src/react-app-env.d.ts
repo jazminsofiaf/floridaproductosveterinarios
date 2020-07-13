@@ -62,17 +62,22 @@ declare global {
         owner_summary: string;
         number: string;
         emission_date: string;
+        delivery_date: string;
         status: string;
         products: IOrderProduct[];
+        items_count: number;
         total: number;
     }
 
     export interface IOrderProduct {
-        id: string,
-        name: string,
-        price: number,
-        expiration_date?: any,
-        amount: number,
+        id: string
+        name: string
+        price: number
+        status: string
+        expiration_date?: any
+        amount: number
+
+        expiration_view: string
     }
 
     export interface ISupplierProduct {

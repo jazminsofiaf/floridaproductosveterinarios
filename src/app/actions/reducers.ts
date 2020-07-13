@@ -15,6 +15,10 @@ import {
     FETCH_CUSTOMERS,
     FETCH_CUSTOMERS_ORDERS,
     //
+    FETCH_ASSEMBLE_INSTRUCTIONS,
+    MARK_ORDER_ASSEMBLED,
+    DELIVER_CUSTOMER_ORDER,
+    //
     CREATE_USER,
     CREATE_CUSTOMER,
     CREATE_SUPPLIER_ORDER,
@@ -79,6 +83,13 @@ export default (state: [] = [], action: IAction) => {
             return {...state, customers: action.payload, error: false, submitting: false, loading: false};
         case FETCH_CUSTOMERS_ORDERS:
             return {...state, customersOrders: action.payload, error: false, submitting: false, loading: false};
+
+        case FETCH_ASSEMBLE_INSTRUCTIONS:
+            return {...state, assembleInstructions: action.payload, error: false, submitting: false, loading: false};
+        case MARK_ORDER_ASSEMBLED:
+            return {...state, error: false, submitting: false, loading: false};
+        case DELIVER_CUSTOMER_ORDER:
+            return {...state, error: false, submitting: false, loading: false};
 
         case FETCH_USER_BY_ID:
             return {...state, user: action.payload, error: false, submitting: false, loading: false};

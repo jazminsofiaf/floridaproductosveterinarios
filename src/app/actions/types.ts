@@ -16,6 +16,7 @@ export const FETCH_CUSTOMERS = 'fetch_customers';
 export const FETCH_CUSTOMERS_ORDERS = 'fetch_customers_orders';
 
 export const FETCH_ASSEMBLE_INSTRUCTIONS = 'fetch_assemble_instructions';
+export const MARK_ORDER_ASSEMBLED = 'mark_order_assembled';
 export const DELIVER_CUSTOMER_ORDER = 'deliver_customer_order';
 
 export const CREATE_USER = 'create_user';
