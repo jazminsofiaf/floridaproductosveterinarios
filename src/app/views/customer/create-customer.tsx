@@ -130,7 +130,6 @@ const styles = (theme : Theme) => createStyles({
 const CreateCustomer = (({createCustomer, classes, success, error, submitting, refreshWithDelay} : ICreateCustomer) => {
 
         function onSubmit(values: any) {
-            console.log(values);
             createCustomer(values);
         }
 

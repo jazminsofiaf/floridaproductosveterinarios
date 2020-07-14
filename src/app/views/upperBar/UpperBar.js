@@ -15,10 +15,8 @@ import {
     LocalShipping,
     People,
     PersonAdd,
-    SaveAltOutlined,
     ShoppingBasket,
     ShoppingCart, ShopTwo,
-    Store,
     Home
 } from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -202,12 +200,12 @@ function SupplierMenu(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <StyledMenuItem>
-                    <ListItemIcon>
-                        <Store fontSize="small"/>
-                    </ListItemIcon>
-                    <ListItemText primary="Informacion" onClick={props.links.information}/>
-                </StyledMenuItem>
+                {/*<StyledMenuItem>*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <Store fontSize="small"/>*/}
+                {/*    </ListItemIcon>*/}
+                {/*    <ListItemText primary="Informacion" onClick={props.links.information}/>*/}
+                {/*</StyledMenuItem>*/}
                 <StyledMenuItem>
                     <ListItemIcon>
                         <ShoppingBasket fontSize="small"/>
@@ -220,12 +218,12 @@ function SupplierMenu(props) {
                     </ListItemIcon>
                     <ListItemText primary="Pedidos" onClick={props.links.orders}/>
                 </StyledMenuItem>
-                <StyledMenuItem>
-                    <ListItemIcon>
-                        <SaveAltOutlined fontSize="small"/>
-                    </ListItemIcon>
-                    <ListItemText primary="Recepcion" onClick={props.links.reception}/>
-                </StyledMenuItem>
+                {/*<StyledMenuItem>*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <SaveAltOutlined fontSize="small"/>*/}
+                {/*    </ListItemIcon>*/}
+                {/*    <ListItemText primary="Recepcion" onClick={props.links.reception}/>*/}
+                {/*</StyledMenuItem>*/}
             </StyledMenu>
         </div>
     );

@@ -28,7 +28,6 @@ function supplierSelection(props: any) {
 
 const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSupplierProducts, suppliers, fetchSuppliers, cartItems, addToCart, removeFromCart, emptyCart, submitting, success, error, refreshWithDelay}: ICreateOrder) => {
     useEffect(() => {
-        console.log(suppliers);
         if (!suppliers) {
             fetchSuppliers();
         }
