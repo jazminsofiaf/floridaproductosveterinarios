@@ -60,7 +60,7 @@ function App() {
                                 <Route exact path="/faq" component={Faq}/>
                                 <Route exact path="/new-customer" component={CreateCustomer} />
                                 <Route exact path="/customers" component={CustomerList} />
-                                <Route exact path="/new-order" component={CreateCustomerOrder} />
+                                <Route exact path="/customer-order" component={CreateCustomerOrder} />
                                 <Route exact path="/users-orders" component={CustomerOrderList} />
                                 <Route exact path="/supplier-orders" component={SupplierOrders}/>
                                 <Route exact path="/supplier-order" component={CreateSupplierOrder} />

@@ -10,7 +10,17 @@ class OrderService extends Service {
     }
 
     async fetchOrderById(orderId: string) {
-        const response = await axios.get(`${this.BACKEND_URL}/orders/${orderId}/assemble-specifications`);
+        const response = await axios.get(`${this.BACKEND_URL}/orders/${orderId}`);
+
+        return response.data;
+    }
+
+    async updateOrder(order: IOrderUpdatePostData) {
+        const orderData = {order: order};
+
+        const response = await axios.put(`${this.BACKEND_URL}/orders/update`, {
+            ...orderData
+        });
 
         return response.data;
     }

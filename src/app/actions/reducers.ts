@@ -14,6 +14,7 @@ import {
     FETCH_SUPPLIERS,
     FETCH_CUSTOMERS,
     FETCH_CUSTOMERS_ORDERS,
+    FETCH_CUSTOMER_ORDER_BY_ID,
     //
     FETCH_ASSEMBLE_INSTRUCTIONS,
     MARK_ORDER_ASSEMBLED,
@@ -26,6 +27,9 @@ import {
     CREATE_SERVICE,
     CREATE_CATEGORY,
     CREATE_COUNTRY,
+    //
+    UPDATE_CUSTOMER_ORDER,
+    UPDATE_SUPPLIER_ORDER,
     //
     DELETE_USER,
     DELETE_ORDER,
@@ -90,6 +94,9 @@ export default (state: [] = [], action: IAction) => {
             return {...state, error: false, submitting: false, loading: false};
         case DELIVER_CUSTOMER_ORDER:
             return {...state, error: false, submitting: false, loading: false};
+        case FETCH_CUSTOMER_ORDER_BY_ID:
+            return {...state, customerOrder: action.payload, cartItems: action.payload.products, error: false, submitting: false, loading: false};
+
 
         case FETCH_USER_BY_ID:
             return {...state, user: action.payload, error: false, submitting: false, loading: false};
@@ -171,6 +178,11 @@ export default (state: [] = [], action: IAction) => {
                 submitting: false,
                 loading: false
             };
+
+        case UPDATE_CUSTOMER_ORDER:
+            return {...state, success: 'Customer order updated successfully.', error: false, submitting: false, loading: false};
+        case UPDATE_SUPPLIER_ORDER:
+            return {...state, success: 'Supplier order updated successfully.', error: false, submitting: false, loading: false};
 
         case EDIT_USER:
             return {...state, success: 'User edited successfully.', error: false, submitting: false, loading: false};

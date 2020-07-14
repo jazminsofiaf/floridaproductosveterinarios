@@ -36,6 +36,16 @@ class SupplierService extends Service {
 
         return response.data.supplier_list;
     }
+
+    async updateOrder(data: IOrderUpdatePostData) {
+        const orderData = {order: data};
+
+        const response = await axios.put(`${this.BACKEND_URL}/suppliers/orders/update`, {
+            ...orderData
+        });
+
+        return response.data;
+    }
 }
 
 export default new SupplierService();

@@ -3,7 +3,6 @@ export const LOADING = 'loading';
 export const SUBMITTING = 'fetching';
 export const REFRESH = 'REFRESH'
 
-
 export const FETCH_USERS = 'fetch_users';
 export const FETCH_SUPPLIER_ORDERS = 'fetch_supplier_orders';
 export const FETCH_SERVICES = 'fetch_services';
@@ -14,6 +13,7 @@ export const FETCH_CUSTOMER_PRODUCTS = 'fetch_customer_products';
 export const FETCH_SUPPLIERS = 'fetch_suppliers';
 export const FETCH_CUSTOMERS = 'fetch_customers';
 export const FETCH_CUSTOMERS_ORDERS = 'fetch_customers_orders';
+export const FETCH_CUSTOMER_ORDER_BY_ID = 'fetch_customer_order_by_id';
 
 export const FETCH_ASSEMBLE_INSTRUCTIONS = 'fetch_assemble_instructions';
 export const MARK_ORDER_ASSEMBLED = 'mark_order_assembled';
@@ -27,6 +27,9 @@ export const CREATE_SERVICE = 'create_service';
 export const CREATE_CATEGORY = 'create_category';
 export const CREATE_COUNTRY = 'create_country';
 export const CREATE_RECEPTION = 'create_reception';
+
+export const UPDATE_CUSTOMER_ORDER = 'update_customer_order'
+export const UPDATE_SUPPLIER_ORDER = 'update_supplier_order'
 
 export const DELETE_USER = 'delete_user';
 export const DELETE_ORDER = 'delete_order';

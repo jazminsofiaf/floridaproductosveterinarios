@@ -9,7 +9,7 @@ function Orders(props) {
 
     const orderList = props.orders ? props.orders.filter((order) => passesFilter(order))
         .map((filteredOrder) => (
-            <OrderRow key={filteredOrder.id} order={filteredOrder} onClick={props.onClick}/>
+            <OrderRow key={filteredOrder.id} order={filteredOrder} buildClick={props.onClick.handleBuild} viewClick={props.onClick.openView}/>
         )) : [];
 
     function passesFilter(order) {

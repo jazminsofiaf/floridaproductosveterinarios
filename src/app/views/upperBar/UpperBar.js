@@ -68,7 +68,7 @@ function UpperBar(props) {
     }
 
     const goToUserOrderPage = () => {
-        props.history.push('/new-order');
+        props.history.push('/customer-order');
     }
 
     const goToUserOrdersPage = () => {

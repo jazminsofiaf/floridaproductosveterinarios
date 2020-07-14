@@ -161,7 +161,7 @@ const SupplierOrderList = ({ orders, fetchOrders, success, createReception, erro
             <Container maxWidth='lg' style={{marginTop: "6em"}}>
                 <Typography variant="h3">Pedidos a proveedores</Typography>
                 <div style={{margin:'0.5em'}}>
-                    <Button size="small" variant='contained' color='primary'><NavLink to="/new-order">Crear
+                    <Button size="small" variant='contained' color='primary'><NavLink to="/supplier-order">Crear
                         orden</NavLink></Button>
                 </div>
                 <SearchRow filterText={filterText} label={'Buscar pedido'} update={setFilterText}/>

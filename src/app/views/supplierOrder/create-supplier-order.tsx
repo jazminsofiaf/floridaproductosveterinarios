@@ -101,7 +101,7 @@ const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSuppli
                         {supplier ? <SupplierProductFilter items={supplierProducts} onClick={addItemToCart}/> : null}
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        {supplier ? <CartDrawer cartItems={cartItems} createSupplierOrder={createOrder}
+                        {supplier ? <CartDrawer cartItems={cartItems} submitOrder={createOrder}
                                                 removeFromCart={removeItem}/> : null}
                     </Grid>
                 </Grid>

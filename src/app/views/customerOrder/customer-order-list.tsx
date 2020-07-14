@@ -7,6 +7,7 @@ import Orders from './Orders';
 import BuildOrder from './build-order'
 import CommonModal from '../shared/CommonModal'
 import {createStyles, Theme} from "@material-ui/core";
+import ViewOrder from "./view-order";
 
 const CustomerOrderList = ({fetchCustomersOrders, customersOrders, classes, assembleInstructions, fetchAssembleInstructions, deliverOrder, markAssembled} : ICustomerOrderList) => {
     const [order, setSelectedOrder] = useState<IOrder>()
@@ -15,10 +16,12 @@ const CustomerOrderList = ({fetchCustomersOrders, customersOrders, classes, asse
         fetchCustomersOrders();
     }, [fetchCustomersOrders])
 
-    const [open, setOpen] = useState(false);
+    const [buildOpen, setBuildOpen] = useState(false);
+    const [viewOpen, setViewOpen] = useState(false);
 
     const handleClose = () => {
-        setOpen(false);
+        setBuildOpen(false);
+        setViewOpen(false);
     };
     
     function handleBuild(order: any) {
@@ -26,8 +29,15 @@ const CustomerOrderList = ({fetchCustomersOrders, customersOrders, classes, asse
         if(assembleInstructions && assembleInstructions.id !== order.id) {
             assembleInstructions.products = [];
         }
-        setOpen(true);
+        setBuildOpen(true);
     }
+
+    function openView(order: any) {
+        setSelectedOrder(order);
+        setViewOpen(true);
+    }
+
+    const viewOrder = <ViewOrder order={order}/>;
 
     const buildOrder = BuildOrder({order, assembleInstructions, fetchAssembleInstructions, deliverOrder, markAssembled, handleClose});
 
@@ -36,9 +46,10 @@ const CustomerOrderList = ({fetchCustomersOrders, customersOrders, classes, asse
             <UpperBar />
             <Container maxWidth="lg" className={classes.container}>
                 <Typography variant="h3">Ordenes clientes</Typography>
-                <Orders orders={customersOrders} onClick={handleBuild}/>
+                <Orders orders={customersOrders} onClick={{handleBuild, openView}}/>
             </Container>
-            {order ? <CommonModal render={buildOrder} state={open} handleClose={handleClose} /> : null}
+            {order ? <CommonModal render={buildOrder} state={buildOpen} handleClose={handleClose} /> : null}
+            {order ? <CommonModal render={viewOrder} state={viewOpen} handleClose={handleClose} /> : null}
         </>
     )
 

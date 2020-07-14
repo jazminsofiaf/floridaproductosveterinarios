@@ -14,7 +14,7 @@ import Loader from '../shared/Loader'
 function getUserSelectionBox(props: any) {
     return (
         <Autocomplete
-            noOptionsText={"No hay clientes disponibles"}
+            noOptionsText={"No hay clientses disponibles"}
             id="users-box"
             options={props.customers ? props.customers : []}
             getOptionLabel={(option: ICustomerSummary) => option.name_summary + " - " + option.contact_summary}
@@ -28,8 +28,26 @@ function getUserSelectionBox(props: any) {
 }
 
 
-const CreateCustomerOrder = ({refreshWithDelay, createCustomerOrder, fetchCustomers, customers, fetchCustomerProducts,
-                                 customerProducts, cartItems, addToCart, removeFromCart, emptyCart, success, error, submitting}: ICustomerCreateOrder) => {
+const CreateCustomerOrder = ({
+                                 refreshWithDelay,
+                                 createCustomerOrder,
+                                 fetchCustomers,
+                                 customers,
+                                 fetchCustomerProducts,
+                                 customerProducts,
+                                 cartItems,
+                                 addToCart,
+                                 removeFromCart,
+                                 emptyCart,
+                                 success,
+                                 error,
+                                 submitting,
+                                 fetchCustomerOrderById,
+                                 customerOrder,
+                                 location,
+                                 history,
+                                 updateCustomerOrder
+                             }: ICustomerCreateOrder) => {
     useEffect(() => {
         if (!customers) {
             fetchCustomers();
@@ -41,14 +59,31 @@ const CreateCustomerOrder = ({refreshWithDelay, createCustomerOrder, fetchCustom
     }, [emptyCart])
 
     const [selected, setSelected] = useState<ICustomerSummary>()
+    const [editMode, setEditMode] = useState(false)
 
     useEffect(() => {
+        if (location) {
+            const urlParams = new URLSearchParams(location.search);
+            const id = urlParams.get('id');
+            const edit = urlParams.get('edit');
+            if (edit === 'true' && id) {
+                fetchCustomerOrderById(id);
+                setEditMode(true);
+            }
+        }
         if (selected && selected.id) {
             const userId = selected.id;
             fetchCustomerProducts(userId);
         }
-    }, [selected, fetchCustomerProducts]);
+    }, [selected, fetchCustomerProducts, fetchCustomerOrderById, location]);
 
+
+    if (editMode && !selected) {
+        const customer: ICustomerSummary | undefined = customers && customerOrder ? customers.filter(customer => customer.id === customerOrder.owner_id).pop() : undefined;
+        if (customer) {
+            setSelected(customer);
+        }
+    }
 
     function removeItem(id: string) {
         removeFromCart(id, cartItems);
@@ -67,16 +102,27 @@ const CreateCustomerOrder = ({refreshWithDelay, createCustomerOrder, fetchCustom
     let cartHasItems = cartItems && cartItems.length > 0;
 
     function createOrder() {
-        if (cartHasItems)
+        if (cartHasItems) {
             uploadOrder({selected, cartItems})
+        }
     }
 
     async function uploadOrder(props: any) {
         props.cartItems.forEach((item: IOrderProduct) => item.name = '');
-        await createCustomerOrder({
-            owner_id: props.selected.id,
-            products: props.cartItems
-        });
+        if(editMode) {
+            await updateCustomerOrder({
+                order_id: customerOrder.id,
+                products: props.cartItems
+            });
+        } else {
+            await createCustomerOrder({
+                owner_id: props.selected.id,
+                products: props.cartItems
+            });
+        }
+        setEditMode(false);
+        emptyCart();
+        history?.push("/customer-order");
     }
 
     React.useEffect(() => {
@@ -91,22 +137,28 @@ const CreateCustomerOrder = ({refreshWithDelay, createCustomerOrder, fetchCustom
         <>
             <UpperBar/>
             <Container maxWidth="lg" style={{marginTop: "6em"}}>
-                <Typography variant="h3">Pedido de cliente</Typography>
+                {editMode ? <Typography variant="h3">Editar pedido de cliente:</Typography>:
+                    <Typography variant="h3">Nuevo pedido de cliente</Typography>
+                }
+
                 <Grid container spacing={1}>
+
                     <Grid item container
                           style={{backgroundColor: "#FDF0D5", borderRadius: '20px 20px 20px 20px', padding: '10px'}}>
                         <Grid item xs={12} sm={2}></Grid>
                         <Grid item xs={12} sm={8}>
+                            {editMode ? <Typography variant="h5">{selected?.name_summary}</Typography>:
                             <Paper>
-                                {getUserSelectionBox({setSelected, cartHasItems, customers})}
+                                {getUserSelectionBox({setSelected, cartHasItems, customers, selected})}
                             </Paper>
+                            }
                         </Grid>
                     </Grid>
                     <Grid item xs={12} sm={8}>
                         {selected ? <ProductFilter products={customerProducts} onClick={addItemToCart}/> : null}
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        {selected ? <CartDrawer cartItems={cartItems} createSupplierOrder={createOrder}
+                        {selected ? <CartDrawer cartItems={cartItems} submitOrder={createOrder}
                                                 removeFromCart={removeItem}/> : null}
                     </Grid>
                 </Grid>
@@ -126,6 +178,10 @@ interface ICustomerCreateOrder extends IComponent {
     fetchCustomers: () => {};
     fetchCustomerProducts: (userId: string) => {};
     createCustomerOrder: (iOrderPostData: IOrderPostData) => void;
+    //EditMode
+    fetchCustomerOrderById: (orderId: string) => {};
+    customerOrder: IOrder;
+    updateCustomerOrder: (iOrderUpdatePostData:IOrderUpdatePostData) => void;
 }
 
 

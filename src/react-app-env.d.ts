@@ -59,6 +59,7 @@ declare global {
 
     export interface IOrder {
         id: string;
+        owner_id: string;
         owner_summary: string;
         number: string;
         emission_date: string;
@@ -186,6 +187,11 @@ declare global {
 
     export interface IOrderPostData {
         owner_id: string;
+        products: IOrderProduct[];
+    }
+
+    export interface IOrderUpdatePostData {
+        order_id: string;
         products: IOrderProduct[];
     }
 

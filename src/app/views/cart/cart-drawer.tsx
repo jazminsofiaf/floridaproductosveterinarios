@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 
-const CartDrawer = ({cartItems, removeFromCart, createSupplierOrder}: ICartDrawer) => {
+const CartDrawer = ({cartItems, removeFromCart, submitOrder}: ICartDrawer) => {
 
     const totalPrice = cartItems ? cartItems.map((elem) => (
         elem.price * elem.amount
@@ -17,7 +17,7 @@ const CartDrawer = ({cartItems, removeFromCart, createSupplierOrder}: ICartDrawe
             <Paper className="cart-title" color="primary" elevation={2}>CARRITO</Paper>
                 <CartElementContainer elements={cartItems} onClick={removeFromCart}/>
                 <CartPriceSummary total={totalPrice}/>
-                <Button variant="contained" color="primary" onClick={createSupplierOrder}>CARGAR PEDIDO</Button>
+                <Button variant="contained" color="primary" disabled={!(totalPrice>0)} onClick={submitOrder}>CARGAR PEDIDO</Button>
         </Paper>
     )
 
@@ -26,7 +26,7 @@ const CartDrawer = ({cartItems, removeFromCart, createSupplierOrder}: ICartDrawe
 interface ICartDrawer {
     cartItems: ICartItem[];
     removeFromCart: (id: string) => void;
-    createSupplierOrder: () => void;
+    submitOrder: () => void;
 }
 
 export default CartDrawer;

@@ -10,6 +10,10 @@ import {
     FETCH_SUPPLIERS,
     FETCH_CUSTOMERS,
     FETCH_CUSTOMERS_ORDERS,
+    FETCH_CUSTOMER_ORDER_BY_ID,
+    //
+    UPDATE_CUSTOMER_ORDER,
+    UPDATE_SUPPLIER_ORDER,
     //
     CREATE_CUSTOMER,
     CREATE_RECEPTION,
@@ -20,7 +24,11 @@ import {
     //
     ADD_TO_CART,
     REMOVE_FROM_CART,
-    EMPTY_CART, ADD_CUSTOMER_PAYMENT, FETCH_ASSEMBLE_INSTRUCTIONS, DELIVER_CUSTOMER_ORDER, MARK_ORDER_ASSEMBLED
+    EMPTY_CART,
+    ADD_CUSTOMER_PAYMENT,
+    FETCH_ASSEMBLE_INSTRUCTIONS,
+    DELIVER_CUSTOMER_ORDER,
+    MARK_ORDER_ASSEMBLED
 } from './types';
 
 import {Dispatch} from 'redux';
@@ -135,6 +143,52 @@ export const fetchCustomersOrders = async (dispatch: Dispatch) => {
             type: ERROR,
             payload: e.response.data,
         });
+    }
+};
+
+export const updateSupplierOrder = async (dispatch: Dispatch, data: IOrderUpdatePostData) => {
+    dispatch({
+        type: SUBMITTING,
+    });
+
+    try {
+        await SupplierService.updateOrder(data);
+
+        setTimeout(() => {
+            dispatch({
+                type: UPDATE_SUPPLIER_ORDER,
+            });
+        }, 200);
+    } catch (e) {
+        setTimeout(() => {
+            dispatch({
+                type: ERROR,
+                payload: {message: e.message},
+            });
+        }, 200);
+    }
+};
+
+export const updateCustomerOrder = async (dispatch: Dispatch, data: IOrderUpdatePostData) => {
+    dispatch({
+        type: SUBMITTING,
+    });
+
+    try {
+        await OrderService.updateOrder(data);
+
+        setTimeout(() => {
+            dispatch({
+                type: UPDATE_CUSTOMER_ORDER,
+            });
+        }, 200);
+    } catch (e) {
+        setTimeout(() => {
+            dispatch({
+                type: ERROR,
+                payload: {message: e.message},
+            });
+        }, 200);
     }
 };
 
@@ -355,6 +409,26 @@ export const fetchOrderById = async (dispatch: Dispatch, id: string) => {
     }
 };
 
+export const fetchCustomerOrderById = async (dispatch: Dispatch, id: string) => {
+    dispatch({
+        type: LOADING,
+    });
+
+    try {
+        const response = await OrderService.fetchOrderById(id);
+
+        dispatch({
+            type: FETCH_CUSTOMER_ORDER_BY_ID,
+            payload: response,
+        });
+    } catch (e) {
+        return dispatch({
+            type: ERROR,
+            payload: e.response.data,
+        });
+    }
+};
+
 export const addToCart = (dispatch: Dispatch, newItem: ICartItem, cartItems: ICartItem[]) => {
     let updatedCartItems: ICartItem[] = [];
 
@@ -364,7 +438,7 @@ export const addToCart = (dispatch: Dispatch, newItem: ICartItem, cartItems: ICa
         let added = false;
         cartItems.forEach((item: ICartItem) => {
             if (item.id === newItem.id) {
-                item.amount = item.amount + newItem.amount;
+                item.amount = parseInt(String(item.amount)) + parseInt(String(newItem.amount));
                 added = true;
             }
             updatedCartItems.push(item)
