@@ -93,7 +93,7 @@ export default (state: [] = [], action: IAction) => {
         case MARK_ORDER_ASSEMBLED:
             return {...state, error: false, submitting: false, loading: false};
         case DELIVER_CUSTOMER_ORDER:
-            return {...state, error: false, submitting: false, loading: false};
+            return {...state, customers:null, error: false, submitting: false, loading: false};
         case FETCH_CUSTOMER_ORDER_BY_ID:
             return {...state, customerOrder: action.payload, cartItems: action.payload.products, error: false, submitting: false, loading: false};
 

@@ -42,8 +42,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         fetchCustomerOrderById: (id: string) => {
             fetchCustomerOrderById(dispatch, id);
         },
-        updateCustomerOrder: (updatedOrder: IOrderUpdatePostData) => {
-            updateCustomerOrder(dispatch, updatedOrder);
+        updateCustomerOrder: (iOrderUpdatePostData: IOrderUpdatePostData, filter: string) => {
+            updateCustomerOrder(dispatch, iOrderUpdatePostData, filter)
         }
     };
 };

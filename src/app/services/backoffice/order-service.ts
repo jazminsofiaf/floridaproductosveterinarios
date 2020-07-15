@@ -15,10 +15,11 @@ class OrderService extends Service {
         return response.data;
     }
 
-    async updateOrder(order: IOrderUpdatePostData) {
+    async updateOrder(order: IOrderUpdatePostData, filter: string) {
         const orderData = {order: order};
 
-        const response = await axios.put(`${this.BACKEND_URL}/orders/update`, {
+        const params = filter ? `?${filter}=true` : '';
+        const response = await axios.put(`${this.BACKEND_URL}/orders/update${params}`, {
             ...orderData
         });
 

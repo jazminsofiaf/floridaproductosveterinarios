@@ -169,13 +169,13 @@ export const updateSupplierOrder = async (dispatch: Dispatch, data: IOrderUpdate
     }
 };
 
-export const updateCustomerOrder = async (dispatch: Dispatch, data: IOrderUpdatePostData) => {
+export const updateCustomerOrder = async (dispatch: Dispatch, data: IOrderUpdatePostData, filter: string) => {
     dispatch({
         type: SUBMITTING,
     });
 
     try {
-        await OrderService.updateOrder(data);
+        await OrderService.updateOrder(data, filter);
 
         setTimeout(() => {
             dispatch({
@@ -435,22 +435,24 @@ export const addToCart = (dispatch: Dispatch, newItem: ICartItem, cartItems: ICa
     if (!cartItems) {
         updatedCartItems.push(newItem);
     } else {
-        let added = false;
-        cartItems.forEach((item: ICartItem) => {
-            if (item.id === newItem.id) {
-                item.amount = parseInt(String(item.amount)) + parseInt(String(newItem.amount));
-                added = true;
+        if (newItem.amount > 0) {
+            let added = false;
+            cartItems.forEach((item: ICartItem) => {
+                if (item.id === newItem.id) {
+                    item.amount = parseInt(String(item.amount)) + parseInt(String(newItem.amount));
+                    added = true;
+                }
+                updatedCartItems.push(item)
+            });
+            if (!added) {
+                updatedCartItems.push(newItem);
             }
-            updatedCartItems.push(item)
-        });
-        if (!added) {
-            updatedCartItems.push(newItem);
         }
+        dispatch({
+            type: ADD_TO_CART,
+            payload: updatedCartItems
+        });
     }
-    dispatch({
-        type: ADD_TO_CART,
-        payload: updatedCartItems
-    });
 };
 
 export const removeFromCart = (dispatch: Dispatch, removeId: string, cartItems: ICartItem[]) => {

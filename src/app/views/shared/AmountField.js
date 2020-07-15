@@ -6,7 +6,7 @@ import {
 import "./amountField.css"
 
 function validAmount(value) {
-    return value >= 0 ? value : 1;
+    return value >= 0  ? value : 1;
 }
 
 function AmountField(props) {

@@ -40,7 +40,7 @@ const validationSchema = Yup.object().shape({
             .required(),
         expiration_date: Yup.date()
             .required('Fecha requerida'),
-        price: Yup.string().matches(/^\d*\.{1}\d*$/).required("Falta precio"),
+        price: Yup.string().matches(/^\d*\.?\d*$/).required("Falta precio"),
         amount: Yup.string()
             .matches(/^[0-9]*$/, 'Invalid amount')
             .max(8)
@@ -72,6 +72,12 @@ function CreateReception(props: any) {
         initialValues.total = modalOrder.total;
     }
 
+    function onKeyDown(keyEvent: any) {
+        if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+            keyEvent.preventDefault();
+        }
+    }
+
     function onSubmit(values: any) {
         let validReception = validateReception(values);
         if (validReception) {
@@ -90,7 +96,7 @@ function CreateReception(props: any) {
                 onSubmit={onSubmit}
         >
             {({ values }) => (
-                <Form>
+                <Form onKeyDown={onKeyDown}>
                     <Paper>
                         <Typography variant='h5' color="secondary">Nueva recepcion</Typography>
                         <Grid container spacing={3}>

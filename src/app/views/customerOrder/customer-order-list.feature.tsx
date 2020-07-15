@@ -5,7 +5,7 @@ import {
     deliverCustomerOrder,
     fetchAssembleInstructions,
     fetchCustomersOrders,
-    markOrderAssembled
+    markOrderAssembled, updateCustomerOrder
 } from '../../actions/actions';
 
 const mapStateToProps = (state: any) => {
@@ -25,6 +25,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         },
         markAssembled: (id: string) => {
             markOrderAssembled(dispatch, id);
+        },
+        updateCustomerOrder: (iOrderUpdatePostData: IOrderUpdatePostData, filter: string) => {
+            updateCustomerOrder(dispatch, iOrderUpdatePostData, filter)
         }
     };
 };

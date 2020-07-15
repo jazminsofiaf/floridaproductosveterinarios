@@ -9,7 +9,7 @@ import CommonModal from '../shared/CommonModal'
 import {createStyles, Theme} from "@material-ui/core";
 import ViewOrder from "./view-order";
 
-const CustomerOrderList = ({fetchCustomersOrders, customersOrders, classes, assembleInstructions, fetchAssembleInstructions, deliverOrder, markAssembled} : ICustomerOrderList) => {
+const CustomerOrderList = ({fetchCustomersOrders, customersOrders, classes, assembleInstructions, fetchAssembleInstructions, deliverOrder, markAssembled, updateCustomerOrder} : ICustomerOrderList) => {
     const [order, setSelectedOrder] = useState<IOrder>()
 
     useEffect(() => {
@@ -37,9 +37,9 @@ const CustomerOrderList = ({fetchCustomersOrders, customersOrders, classes, asse
         setViewOpen(true);
     }
 
-    const viewOrder = <ViewOrder order={order}/>;
+    const viewOrder = <ViewOrder order={order} updateCustomerOrder={updateCustomerOrder} />;
 
-    const buildOrder = BuildOrder({order, assembleInstructions, fetchAssembleInstructions, deliverOrder, markAssembled, handleClose});
+    const buildOrder = BuildOrder({order, assembleInstructions, fetchAssembleInstructions, deliverOrder, markAssembled, handleClose, buildOpen});
 
     return (
         <>
@@ -64,6 +64,7 @@ interface ICustomerOrderList extends IComponent{
     assembleInstructions: IOrder;
     fetchAssembleInstructions: (id: string) => {};
     markAssembled: (id: string) => {};
+    updateCustomerOrder: (iOrderUpdatePostData: IOrderUpdatePostData, filter: string) => void;
 }
 
 const styles = (theme: Theme) => createStyles({

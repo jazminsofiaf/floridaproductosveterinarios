@@ -113,7 +113,7 @@ const CreateCustomerOrder = ({
             await updateCustomerOrder({
                 order_id: customerOrder.id,
                 products: props.cartItems
-            });
+            }, '');
         } else {
             await createCustomerOrder({
                 owner_id: props.selected.id,
@@ -181,7 +181,7 @@ interface ICustomerCreateOrder extends IComponent {
     //EditMode
     fetchCustomerOrderById: (orderId: string) => {};
     customerOrder: IOrder;
-    updateCustomerOrder: (iOrderUpdatePostData:IOrderUpdatePostData) => void;
+    updateCustomerOrder: (iOrderUpdatePostData:IOrderUpdatePostData, filter: string) => void;
 }
 
 

@@ -29,12 +29,12 @@ function OrderColumns() {
     )
 }
 
-const BuildOrder = ({order, assembleInstructions, fetchAssembleInstructions, deliverOrder, markAssembled, handleClose}: any) => {
+const BuildOrder = ({order, assembleInstructions, fetchAssembleInstructions, deliverOrder, markAssembled, handleClose, buildOpen}: any) => {
     useEffect(() => {
-        if (order && order.status !== "DELIVERED") {
+        if (buildOpen && order && order.status !== "DELIVERED") {
             fetchAssembleInstructions(order.id);
         }
-    }, [order, fetchAssembleInstructions])
+    }, [buildOpen, order, fetchAssembleInstructions])
 
     if (!order) {
         return null;
