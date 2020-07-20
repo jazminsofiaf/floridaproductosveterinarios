@@ -46,6 +46,16 @@ class SupplierService extends Service {
 
         return response.data;
     }
+
+    async updateLink(data: IProductLink) {
+        const link = {link: data};
+
+        const response = await axios.put(`${this.BACKEND_URL}/suppliers/product/link`, {
+            ...link
+        });
+
+        return response.data;
+    }
 }
 
 export default new SupplierService();

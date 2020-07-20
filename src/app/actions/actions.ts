@@ -11,14 +11,17 @@ import {
     FETCH_CUSTOMERS,
     FETCH_CUSTOMERS_ORDERS,
     FETCH_CUSTOMER_ORDER_BY_ID,
+    FETCH_DISTRIBUTOR_PRODUCTS,
     //
     UPDATE_CUSTOMER_ORDER,
     UPDATE_SUPPLIER_ORDER,
+    UPDATE_PRODUCT_LINK,
     //
     CREATE_CUSTOMER,
     CREATE_RECEPTION,
     CREATE_SUPPLIER_ORDER,
     CREATE_CUSTOMER_ORDER,
+    CREATE_DISTRIBUTOR_PRODUCT,
     //
     FETCH_ORDER_BY_ID,
     //
@@ -36,6 +39,7 @@ import SupplierService from '../services/backoffice/supplier-service'
 import ReceptionService from '../services/backoffice/reception-service'
 import CustomerService from "../services/backoffice/customer-service"
 import OrderService from "../services/backoffice/order-service"
+import ProductService from "../services/backoffice/product-service"
 
 
 export const refreshWithDelay = (dispatch: Dispatch) => {
@@ -44,6 +48,80 @@ export const refreshWithDelay = (dispatch: Dispatch) => {
             type: REFRESH
         });
     }, 1500);
+}
+
+export function refreshWithDelay2() {
+    return (dispatch: (arg0: { type: string }) => void) => {
+        setTimeout(() => {
+            dispatch({
+                type: REFRESH
+            });
+        }, 1500);
+    }
+}
+
+export function fetchDistributorProducts() {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await ProductService.fetchProducts();
+
+            dispatch({
+                type: FETCH_DISTRIBUTOR_PRODUCTS,
+                payload: response,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: e.response.data,
+            });
+        }
+    }
+};
+
+export function createDistributorProduct(data: IDistributorProduct) {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: SUBMITTING,
+        });
+
+        try {
+            await ProductService.createProduct(data);
+
+            dispatch({
+                type: CREATE_DISTRIBUTOR_PRODUCT,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: {message: e.message},
+            });
+        }
+    };
+}
+
+export function updateLink(data: IProductLink) {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: SUBMITTING,
+        });
+
+        try {
+            await SupplierService.updateLink(data);
+
+            dispatch({
+                type: UPDATE_PRODUCT_LINK,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: {message: e.message},
+            });
+        }
+    };
 }
 
 export const fetchAssembleInstructions = async (dispatch: Dispatch, orderId: string) => {
@@ -435,7 +513,7 @@ export const addToCart = (dispatch: Dispatch, newItem: ICartItem, cartItems: ICa
     if (!cartItems) {
         updatedCartItems.push(newItem);
     } else {
-        if (newItem.amount > 0) {
+        if (newItem.amount > 0 && newItem.price && !Number.isNaN(newItem.price)) {
             let added = false;
             cartItems.forEach((item: ICartItem) => {
                 if (item.id === newItem.id) {
@@ -447,11 +525,11 @@ export const addToCart = (dispatch: Dispatch, newItem: ICartItem, cartItems: ICa
             if (!added) {
                 updatedCartItems.push(newItem);
             }
+            dispatch({
+                type: ADD_TO_CART,
+                payload: updatedCartItems
+            });
         }
-        dispatch({
-            type: ADD_TO_CART,
-            payload: updatedCartItems
-        });
     }
 };
 

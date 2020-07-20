@@ -17,7 +17,8 @@ import {
     PersonAdd,
     ShoppingBasket,
     ShoppingCart, ShopTwo,
-    Home
+    Home,
+    AddBox
 } from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -83,6 +84,10 @@ function UpperBar(props) {
         props.history.push('/customers');
     }
 
+    const goToNewProductPage = () => {
+        props.history.push('/new-product');
+    }
+
 
     const {classes} = props;
     const supplierLinks = {
@@ -96,6 +101,10 @@ function UpperBar(props) {
         "information": goToClientsPage,
         "newOrder": goToUserOrderPage,
         "orders": goToUserOrdersPage
+    }
+
+    const productLinks = {
+        "newProduct": goToNewProductPage,
     }
 
     return (
@@ -122,6 +131,7 @@ function UpperBar(props) {
 
                         <SupplierMenu links={supplierLinks}/>
                         <ClientMenu links={clientLinks}/>
+                        <ProductMenu links={productLinks}/>
 
                         <AccountBar isLogged={isLogged} />
 
@@ -282,6 +292,47 @@ function ClientMenu(props) {
                         <ShopTwo fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText primary="Pedidos" onClick={props.links.orders}/>
+                </StyledMenuItem>
+            </StyledMenu>
+        </div>
+    );
+}
+
+function ProductMenu(props) {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = (event) => {
+        setAnchorEl(null);
+    };
+
+    return (
+        <div>
+            <StyledButton
+                aria-controls="customized-menu"
+                aria-haspopup="true"
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={handleClick}
+            >
+                Productos
+            </StyledButton>
+            <StyledMenu
+                id="customized-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <AddBox fontSize="small"/>
+                    </ListItemIcon>
+                    <ListItemText primary="Nuevo producto" onClick={props.links.newProduct}/>
                 </StyledMenuItem>
             </StyledMenu>
         </div>

@@ -15,6 +15,7 @@ import {
     FETCH_CUSTOMERS,
     FETCH_CUSTOMERS_ORDERS,
     FETCH_CUSTOMER_ORDER_BY_ID,
+    FETCH_DISTRIBUTOR_PRODUCTS,
     //
     FETCH_ASSEMBLE_INSTRUCTIONS,
     MARK_ORDER_ASSEMBLED,
@@ -27,9 +28,11 @@ import {
     CREATE_SERVICE,
     CREATE_CATEGORY,
     CREATE_COUNTRY,
+    CREATE_DISTRIBUTOR_PRODUCT,
     //
     UPDATE_CUSTOMER_ORDER,
     UPDATE_SUPPLIER_ORDER,
+    UPDATE_PRODUCT_LINK,
     //
     DELETE_USER,
     DELETE_ORDER,
@@ -87,6 +90,8 @@ export default (state: [] = [], action: IAction) => {
             return {...state, customers: action.payload, error: false, submitting: false, loading: false};
         case FETCH_CUSTOMERS_ORDERS:
             return {...state, customersOrders: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_DISTRIBUTOR_PRODUCTS:
+            return {...state, distributorProducts: action.payload, error: false, submitting: false, loading: false};
 
         case FETCH_ASSEMBLE_INSTRUCTIONS:
             return {...state, assembleInstructions: action.payload, error: false, submitting: false, loading: false};
@@ -149,6 +154,8 @@ export default (state: [] = [], action: IAction) => {
                 submitting: false,
                 loading: false
             };
+        case CREATE_DISTRIBUTOR_PRODUCT:
+            return {...state, success: 'Distributor product created successfully.', error: false, submitting: false, loading: false};
 
         case DELETE_USER:
             return {...state, success: 'User deleted successfully.', error: false, submitting: false, loading: false};
@@ -183,6 +190,8 @@ export default (state: [] = [], action: IAction) => {
             return {...state, success: 'Customer order updated successfully.', error: false, submitting: false, loading: false};
         case UPDATE_SUPPLIER_ORDER:
             return {...state, success: 'Supplier order updated successfully.', error: false, submitting: false, loading: false};
+        case UPDATE_PRODUCT_LINK:
+            return {...state, success: 'Update link successfully.', error: false, submitting: false, loading: false};
 
         case EDIT_USER:
             return {...state, success: 'User edited successfully.', error: false, submitting: false, loading: false};

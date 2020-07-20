@@ -262,7 +262,7 @@ const CreateCustomer = (({createCustomer, classes, success, error, submitting, r
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
                                             <Field name={"category"}>
-                                                {({ field, meta } : any) =>
+                                                {({ meta } : any) =>
                                                     <FormControl fullWidth 
                                                                 variant="outlined" 
                                                                 error={(meta.touched && meta.error !== undefined)}>

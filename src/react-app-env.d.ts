@@ -84,7 +84,8 @@ declare global {
     export interface ISupplierProduct {
         id: string,
         name: string,
-        price: number
+        price: number,
+        product_id: string,
     }
 
     export interface ICartItem {
@@ -92,6 +93,26 @@ declare global {
         name: string,
         price: number,
         amount: number
+    }
+
+    export interface IProductLink {
+        supplier_product_id: string,
+        product_id: string,
+        ratio: number
+    }
+
+    export interface IDistributorProduct {
+        name: string,
+        category: string,
+        brand: string,
+        application: string,
+        species: string[],
+        image: string,
+        presentation: {
+            format: string,
+            amount: number,
+            measure: string
+        }
     }
 
     export interface IReceptionOrderPostData {

@@ -12,6 +12,9 @@ import createStore from './create-store';
 import { CreateSupplierOrder } from "./views/supplierOrder";
 import { CreateCustomer, CustomerList } from "./views/customer"
 import { CreateCustomerOrder, CustomerOrderList } from "./views/customerOrder"
+import Table from "./views/productsLinker/table"
+import CreateProductLink from "./views/productsLinker/create-product-link"
+import CreateProduct from "./views/product/create-product"
 
 let theme = createMuiTheme({
     palette: {
@@ -64,6 +67,9 @@ function App() {
                                 <Route exact path="/users-orders" component={CustomerOrderList} />
                                 <Route exact path="/supplier-orders" component={SupplierOrders}/>
                                 <Route exact path="/supplier-order" component={CreateSupplierOrder} />
+                                <Route exact path="/table" component={Table} />
+                                <Route exact path="/linker" component={CreateProductLink} />
+                                <Route exact path="/new-product" component={CreateProduct} />
                             </Switch>
                         </div>
                     </BrowserRouter>
