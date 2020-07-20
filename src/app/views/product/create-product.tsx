@@ -19,7 +19,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Autocomplete} from "@material-ui/lab";
 import { fieldToTextField } from 'formik-material-ui';
 import {useDispatch, useSelector} from "react-redux";
-import {createDistributorProduct, refreshWithDelay, refreshWithDelay2} from "../../actions/actions";
+import {createDistributorProduct, refreshWithDelay2} from "../../actions/actions";
 import Loader from "../shared/Loader";
 
 

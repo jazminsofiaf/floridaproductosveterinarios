@@ -153,12 +153,6 @@ export default function MaterialTableDemo() {
 }
 
 
-class IProductPresentation {
-    // format: string;
-    // amount: number;
-    // measure: string;
-}
-
 class IProductLink {
     // supplierProductId: string;
     // supplierProductName: string;
