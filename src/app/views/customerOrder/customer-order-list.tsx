@@ -37,7 +37,7 @@ const CustomerOrderList = ({fetchCustomersOrders, customersOrders, classes, asse
         setViewOpen(true);
     }
 
-    const viewOrder = <ViewOrder order={order} updateCustomerOrder={updateCustomerOrder} />;
+    const viewOrder = <ViewOrder order={order} updateCustomerOrder={updateCustomerOrder} handleClose={handleClose}/>;
 
     const buildOrder = BuildOrder({order, assembleInstructions, fetchAssembleInstructions, deliverOrder, markAssembled, handleClose, buildOpen});
 

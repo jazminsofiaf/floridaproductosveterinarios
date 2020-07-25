@@ -20,6 +20,7 @@ import {
     FETCH_ASSEMBLE_INSTRUCTIONS,
     MARK_ORDER_ASSEMBLED,
     DELIVER_CUSTOMER_ORDER,
+    CANCEL_CUSTOMER_ORDER,
     //
     CREATE_USER,
     CREATE_CUSTOMER,
@@ -45,6 +46,7 @@ import {
     FETCH_SERVICE_BY_ID,
     FETCH_CATEGORY_BY_ID,
     FETCH_COUNTRY_BY_ID,
+    FETCH_SUPPLIER_BY_ID,
     //
     ADD_TO_CART,
     REMOVE_FROM_CART,
@@ -54,7 +56,10 @@ import {
     EDIT_ORDER,
     EDIT_SERVICE,
     EDIT_CATEGORY,
-    EDIT_COUNTRY, CREATE_RECEPTION,
+    EDIT_COUNTRY,
+    CREATE_RECEPTION,
+    //
+    SOLICIT_SUPPLIER_ORDER,
     //
     ADD_CUSTOMER_PAYMENT
 } from './types';
@@ -101,6 +106,11 @@ export default (state: [] = [], action: IAction) => {
             return {...state, customers:null, error: false, submitting: false, loading: false};
         case FETCH_CUSTOMER_ORDER_BY_ID:
             return {...state, customerOrder: action.payload, cartItems: action.payload.products, error: false, submitting: false, loading: false};
+        case CANCEL_CUSTOMER_ORDER:
+            return {...state, error: false, success: true, submitting: false, loading: false};
+
+        case SOLICIT_SUPPLIER_ORDER:
+            return {...state, customersOrders:null,  error: false, success: true, submitting: false, loading: false};
 
 
         case FETCH_USER_BY_ID:
@@ -113,6 +123,9 @@ export default (state: [] = [], action: IAction) => {
             return {...state, category: action.payload, error: false, submitting: false, loading: false};
         case FETCH_COUNTRY_BY_ID:
             return {...state, country: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_SUPPLIER_BY_ID:
+            return {...state, supplierInfo: action.payload, error: false, submitting: false, loading: false};
+
 
         case CREATE_USER:
             return {...state, success: 'User created successfully.', error: false, submitting: false, loading: false};

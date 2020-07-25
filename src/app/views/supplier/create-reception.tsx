@@ -38,8 +38,7 @@ const validationSchema = Yup.object().shape({
     received_products: Yup.array().of(Yup.object({
         id: Yup.string()
             .required(),
-        expiration_date: Yup.date()
-            .required('Fecha requerida'),
+        expiration_date: Yup.string().required('Fecha requerida'),
         price: Yup.string().matches(/^\d*\.?\d*$/).required("Falta precio"),
         amount: Yup.string()
             .matches(/^[0-9]*$/, 'Invalid amount')
@@ -66,7 +65,14 @@ function CreateReception(props: any) {
     const items = modalOrder.products;
 
     if (items) {
-        let originalItems = items.map((item: IOrderProduct) => ({ 'id': item.id, 'name': item.name, 'amount': item.amount, 'original_price': item.price, 'price': item.price, 'expiration_date': '' }));
+        let originalItems = items.map((item: IOrderProduct) => ({
+            'id': item.id,
+            'name': item.name,
+            'amount': item.amount,
+            'original_price': item.price,
+            'price': item.price,
+            'expiration_date': ''
+        }));
         initialValues.order_id = modalOrder.id;
         initialValues.received_products = originalItems;
         initialValues.total = modalOrder.total;
@@ -95,14 +101,15 @@ function CreateReception(props: any) {
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
         >
-            {({ values }) => (
+            {({values}) => (
                 <Form onKeyDown={onKeyDown}>
                     <Paper>
                         <Typography variant='h5' color="secondary">Nueva recepcion</Typography>
                         <Grid container spacing={3}>
-                            <Grid container item style={{ textAlign: 'left' }}>
+                            <Grid container item style={{textAlign: 'left'}}>
                                 <Grid item xs={6}>
-                                    <Typography color="primary">{modalOrder.owner_summary ? modalOrder.owner_summary : 'Nothing selected'}</Typography>
+                                    <Typography
+                                        color="primary">{modalOrder.owner_summary ? modalOrder.owner_summary : 'Nothing selected'}</Typography>
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography>Fecha: {formattedDate}</Typography>
@@ -115,7 +122,7 @@ function CreateReception(props: any) {
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Field name={"bill_type"}>
-                                        {({ field, meta } : any) =>
+                                        {({field, meta}: any) =>
                                             <FormControl fullWidth
                                                          variant="standard"
                                                          error={(meta.touched && meta.error)}
@@ -138,7 +145,7 @@ function CreateReception(props: any) {
                                 </Grid>
                                 <Grid item xs={5}>
                                     <Field name={'bill_number'}>
-                                        {({ field, meta } : any) =>
+                                        {({field, meta}: any) =>
                                             <TextField
                                                 {...field}
                                                 type="number"
@@ -156,23 +163,25 @@ function CreateReception(props: any) {
                                 </Grid>
                             </Grid>
                             <Grid item xs={12}>
-                                <ReceptionItems values={values} />
+                                <ReceptionItems values={values}/>
                             </Grid>
-                            <Grid container style={{textAlign:'right', padding:'0.5em'}}>
+                            <Grid container style={{textAlign: 'right', padding: '0.5em'}}>
                                 <Grid item xs={8}></Grid>
                                 <Grid item xs={2}><Typography>Total:</Typography></Grid>
                                 <Grid item xs={2}><Typography>$ {receptionTotal(values)}</Typography></Grid>
                                 <Grid item xs={8}></Grid>
                                 <Grid item xs={2}><Typography>IVA:</Typography></Grid>
-                                <Grid item xs={2}><Typography>$ {(receptionTotal(values) * 0.21).toFixed(2)}</Typography></Grid>
+                                <Grid item
+                                      xs={2}><Typography>$ {(receptionTotal(values) * 0.21).toFixed(2)}</Typography></Grid>
                                 <Grid item xs={8}></Grid>
                                 <Grid item xs={2}><Typography>Total+IVA:</Typography></Grid>
-                                <Grid item xs={2}><Typography>$ {(receptionTotal(values) * 1.21).toFixed(2)}</Typography></Grid>
+                                <Grid item
+                                      xs={2}><Typography>$ {(receptionTotal(values) * 1.21).toFixed(2)}</Typography></Grid>
                             </Grid>
                             <Grid item xs={8}></Grid>
                             <Grid item xs={4}>
                                 <Field name={'total'}>
-                                    {({ field, meta } : any) => {
+                                    {({field, meta}: any) => {
                                         return <TextField
                                             {...field}
                                             type="number"

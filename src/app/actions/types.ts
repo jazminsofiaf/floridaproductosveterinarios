@@ -19,6 +19,7 @@ export const FETCH_DISTRIBUTOR_PRODUCTS = 'fetch_distributor_products';
 export const FETCH_ASSEMBLE_INSTRUCTIONS = 'fetch_assemble_instructions';
 export const MARK_ORDER_ASSEMBLED = 'mark_order_assembled';
 export const DELIVER_CUSTOMER_ORDER = 'deliver_customer_order';
+export const CANCEL_CUSTOMER_ORDER = 'cancel_customer_order';
 
 export const CREATE_USER = 'create_user';
 export const CREATE_CUSTOMER = 'create_customer'
@@ -45,12 +46,15 @@ export const FETCH_ORDER_BY_ID = 'fetch_order_by_id';
 export const FETCH_SERVICE_BY_ID = 'fetch_service_by_id';
 export const FETCH_CATEGORY_BY_ID = 'fetch_category_by_id';
 export const FETCH_COUNTRY_BY_ID = 'fetch_country_by_id';
+export const FETCH_SUPPLIER_BY_ID = 'fetch_supplier_by_id'
 
 export const EDIT_USER = 'edit_user';
 export const EDIT_ORDER = 'edit_order';
 export const EDIT_SERVICE = 'edit_service';
 export const EDIT_CATEGORY = 'edit_category';
 export const EDIT_COUNTRY = 'edit_country';
+
+export const SOLICIT_SUPPLIER_ORDER = 'solicit_supplier_order'
 
 export const ADD_TO_CART = 'add_to_cart';
 export const REMOVE_FROM_CART = 'remove_from_cart';

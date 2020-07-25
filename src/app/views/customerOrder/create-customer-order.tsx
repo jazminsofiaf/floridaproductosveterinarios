@@ -9,7 +9,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import UpperBar from "../upperBar/UpperBar";
 import Paper from '@material-ui/core/Paper';
 import Loader from '../shared/Loader'
-
+import {useDispatch} from "react-redux";
+import {refreshAndRedirect} from "../../actions/actions";
 
 function getUserSelectionBox(props: any) {
     return (
@@ -48,6 +49,8 @@ const CreateCustomerOrder = ({
                                  history,
                                  updateCustomerOrder
                              }: ICustomerCreateOrder) => {
+    const dispatch = useDispatch();
+
     useEffect(() => {
         if (!customers) {
             fetchCustomers();
@@ -103,13 +106,13 @@ const CreateCustomerOrder = ({
 
     function createOrder() {
         if (cartHasItems) {
-            uploadOrder({selected, cartItems})
+            uploadOrder({selected, cartItems});
         }
     }
 
     async function uploadOrder(props: any) {
         props.cartItems.forEach((item: IOrderProduct) => item.name = '');
-        if(editMode) {
+        if (editMode) {
             await updateCustomerOrder({
                 order_id: customerOrder.id,
                 products: props.cartItems
@@ -122,22 +125,24 @@ const CreateCustomerOrder = ({
         }
         setEditMode(false);
         emptyCart();
-        history?.push("/customer-order");
     }
 
     React.useEffect(() => {
+        function redirect() {
+            history?.push("/users-orders");
+        }
         if (error || success) {
-            refreshWithDelay();
+            dispatch(refreshAndRedirect(redirect));
             setSelected(undefined);
             emptyCart();
         }
-    }, [error, success, emptyCart, refreshWithDelay]);
+    }, [error, success, emptyCart, dispatch, history]);
 
     return (
         <>
             <UpperBar/>
             <Container maxWidth="lg" style={{marginTop: "6em"}}>
-                {editMode ? <Typography variant="h3">Editar pedido de cliente:</Typography>:
+                {editMode ? <Typography variant="h3">Editar pedido de cliente:</Typography> :
                     <Typography variant="h3">Nuevo pedido de cliente</Typography>
                 }
 
@@ -147,10 +152,10 @@ const CreateCustomerOrder = ({
                           style={{backgroundColor: "#FDF0D5", borderRadius: '20px 20px 20px 20px', padding: '10px'}}>
                         <Grid item xs={12} sm={2}></Grid>
                         <Grid item xs={12} sm={8}>
-                            {editMode ? <Typography variant="h5">{selected?.name_summary}</Typography>:
-                            <Paper>
-                                {getUserSelectionBox({setSelected, cartHasItems, customers, selected})}
-                            </Paper>
+                            {editMode ? <Typography variant="h5">{selected?.name_summary}</Typography> :
+                                <Paper>
+                                    {getUserSelectionBox({setSelected, cartHasItems, customers, selected})}
+                                </Paper>
                             }
                         </Grid>
                     </Grid>
@@ -181,7 +186,7 @@ interface ICustomerCreateOrder extends IComponent {
     //EditMode
     fetchCustomerOrderById: (orderId: string) => {};
     customerOrder: IOrder;
-    updateCustomerOrder: (iOrderUpdatePostData:IOrderUpdatePostData, filter: string) => void;
+    updateCustomerOrder: (iOrderUpdatePostData: IOrderUpdatePostData, filter: string) => void;
 }
 
 

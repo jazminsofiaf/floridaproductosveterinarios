@@ -32,8 +32,20 @@ class OrderService extends Service {
         return response.data;
     }
 
+    async cancelOrder(orderId: string) {
+        const response = await axios.put(`${this.BACKEND_URL}/orders/${orderId}/cancel`);
+
+        return response.data;
+    }
+
     async markAssembled(orderId: string) {
         const response = await axios.put(`${this.BACKEND_URL}/orders/${orderId}/assembled`);
+
+        return response.data;
+    }
+
+    async markAssembledForced(orderId: string) {
+        const response = await axios.put(`${this.BACKEND_URL}/orders/${orderId}/force-assemble`);
 
         return response.data;
     }

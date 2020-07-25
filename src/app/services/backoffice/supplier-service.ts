@@ -31,10 +31,22 @@ class SupplierService extends Service {
         return response.data.supplier_products;
     }
 
+    async solicitSupplierOrder(orderId: string) {
+        const response = await axios.put(`${this.BACKEND_URL}/orders/supplier/${orderId}/solicit`);
+
+        return response.data;
+    }
+
     async fetchSuppliers() {
         const response = await axios.get(`${this.BACKEND_URL}/suppliers/summary`);
 
         return response.data.supplier_list;
+    }
+
+    async fetchSuppliersById(supplierId: string) {
+        const response = await axios.get(`${this.BACKEND_URL}/suppliers/${supplierId}`);
+
+        return response.data.supplier;
     }
 
     async updateOrder(data: IOrderUpdatePostData) {

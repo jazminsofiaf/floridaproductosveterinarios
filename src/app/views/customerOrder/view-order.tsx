@@ -1,23 +1,27 @@
 import React, {useState} from 'react';
 import {Grid, Button, Typography, CircularProgress, TextField} from '@material-ui/core';
 import {useHistory} from 'react-router-dom'
+import {useDispatch, useSelector} from "react-redux";
+import {cancelCustomerOrder, refreshWithDelay2} from '../../actions/actions'
+import Loader from "../shared/Loader";
 
 function OrderDeliveredItem(props: any) {
     const item = props.item;
     const [price, setPrice] = useState(item.price)
-    const color = item.status === "AVAILABLE" ? "#CCFFCC" : item.status === "ORDERED" ? "#FFFFCC" : item.status === "MISSING"? "#f5b8bf": "#fdfceb";
+    const color = item.status === "AVAILABLE" ? "#CCFFCC" : item.status === "ORDERED" ? "#FFFFCC" : item.status === "MISSING" ? "#f5b8bf" : "#fdfceb";
 
-    function updatePrice(newPrice: any){
+    function updatePrice(newPrice: any) {
         item.price = parseFloat(newPrice);
         setPrice(newPrice)
     }
 
     return (
-        <Grid item container xs={12} style={{backgroundColor:`${color}`}}>
+        <Grid item container xs={12} style={{backgroundColor: `${color}`}}>
             <Grid item xs={6}>{item.name}</Grid>
             <Grid item xs={1}>{item.amount}</Grid>
             <Grid item xs={3}>{item.expiration_view ? item.expiration_view : "-"}</Grid>
-            <Grid item xs={1}><TextField type="decimal" fullWidth size="small" defaultValue={price} onChange={(e) => updatePrice(e.target.value)}/></Grid>
+            <Grid item xs={1}><TextField type="decimal" fullWidth size="small" defaultValue={price}
+                                         onChange={(e) => updatePrice(e.target.value)}/></Grid>
             <Grid item xs={1}>${price * item.amount}</Grid>
         </Grid>
     )
@@ -35,15 +39,17 @@ function DeliveredColumns() {
     )
 }
 
-function calculateOrderTotal(order: any){
+function calculateOrderTotal(order: any) {
     return order && order.products ? order.products.map((elem: any) => (
         elem.price * elem.amount
     )).reduce((a: number, b: number) => a + b, 0).toFixed(2) : 0;
 }
 
-const ViewOrder = ({order, updateCustomerOrder}: any) => {
+const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
     const history = useHistory();
     const [orderTotal, setOrderTotal] = useState(calculateOrderTotal(order));
+    const {error, success, submitting} = useSelector((state: any) => state);
+    const dispatch = useDispatch();
     if (!order) {
         return null;
     }
@@ -56,13 +62,23 @@ const ViewOrder = ({order, updateCustomerOrder}: any) => {
         history.push(`/customer-order?id=${id}&&edit=true`);
     }
 
-    function saveChanges(){
+    function cancelOrder(id: string) {
+        dispatch(cancelCustomerOrder(id))
+    }
+
+    function saveChanges() {
         setOrderTotal(calculateOrderTotal(order));
         order.total = orderTotal;
         updateCustomerOrder({
             order_id: order.id,
             products: order.products
         }, "prices");
+    }
+
+    if (success) {
+        order.status = "CANCELED";
+        dispatch(refreshWithDelay2());
+        handleClose();
     }
 
     return (
@@ -77,7 +93,7 @@ const ViewOrder = ({order, updateCustomerOrder}: any) => {
                                                   color='secondary'>{"Entrega: " + order.delivery_date}</Typography></Grid>
                 </Grid>
                 <Grid container item style={{border: '1px solid black'}}>
-                <DeliveredColumns/>
+                    <DeliveredColumns/>
                     {itemList ? itemList :
                         <Grid item xs={12} style={{textAlign: 'center'}}>
                             <CircularProgress/>
@@ -87,12 +103,18 @@ const ViewOrder = ({order, updateCustomerOrder}: any) => {
                 <Grid item xs={8}></Grid>
                 <Grid item xs={4}><Typography variant='h5'
                                               color='secondary'>{"TOTAL:  $" + orderTotal}</Typography></Grid>
-                <Grid item xs={3}><Button variant='contained' color='secondary' onClick={() => saveChanges()}>Guardar cambios</Button></Grid>
-                <Grid item xs={3}></Grid>
-                <Grid item xs={3}><Button variant='contained' color='primary'>Cancelar</Button></Grid>
-                <Grid item xs={3}><Button variant='contained' color='primary'
-                                          onClick={() => goToEditPage(order.id)}>Editar</Button></Grid>
+                {order.status !== "DELIVERED"  && order.status !== 'CANCELED' ?
+                    <Grid item container>
+                        <Grid item xs={3}><Button variant='contained' color='secondary' onClick={() => saveChanges()}>Guardar
+                            cambios</Button></Grid>
+                        <Grid item xs={3}></Grid>
+                        <Grid item xs={3}><Button variant='contained' color='primary' onClick={() => cancelOrder(order.id)}>Cancelar Orden</Button></Grid>
+                        <Grid item xs={3}><Button variant='contained' color='primary'
+                                                  onClick={() => goToEditPage(order.id)}>Editar</Button></Grid>
+                    </Grid>
+                    : null}
             </Grid>
+            <Loader isLoading={submitting} isSuccess={success} error={error} message={"Cancelado con exito!"}/>
         </>
     )
 }

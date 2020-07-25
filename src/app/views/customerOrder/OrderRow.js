@@ -9,8 +9,10 @@ import {Typography} from "@material-ui/core";
 function OrderRow(props) {
     const {classes} = props;
     const order = props.order;
-    const color = order.status === "DELIVERED" ? "#CCFFCC" : order.status === "INCOMPLETE" ? "#f5b8bf" : order.status === "ASSEMBLED" ? "#ffe7be" : "#FFFFCC";
-    const statusMessage = order.status === "DELIVERED" ? "Entregado" : order.status === "INCOMPLETE" ? "Faltan productos" : order.status === "ASSEMBLED" ? "Listo para entregar" : "Completo";
+    const color = order.status === "DELIVERED" ? "#CCFFCC" : order.status === "INCOMPLETE" ? "#f5b8bf" : order.status === "ASSEMBLED" ? "#ffe7be" :
+        order.status ==="COMPLETE" ? "#FFFFCC": order.status ==="AWAITING" ? "#f1a2fa" : "#84779a";
+    const statusMessage = order.status === "DELIVERED" ? "Entregado" : order.status === "INCOMPLETE" ? "Faltan productos" : order.status === "ASSEMBLED" ? "Listo para entregar" :
+        order.status === "COMPLETE" ? "Stock ok!": order.status === "AWAITING" ? "Mercaderia pedida" : "Cancelado";
     const orderTotal = order && order.products ? order.products.map((elem) => (
         elem.price * elem.amount
     )).reduce((a, b) => a + b, 0).toFixed(2) : 0;
@@ -28,9 +30,9 @@ function OrderRow(props) {
                     <Grid item xs={4}>Emision: {order ? order.emission_date : ''}</Grid>
                     <Grid item xs={4}>Entrega: {order ? order.delivery_date : ''}</Grid>
                     <Grid item xs={4}>#Items: {order ? order.items_count : ''}</Grid>
-                    {order.status === 'DELIVERED' ? <Grid item xs={8}></Grid> : <Grid item xs={4}></Grid> }
+                    {order.status === 'DELIVERED' || order.status === 'CANCELED'? <Grid item xs={8}></Grid> : <Grid item xs={4}></Grid> }
                     <Grid item xs={4}><Button variant='contained' color='primary' onClick={() => props.viewClick(order)}>Ver</Button></Grid>
-                    {order.status !== 'DELIVERED' ? <Grid item xs={4}><Button variant='contained' color='primary'
+                    {order.status !== 'DELIVERED' && order.status !== 'CANCELED' ? <Grid item xs={4}><Button variant='contained' color='primary'
                                               onClick={() => props.buildClick(order)}>{order.status === 'ASSEMBLED' ? "Entregar": "Armar"}</Button></Grid> : null}
                 </Grid>
             </Grid>

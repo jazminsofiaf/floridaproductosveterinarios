@@ -24,6 +24,9 @@ import {
     CREATE_DISTRIBUTOR_PRODUCT,
     //
     FETCH_ORDER_BY_ID,
+    FETCH_SUPPLIER_BY_ID,
+    //
+    SOLICIT_SUPPLIER_ORDER,
     //
     ADD_TO_CART,
     REMOVE_FROM_CART,
@@ -31,7 +34,8 @@ import {
     ADD_CUSTOMER_PAYMENT,
     FETCH_ASSEMBLE_INSTRUCTIONS,
     DELIVER_CUSTOMER_ORDER,
-    MARK_ORDER_ASSEMBLED
+    MARK_ORDER_ASSEMBLED,
+    CANCEL_CUSTOMER_ORDER,
 } from './types';
 
 import {Dispatch} from 'redux';
@@ -40,7 +44,7 @@ import ReceptionService from '../services/backoffice/reception-service'
 import CustomerService from "../services/backoffice/customer-service"
 import OrderService from "../services/backoffice/order-service"
 import ProductService from "../services/backoffice/product-service"
-
+import {format} from "date-fns";
 
 export const refreshWithDelay = (dispatch: Dispatch) => {
     setTimeout(() => {
@@ -56,6 +60,17 @@ export function refreshWithDelay2() {
             dispatch({
                 type: REFRESH
             });
+        }, 1500);
+    }
+}
+
+export function refreshAndRedirect(redirect: any) {
+    return (dispatch: (arg0: { type: string }) => void) => {
+        setTimeout(() => {
+            dispatch({
+                type: REFRESH
+            });
+            redirect()
         }, 1500);
     }
 }
@@ -144,6 +159,26 @@ export const fetchAssembleInstructions = async (dispatch: Dispatch, orderId: str
     }
 };
 
+export function cancelCustomerOrder(orderId: string) {
+    return async (dispatch: (arg0: { type: string }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            await OrderService.cancelOrder(orderId);
+
+            dispatch({
+                type: CANCEL_CUSTOMER_ORDER,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+            });
+        }
+    };
+}
+
 export const deliverCustomerOrder = async (dispatch: Dispatch, orderId: string) => {
     dispatch({
         type: LOADING,
@@ -163,6 +198,30 @@ export const deliverCustomerOrder = async (dispatch: Dispatch, orderId: string) 
         });
     }
 };
+
+
+
+export function markAssembledForced(orderId: string) {
+    return async (dispatch: (arg0: { type: string; payload?: any}) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await OrderService.markAssembledForced(orderId);
+
+            dispatch({
+                type: MARK_ORDER_ASSEMBLED,
+                payload: response,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: e.response.data,
+            });
+        }
+    };
+}
 
 export const markOrderAssembled = async (dispatch: Dispatch, orderId: string) => {
     dispatch({
@@ -425,6 +484,11 @@ export const createReception = async (dispatch: Dispatch, data: IReceptionOrderP
     });
 
     try {
+        data?.received_products?.forEach((item: any) => {
+            item.original_price = undefined;
+            item.expiration_date = format(item.expiration_date, "dd/MM/yyyy");
+        });
+
         await ReceptionService.createReception(data);
 
         setTimeout(() => {
@@ -547,3 +611,45 @@ export const emptyCart = (dispatch: Dispatch) => {
         type: EMPTY_CART,
     });
 };
+
+export function solicitSupplierOrder(orderId: string) {
+    return async (dispatch: (arg0: { type: string }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            await SupplierService.solicitSupplierOrder(orderId);
+
+            dispatch({
+                type: SOLICIT_SUPPLIER_ORDER,
+            });
+        } catch (e) {
+            return dispatch({
+                type: ERROR,
+            });
+        }
+    }
+}
+
+export function fetchSupplierInfo(orderId: string) {
+    return async (dispatch: (arg0: { type: string; payload?: any}) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await SupplierService.fetchSuppliersById(orderId);
+
+            dispatch({
+                type: FETCH_SUPPLIER_BY_ID,
+                payload: response,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: e.response.data,
+            });
+        }
+    }
+}

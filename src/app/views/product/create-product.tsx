@@ -32,6 +32,7 @@ import Loader from "../shared/Loader";
 
 const initialValues = {
     name: '',
+    description: '',
     category: '',
     brand: '',
     application: '',
@@ -252,6 +253,24 @@ function nameField() {
     </Field>;
 }
 
+function descriptionField() {
+    return <Field name={"description"}>
+        {({field, meta}: any) =>
+            <TextField
+                {...field}
+                variant="outlined"
+                fullWidth
+                required
+                id="name"
+                label="Mini descripcion"
+                type="text"
+                error={(meta.touched && meta.error !== undefined)}
+                helperText={((meta.touched) && meta.error)}
+            />
+        }
+    </Field>;
+}
+
 function categoryField() {
     return <Field name='category' component={FormikAutocomplete}
            autoCompleteProps={{multiple: true, options:categories, filterSelectedOptions: true}}
@@ -381,6 +400,7 @@ function presentationAmountField() {
                 variant="outlined"
                 fullWidth
                 id="amount"
+                InputProps={{ inputProps: { min: 0 } }}
                 label="Cantidad/Capacidad"
                 type="number"
                 error={(meta.touched && meta.error !== undefined)}
@@ -470,6 +490,9 @@ const CreateProduct = () => {
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
                                         {nameField()}
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        {descriptionField()}
                                     </Grid>
                                     <Grid item xs={12}>
                                         {categoryField()}

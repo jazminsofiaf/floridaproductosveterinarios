@@ -19,7 +19,8 @@ function productHeader(props) {
                 {props.product.presentation ?  props.product.name + " - " + props.product.presentation : props.product.name}
             </div>
             <div className="product-subtitle">
-                {props.product.category ?  props.product.description + " - " + props.product.category : props.product.description}
+                {props.product.category && props.product.description?  props.product.description + " - " + props.product.category
+                    :  props.product.description ? props.product.description : props.product.category ? props.product.category : null}
             </div>
         </>
     )

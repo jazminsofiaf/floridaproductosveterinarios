@@ -40,6 +40,7 @@ function Loader(props) {
     const loading = Boolean(props.isLoading);
     const success = Boolean(props.isSuccess);
     const error = Boolean(props.error);
+    const message = props.message ||  "Carga exitosa!";
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     let show = loading || error || success;
@@ -55,7 +56,7 @@ function Loader(props) {
                     id="responsive-dialog-title">
                     {loading ? "Cargando, espere unos segundos por favor..." :
                         error ? "Se produjo un error!" :
-                            "Carga exitosa!"}
+                            message}
                 </DialogTitle>
                 <DialogContent>
                     {loading ? <LinearProgress color="secondary" style={{height: "0.6em"}}/> : error ? errorPrompt() : successPrompt()}
