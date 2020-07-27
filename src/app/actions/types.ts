@@ -15,6 +15,7 @@ export const FETCH_CUSTOMERS = 'fetch_customers';
 export const FETCH_CUSTOMERS_ORDERS = 'fetch_customers_orders';
 export const FETCH_CUSTOMER_ORDER_BY_ID = 'fetch_customer_order_by_id';
 export const FETCH_DISTRIBUTOR_PRODUCTS = 'fetch_distributor_products';
+export const FETCH_PRODUCTS_INFO = 'fetch_products_info';
 
 export const FETCH_ASSEMBLE_INSTRUCTIONS = 'fetch_assemble_instructions';
 export const MARK_ORDER_ASSEMBLED = 'mark_order_assembled';

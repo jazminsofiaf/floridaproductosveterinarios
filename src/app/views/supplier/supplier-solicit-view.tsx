@@ -10,6 +10,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchSupplierInfo, solicitSupplierOrder} from "../../actions/actions";
+import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -91,8 +93,8 @@ function SupplierSolicitView({order}: any) {
                 <DialogContent dividers>
                     {supplierInfo ?
                         <>
-                            <Typography variant={'h5'}>Tel.: {supplierInfo.company_phone}</Typography>
-                            <Typography variant={'h5'}>Email: {supplierInfo.email}</Typography>
+                            <Typography variant={'h5'}><ContactPhoneIcon color='secondary' fontSize={'large'}/> {supplierInfo.company_phone}</Typography>
+                            <Typography variant={'h5'}><ContactMailIcon color='secondary' fontSize={'large'}/> {supplierInfo.email}</Typography>
                         </>
                         : null}
                     <Typography variant={'h5'}>--Productos--</Typography>

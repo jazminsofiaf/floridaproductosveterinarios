@@ -12,6 +12,7 @@ import {
     FETCH_CUSTOMERS_ORDERS,
     FETCH_CUSTOMER_ORDER_BY_ID,
     FETCH_DISTRIBUTOR_PRODUCTS,
+    FETCH_PRODUCTS_INFO,
     //
     UPDATE_CUSTOMER_ORDER,
     UPDATE_SUPPLIER_ORDER,
@@ -200,9 +201,8 @@ export const deliverCustomerOrder = async (dispatch: Dispatch, orderId: string) 
 };
 
 
-
 export function markAssembledForced(orderId: string) {
-    return async (dispatch: (arg0: { type: string; payload?: any}) => void) => {
+    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
         dispatch({
             type: LOADING,
         });
@@ -454,6 +454,28 @@ export const fetchSupplierOrders = async (dispatch: Dispatch) => {
     }
 };
 
+export function fetchProductsInfo() {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await ProductService.fetchProductsInfo();
+
+            return dispatch({
+                type: FETCH_PRODUCTS_INFO,
+                payload: response,
+            });
+        } catch (e) {
+            return dispatch({
+                type: ERROR,
+                payload: e.response,
+            });
+        }
+    };
+}
+
 export const createCustomerOrder = async (dispatch: Dispatch, data: IOrderPostData) => {
     dispatch({
         type: SUBMITTING,
@@ -633,7 +655,7 @@ export function solicitSupplierOrder(orderId: string) {
 }
 
 export function fetchSupplierInfo(orderId: string) {
-    return async (dispatch: (arg0: { type: string; payload?: any}) => void) => {
+    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
         dispatch({
             type: LOADING,
         });

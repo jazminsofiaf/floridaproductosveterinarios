@@ -9,6 +9,12 @@ class ProductService extends Service {
         return response.data.products_summary;
     }
 
+    async fetchProductsInfo() {
+        const response = await axios.get(`${this.BACKEND_URL}/product/info`);
+
+        return response.data;
+    }
+
     async createProduct(data: IDistributorProduct) {
         const product = {product: data};
 

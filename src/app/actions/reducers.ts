@@ -16,6 +16,7 @@ import {
     FETCH_CUSTOMERS_ORDERS,
     FETCH_CUSTOMER_ORDER_BY_ID,
     FETCH_DISTRIBUTOR_PRODUCTS,
+    FETCH_PRODUCTS_INFO,
     //
     FETCH_ASSEMBLE_INSTRUCTIONS,
     MARK_ORDER_ASSEMBLED,
@@ -97,6 +98,8 @@ export default (state: [] = [], action: IAction) => {
             return {...state, customersOrders: action.payload, error: false, submitting: false, loading: false};
         case FETCH_DISTRIBUTOR_PRODUCTS:
             return {...state, distributorProducts: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_PRODUCTS_INFO:
+            return {...state, productsInfo: action.payload, error: false, submitting: false, loading: false};
 
         case FETCH_ASSEMBLE_INSTRUCTIONS:
             return {...state, assembleInstructions: action.payload, error: false, submitting: false, loading: false};

@@ -18,7 +18,8 @@ import {
     ShoppingBasket,
     ShoppingCart, ShopTwo,
     Home,
-    AddBox
+    AddBox,
+    Storage,
 } from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -88,6 +89,10 @@ function UpperBar(props) {
         props.history.push('/new-product');
     }
 
+    const goToProductsInfoPage = () => {
+        props.history.push('/products-info');
+    }
+
 
     const {classes} = props;
     const supplierLinks = {
@@ -105,6 +110,7 @@ function UpperBar(props) {
 
     const productLinks = {
         "newProduct": goToNewProductPage,
+        "productsInfo": goToProductsInfoPage,
     }
 
     return (
@@ -333,6 +339,12 @@ function ProductMenu(props) {
                         <AddBox fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText primary="Nuevo producto" onClick={props.links.newProduct}/>
+                </StyledMenuItem>
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <Storage fontSize="small"/>
+                    </ListItemIcon>
+                    <ListItemText primary="Informacion" onClick={props.links.productsInfo}/>
                 </StyledMenuItem>
             </StyledMenu>
         </div>
