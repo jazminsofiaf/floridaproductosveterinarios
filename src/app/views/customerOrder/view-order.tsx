@@ -63,6 +63,7 @@ const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
     }
 
     function cancelOrder(id: string) {
+        order.status = "CANCELED";
         dispatch(cancelCustomerOrder(id))
     }
 
@@ -76,7 +77,6 @@ const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
     }
 
     if (success) {
-        order.status = "CANCELED";
         dispatch(refreshWithDelay2());
         handleClose();
     }
