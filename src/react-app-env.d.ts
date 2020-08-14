@@ -117,11 +117,12 @@ declare global {
 
     export interface IReceptionOrderPostData {
         order_id: string;
+        emission_date: string;
         bill_number: number;
         bill_type: string;
         gross_revenue: boolean;
         received_products: IOrderProduct[];
-        total: number;
+        bill_discount: number;
     }
 
     export interface IService {

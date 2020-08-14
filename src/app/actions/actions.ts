@@ -500,34 +500,36 @@ export const createCustomerOrder = async (dispatch: Dispatch, data: IOrderPostDa
     }
 };
 
-export const createReception = async (dispatch: Dispatch, data: IReceptionOrderPostData) => {
-    dispatch({
-        type: SUBMITTING,
-    });
-
-    try {
-        data?.received_products?.forEach((item: any) => {
-            item.original_price = undefined;
-            item.expiration_date = format(item.expiration_date, "dd/MM/yyyy");
+export function createReception(data: IReceptionOrderPostData) {
+    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
+        dispatch({
+            type: SUBMITTING,
         });
 
-        await ReceptionService.createReception(data);
+        try {
+            // data?.received_products?.forEach((item: any) => {
+            //     item.original_price = undefined;
+            //     item.expiration_date = format(item.expiration_date, "dd/MM/yyyy");
+            // });
 
-        setTimeout(() => {
-            dispatch({
-                type: CREATE_RECEPTION,
-            });
-        }, 200);
+            await ReceptionService.createReception(data);
 
-    } catch (e) {
-        setTimeout(() => {
-            dispatch({
-                type: ERROR,
-                payload: {message: e.message},
-            });
-        }, 200);
-    }
-};
+            setTimeout(() => {
+                dispatch({
+                    type: CREATE_RECEPTION,
+                });
+            }, 200);
+
+        } catch (e) {
+            setTimeout(() => {
+                dispatch({
+                    type: ERROR,
+                    payload: {message: e.message},
+                });
+            }, 200);
+        }
+    };
+}
 
 export const createSupplierOrder = async (dispatch: Dispatch, data: IOrderPostData) => {
     dispatch({

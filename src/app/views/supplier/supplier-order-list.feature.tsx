@@ -12,9 +12,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         fetchOrders: () => {
             fetchSupplierOrders(dispatch);
         },
-        createReception: (data: IReceptionOrderPostData) => {
-            createReception(dispatch, data);
-        },
         refreshWithDelay: () => {
             refreshWithDelay(dispatch);
         }
