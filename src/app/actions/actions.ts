@@ -4,6 +4,9 @@ import {
     SUBMITTING,
     REFRESH,
     //
+    USER_LOGIN,
+    IS_LOGGED,
+    //
     FETCH_SUPPLIER_ORDERS,
     FETCH_SUPPLIER_PRODUCTS,
     FETCH_CUSTOMER_PRODUCTS,
@@ -45,7 +48,8 @@ import ReceptionService from '../services/backoffice/reception-service'
 import CustomerService from "../services/backoffice/customer-service"
 import OrderService from "../services/backoffice/order-service"
 import ProductService from "../services/backoffice/product-service"
-import {format} from "date-fns";
+import AuthenticationService from "../services/backoffice/authentication-service"
+import {setAuthorizationToken} from "../utils/authorizationToken";
 
 export const refreshWithDelay = (dispatch: Dispatch) => {
     setTimeout(() => {
@@ -75,6 +79,64 @@ export function refreshAndRedirect(redirect: any) {
         }, 1500);
     }
 }
+
+export function userLogin(credentials: ICredential) {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await AuthenticationService.login(credentials);
+
+            console.log(JSON.stringify(response, null, 2))
+            localStorage.setItem('token', response.user.token)
+            setAuthorizationToken(response.user.token)
+
+            dispatch({
+                type: USER_LOGIN,
+                payload: response.user,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: e.response.data,
+            });
+        }
+    }
+};
+
+// export const isLogged = async (dispatch: Dispatch) => {
+//     try {
+//         const response = await AuthenticationService.isLogged();
+//
+//         dispatch({
+//             type: IS_LOGGED,
+//             payload: response.Boolean,
+//         });
+//     } catch (e) {
+//         dispatch({
+//             type: ERROR,
+//             payload: e.response.data,
+//         });
+//     }
+// };
+
+export function setLogged(value: boolean) {
+    return {
+        type: IS_LOGGED,
+        payload: value,
+    };
+};
+
+export function logOut() {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch ({
+            type: IS_LOGGED,
+            payload: false,
+        });
+    }
+};
 
 export function fetchDistributorProducts() {
     return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {

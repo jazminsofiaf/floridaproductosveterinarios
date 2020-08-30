@@ -3,6 +3,9 @@ export const LOADING = 'loading';
 export const SUBMITTING = 'submitting';
 export const REFRESH = 'refresh'
 
+export const USER_LOGIN = 'user_login'
+export const IS_LOGGED = 'is_logged'
+
 export const FETCH_USERS = 'fetch_users';
 export const FETCH_SUPPLIER_ORDERS = 'fetch_supplier_orders';
 export const FETCH_SERVICES = 'fetch_services';

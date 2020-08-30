@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { withRouter, Redirect } from "react-router";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,41 +14,62 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import withStyles from "@material-ui/core/styles/withStyles";
 import PetsIcon from '@material-ui/icons/Pets';
-import { AuthContext } from "../../providers/Auth";
 import Copyright from "../Copyright";
-import Fire from "../../providers/Fire";
+import {useDispatch, useSelector} from "react-redux";
+import {userLogin} from "../../actions/actions";
 
 function Login(props) {
-
-    const { currentUser } = useContext(AuthContext)
+    const dispatch = useDispatch();
+    const {currentUser} = useSelector((state) => state);
 
     const handleLogIn = useCallback(
         async event => {
             event.preventDefault();
             const { email, password } = event.target.elements;
+            const credentials = {
+                email: email.value,
+                password: password.value
+            }
+            console.log(credentials);
             try {
-                await
-                    Fire
-                        .auth()
-                        .signInWithEmailAndPassword(email.value, password.value)
-                        .then(async res => {
-                            const token = await Object.entries(res.user)[5][1].b
-                            localStorage.setItem('token', token)
+                dispatch(userLogin(credentials))
+                    .then(async () => {
                             props.history.push("/");
                         })
             } catch (error) {
                 alert(error);
             }
         },
-        [props.history]
+        [props.history, dispatch]
     );
 
+    // const handleLogIn = useCallback(
+    //     async event => {
+    //         event.preventDefault();
+    //         const { email, password } = event.target.elements;
+    //         try {
+    //             await
+    //                 Fire
+    //                     .auth()
+    //                     .signInWithEmailAndPassword(email.value, password.value)
+    //                     .then(async res => {
+    //                         const token = await Object.entries(res.user)[5][1].b
+    //                         localStorage.setItem('token', token)
+    //                         props.history.push("/");
+    //                     })
+    //         } catch (error) {
+    //             alert(error);
+    //         }
+    //     },
+    //     [props.history]
+    // );
+
     const handleSignUp = (event) => {
-        props.history.push('/sign-up');
+        // props.history.push('/sign-up');
     }
 
     const handleForgotPassword = (event) => {
-        console.log("forgot password")
+        // console.log("forgot password")
     }
 
     const { classes } = props;
@@ -66,7 +87,7 @@ function Login(props) {
                             <PetsIcon className={classes.icon} />
                         </Box>
                         <Typography variant="h4" className={classes.mainTitle}>
-                            Productos Veterinarios
+                            Online
                     </Typography>
                     </div>
                 </Grid>
@@ -88,7 +109,6 @@ function Login(props) {
                                 label="Email"
                                 name="email"
                                 autoComplete="email"
-                                // onChange={(e) => setEmail(e.target.value)}
                                 autoFocus
                             />
                             <TextField

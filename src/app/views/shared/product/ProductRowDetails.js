@@ -11,7 +11,6 @@ import ovinos from './resources/Ovinos.gif';
 import porcinos from './resources/Porcinos.gif';
 import AmountField from '../../shared/AmountField'
 
-
 function productHeader(props) {
     return (
         <>
@@ -48,6 +47,29 @@ function getSpecies(species) {
     )
 }
 
+function PromoElement(props){
+    const promo = props.promo;
+    return (
+        <div style={{backgroundColor:'yellow'}}>
+            {"Llevando " + promo.amount +": "+ promo.discount + "% de descuento. ($" + promo.unit_price+ " c/u)"}
+        </div>
+    )
+
+}
+
+function Promotions(props) {
+    const promotions = props.promotions;
+    const elements = promotions ? promotions.map((promo) => (
+        <PromoElement key={promo.amount} promo={promo}/>
+    )) : [];
+
+    return (
+        <div>
+            {elements}
+        </div>
+    )
+}
+
 function ProductRowDetails(props) {
     const product = props.product;
     const addToCart = props.onClick;
@@ -56,7 +78,7 @@ function ProductRowDetails(props) {
         <Paper className="product-box">
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={3}>
-                    <img src={props.product.thumbnail} className="product-img" alt={"ProductImage"}/>
+                    <img src={product.thumbnail} className="product-img" alt={"ProductImage"}/>
                 </Grid>
                 <Grid item xs={12} sm={9} style={{textAlign:"left"}} container >
                         <Grid item xs={12} sm={9}>{productHeader(props)}</Grid>
@@ -65,6 +87,7 @@ function ProductRowDetails(props) {
                         <Grid item xs={12} sm={3}>{product.stock}</Grid>
                         <Grid item xs={6} sm={9}>{getSpecies(product.species)}</Grid>
                         <Grid item xs={6} sm={3}>{AmountField({product, addToCart})}</Grid>
+                        {product.promotions?.length > 0 ? <Promotions promotions={product.promotions}/> : <Grid item xs={6} sm={3}>HELLOS</Grid>}
                 </Grid>
             </Grid>
         </Paper>

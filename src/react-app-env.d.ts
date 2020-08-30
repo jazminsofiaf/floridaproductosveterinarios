@@ -164,6 +164,11 @@ declare global {
         addresses: IAddress[];
     }
 
+    export interface ICredential {
+        email: string;
+        password: string;
+    }
+
     export interface ICustomerSummary {
         id: string;
         name_summary: string;

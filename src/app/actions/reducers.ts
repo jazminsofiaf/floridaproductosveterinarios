@@ -4,6 +4,8 @@ import {
     SUBMITTING,
     REFRESH,
     //
+    USER_LOGIN,
+    //
     FETCH_USERS,
     FETCH_SUPPLIER_ORDERS,
     FETCH_SERVICES,
@@ -62,7 +64,7 @@ import {
     //
     SOLICIT_SUPPLIER_ORDER,
     //
-    ADD_CUSTOMER_PAYMENT
+    ADD_CUSTOMER_PAYMENT, IS_LOGGED
 } from './types';
 
 export default (state: [] = [], action: IAction) => {
@@ -75,6 +77,11 @@ export default (state: [] = [], action: IAction) => {
             return {...state, error: false, success: false, submitting: false, loading: true};
         case REFRESH:
             return {...state, error: false, success: false, submitting: false, loading: false};
+
+        case USER_LOGIN:
+            return {...state, currentUser: action.payload.username, error: false, success: false, submitting: false, loading: false};
+        case IS_LOGGED:
+            return {...state, currentUser: action.payload, error: false, success: false, submitting: false, loading: false};
 
         case FETCH_USERS:
             return {...state, users: action.payload, error: false, submitting: false, loading: false};

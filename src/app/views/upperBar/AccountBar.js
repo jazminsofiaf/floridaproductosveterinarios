@@ -4,21 +4,26 @@ import {AccountCircle} from "@material-ui/icons";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {withRouter} from "react-router-dom";
-import Fire from "../../providers/Fire"
+import {logout} from "../../utils/authorizationToken";
+import {useDispatch} from "react-redux";
+import {logOut} from "../../actions/actions";
 
 
-function Line() {
-    return (
-        <hr style={{
-            color: 'black',
-            backgroundColor: 'black',
-            height: 2
-        }}
-        />
-    );
-}
+// function Line() {
+//     return (
+//         <hr style={{
+//             color: 'black',
+//             backgroundColor: 'black',
+//             height: 2
+//         }}
+//         />
+//     );
+// }
 
 function AccountBar(props) {
+    const {isLogged} = props;
+
+    const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleMenu = (event) => {
@@ -32,24 +37,39 @@ function AccountBar(props) {
 
     const handleMyAccount = (event) => {
         setAnchorEl(event.currentTarget);
-        props.history.push('/my-account');
+        // props.history.push('/my-account');
     };
 
     const handleClose = (event) => {
         setAnchorEl(null);
     };
 
-    async function handleLogOut(event) {
-        handleClose();
-        event.preventDefault();
-        try {
-            await
-                Fire.auth()
-                    .signOut()
-                    .then(props.history.push('/'))
-        } catch (error) {
-            alert(error);
-        }
+    // async function handleLogOut(event) {
+    //     handleClose();
+    //     event.preventDefault();
+    //     try {
+    //         await
+    //             Fire.auth()
+    //                 .signOut()
+    //                 .then(props.history.push('/'))
+    //     } catch (error) {
+    //         alert(error);
+    //     }
+    // }
+
+    function handleLogOut(event) {
+        dispatch(logOut())
+        logout();
+        props.history.push('/login');
+
+        // handleClose();
+        // event.preventDefault();
+        // try {
+        //     removeCredentials();
+        //     props.history.push('/login');
+        // } catch (error) {
+        //     alert(error);
+        // }
     }
 
     function authenticatedMenu() {
@@ -59,7 +79,7 @@ function AccountBar(props) {
                 <MenuItem onClick={handleLogOut}>Salir</MenuItem>
                 {/*{props.isLogged &&*/}
                 {/*(<div>*/}
-                <Line/>
+                {/*<Line/>*/}
                 {/*<MenuItem onClick={props.handleProducts}>Editar Productos</MenuItem>*/}
                 {/*<MenuItem onClick={props.handleClients}>Clientes</MenuItem>*/}
                 {/*<MenuItem onClick={props.handleProviders}>Proveedores</MenuItem>*/}
@@ -100,7 +120,7 @@ function AccountBar(props) {
                 }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}>
-                {props.isLogged ? authenticatedMenu() : unauthenticatedMenu()}
+                {isLogged ? authenticatedMenu() : unauthenticatedMenu()}
             </Menu>
         </div>
     )

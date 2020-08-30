@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {
     LocalShipping,
@@ -25,7 +25,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountBar from "./AccountBar";
-import {AuthContext} from "../../providers/Auth";
+import {useSelector} from "react-redux";
 
 
 function HideOnScroll(props) {
@@ -40,10 +40,11 @@ function HideOnScroll(props) {
 }
 
 
-
 function UpperBar(props) {
-    const { currentUser } = useContext(AuthContext);
-    const isLogged = Boolean(currentUser);
+    const {currentUser} = useSelector((state) => state);
+
+    console.log(currentUser)
+
 
     const goHomePage = () => {
         props.history.push('/');
@@ -135,11 +136,13 @@ function UpperBar(props) {
                             <Home/>
                         </IconButton>
 
-                        <SupplierMenu links={supplierLinks}/>
-                        <ClientMenu links={clientLinks}/>
-                        <ProductMenu links={productLinks}/>
+                        {currentUser ? <>
+                            <SupplierMenu links={supplierLinks}/>
+                            <ClientMenu links={clientLinks}/>
+                            <ProductMenu links={productLinks}/>
+                        </> : null}
 
-                        <AccountBar isLogged={isLogged} />
+                        <AccountBar isLogged={currentUser}/>
 
                     </Toolbar>
                 </AppBar>
