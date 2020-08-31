@@ -87,7 +87,7 @@ function ProductRowDetails(props) {
                         <Grid item xs={12} sm={3}>{product.stock}</Grid>
                         <Grid item xs={6} sm={9}>{getSpecies(product.species)}</Grid>
                         <Grid item xs={6} sm={3}>{AmountField({product, addToCart})}</Grid>
-                        {product.promotions?.length > 0 ? <Promotions promotions={product.promotions}/> : <Grid item xs={6} sm={3}>HELLOS</Grid>}
+                        {product.promotions?.length > 0 ? <Promotions promotions={product.promotions}/> : null}
                 </Grid>
             </Grid>
         </Paper>

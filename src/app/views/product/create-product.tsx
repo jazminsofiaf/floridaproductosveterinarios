@@ -151,7 +151,7 @@ const categories = [
     'Cuidado natural',
     'Dermatologico',
     'Dermo-Cosmetica',
-    'Descatable',
+    'Descartable',
     'Digestivo',
     'Endectocida',
     'Energetico',
