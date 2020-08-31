@@ -13,7 +13,7 @@ function CustomersList(props) {
     )) : [];
 
     function passesFilter(customer){
-        return !(customer.name_summary.toLowerCase().indexOf(filterText.toLowerCase()) === -1)
+        return !(customer?.name_summary?.toLowerCase().indexOf(filterText.toLowerCase()) === -1)
     }
 
     return (
