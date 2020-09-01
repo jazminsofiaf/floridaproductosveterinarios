@@ -166,7 +166,6 @@ export default function ProductListInfo() {
                                 setTimeout(() => {
                                     const dataUpdate = [...data];
                                     const index = data.indexOf(oldData);
-                                    console.log(index)
                                     newData.vetPrice = Number(calculateValue(newData.cost, newData.extra, margins?.vet))
                                     newData.protecPrice = Number(calculateValue(newData.cost, newData.extra, margins?.pro))
                                     newData.indPrice = Number(calculateValue(newData.cost, newData.extra, margins?.ind))

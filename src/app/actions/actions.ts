@@ -89,7 +89,6 @@ export function userLogin(credentials: ICredential) {
         try {
             const response = await AuthenticationService.login(credentials);
 
-            console.log(JSON.stringify(response, null, 2))
             localStorage.setItem('token', response.user.token)
             setAuthorizationToken(response.user.token)
 
@@ -100,7 +99,7 @@ export function userLogin(credentials: ICredential) {
         } catch (e) {
             dispatch({
                 type: ERROR,
-                payload: e.response.data,
+                payload: e.response,
             });
         }
     }
@@ -117,7 +116,7 @@ export function userLogin(credentials: ICredential) {
 //     } catch (e) {
 //         dispatch({
 //             type: ERROR,
-//             payload: e.response.data,
+//             payload: e.response,
 //         });
 //     }
 // };
@@ -154,7 +153,7 @@ export function fetchDistributorProducts() {
         } catch (e) {
             dispatch({
                 type: ERROR,
-                payload: e.response.data,
+                payload: e.response,
             });
         }
     }
@@ -217,7 +216,7 @@ export const fetchAssembleInstructions = async (dispatch: Dispatch, orderId: str
     } catch (e) {
         dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -257,7 +256,7 @@ export const deliverCustomerOrder = async (dispatch: Dispatch, orderId: string) 
     } catch (e) {
         dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -279,7 +278,7 @@ export function markAssembledForced(orderId: string) {
         } catch (e) {
             dispatch({
                 type: ERROR,
-                payload: e.response.data,
+                payload: e.response,
             });
         }
     };
@@ -300,7 +299,7 @@ export const markOrderAssembled = async (dispatch: Dispatch, orderId: string) =>
     } catch (e) {
         dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -320,7 +319,7 @@ export const fetchCustomers = async (dispatch: Dispatch) => {
     } catch (e) {
         dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -340,7 +339,7 @@ export const fetchCustomersOrders = async (dispatch: Dispatch) => {
     } catch (e) {
         dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -451,7 +450,7 @@ export const fetchCustomerProducts = async (dispatch: Dispatch, id: string) => {
     } catch (e) {
         return dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -471,7 +470,7 @@ export const fetchSuppliers = async (dispatch: Dispatch) => {
     } catch (e) {
         return dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -491,7 +490,7 @@ export const fetchSupplierProducts = async (dispatch: Dispatch, id: string) => {
     } catch (e) {
         return dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -511,7 +510,7 @@ export const fetchSupplierOrders = async (dispatch: Dispatch) => {
     } catch (e) {
         return dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -632,7 +631,7 @@ export const fetchOrderById = async (dispatch: Dispatch, id: string) => {
     } catch (e) {
         return dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -652,7 +651,7 @@ export const fetchCustomerOrderById = async (dispatch: Dispatch, id: string) => 
     } catch (e) {
         return dispatch({
             type: ERROR,
-            payload: e.response.data,
+            payload: e.response,
         });
     }
 };
@@ -734,7 +733,7 @@ export function fetchSupplierInfo(orderId: string) {
         } catch (e) {
             dispatch({
                 type: ERROR,
-                payload: e.response.data,
+                payload: e.response,
             });
         }
     }

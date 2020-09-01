@@ -62,13 +62,8 @@ export default function BillProductSelection(order: any) {
     const [open, setOpen] = React.useState(false);
     const [selectedOrder, setSelected] = React.useState()
 
-    console.log("BillProductSelection")
-    console.log(order)
-
     const handleClickOpen = () => {
         if (order){
-            console.log("Clicked button")
-            console.log(order)
             setSelected(order)
         };
         setOpen(true);

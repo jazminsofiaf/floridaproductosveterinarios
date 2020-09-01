@@ -221,12 +221,8 @@ export default function CreateSupplierBill(props: any) {
     const [selected, setSelected] = React.useState<RowData[]>([]);
     const [rowsPerPage, setRowsPerPage] = React.useState(rows.length);
 
-    console.log("Create supplier bill")
-    console.log(selectedOrder)
-
     React.useEffect(() => {
         if (selectedOrder && selectedOrder.order && selectedOrder.order.products) {
-            console.log(selectedOrder)
             const items = selectedOrder.order.products.filter((item: IOrderProduct) => item.status === 'ORDERED')
                 .map((item: IOrderProduct) => createData(item.id, item.name, item.amount, item.price, item.amount * item.price));
             setRows(items);

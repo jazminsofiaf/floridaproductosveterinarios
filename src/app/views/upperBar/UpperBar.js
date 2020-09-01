@@ -43,9 +43,6 @@ function HideOnScroll(props) {
 function UpperBar(props) {
     const {currentUser} = useSelector((state) => state);
 
-    console.log(currentUser)
-
-
     const goHomePage = () => {
         props.history.push('/');
     }

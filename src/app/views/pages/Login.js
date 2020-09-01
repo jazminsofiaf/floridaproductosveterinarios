@@ -30,7 +30,6 @@ function Login(props) {
                 email: email.value,
                 password: password.value
             }
-            console.log(credentials);
             try {
                 dispatch(userLogin(credentials))
                     .then(async () => {

@@ -156,9 +156,6 @@ function validateReception(receptionRequest: any) {
     let validExpDate = receptionRequest.received_products.map((item: IOrderProduct) => (item.expiration_date && item.expiration_date !== '')).reduce((acc: boolean, next: boolean) => acc && next);
     let validAmounts = receptionRequest.received_products.map((item: IOrderProduct) => (item.amount && !isNaN(item.amount) && item.amount >= 0 )).reduce((acc: boolean, next: boolean) => acc && next);
     let validPrices = receptionRequest.received_products.map((item: IOrderProduct) => (item.price && !isNaN(item.price) && item.price >= 0)).reduce((acc: boolean, next: boolean) => acc && next);
-    console.log(validExpDate)
-    console.log(validAmounts)
-    console.log(validPrices)
     return validExpDate && validAmounts && validPrices;
 }
 
@@ -180,9 +177,7 @@ export function generateBillRow(item: any, billMargins: IMargins) {
     let totalProduct = discount + taxOne + taxTwo;
     let unitCost = totalProduct/item.amount;
     let costWithBillDiscount = unitCost * (1 - billMargins.billDiscount/100);
-    console.log(item.expiration_date);
     let formattedDate = item.expiration_date && item.expiration_date !== ''? format(Date.parse(item.expiration_date), "dd/MM/yyyy") : '';
-    console.log(formattedDate);
     return createData(item.id, item.name, item.amount, formattedDate, fixDecimals(item.price),
         fixDecimals(subtotalProduct), fixDecimals(discount), fixDecimals(taxOne), fixDecimals(taxTwo),
         fixDecimals(totalProduct), fixDecimals(unitCost), fixDecimals(costWithBillDiscount));
@@ -254,9 +249,7 @@ function BillForm(props: any) {
     };
 
     React.useEffect(() => {
-        console.log("USE EFFECT FORM")
         if (products && products.length >0) {
-            console.log("USE EFFECT FORM FIRST")
             const items = products.map((item: IOrderProduct) => generateBillRow(item, billMargins));
             setData(items);
         }
@@ -264,7 +257,6 @@ function BillForm(props: any) {
 
     React.useEffect(() => {
         if (data && data.length > 0) {
-            console.log("USE EFFECT FORM BOOLEANS")
             const items = data.map((rowData: any) => {
                 billMargins.applyDiscount = checkedDiscount;
                 billMargins.applyGrossTax = checkedGrossTax;
@@ -283,8 +275,6 @@ function BillForm(props: any) {
     }
 
     function onSubmit(values: any) {
-        console.log("SUBMIT");
-        console.log(values);
         values.received_products = data.map((item: BillRow) => ({
             'id': item.id,
             'amount': item.amount,
@@ -299,7 +289,6 @@ function BillForm(props: any) {
 
         let validReception = validateReception(values);
         if (validReception) {
-            console.log(values);
             dispatch(createReception(values))
             products.foreach((item: IOrderProduct) => item.status = '');
             handleClose()

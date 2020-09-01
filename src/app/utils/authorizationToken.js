@@ -7,7 +7,6 @@ export function setAuthorizationToken(token) {
     if (token) {
         axios.defaults.headers.common['Authorization'] = `Token ${token}`;
     } else {
-        console.log("deleting")
         delete axios.defaults.headers.common['Authorization'];
     }
 }
