@@ -105,12 +105,12 @@ const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
                                               color='secondary'>{"TOTAL:  $" + orderTotal}</Typography></Grid>
                 {order.status !== "DELIVERED"  && order.status !== 'CANCELED' ?
                     <Grid item container>
-                        <Grid item xs={3}><Button variant='contained' color='secondary' onClick={() => saveChanges()}>Guardar
-                            cambios</Button></Grid>
-                        <Grid item xs={3}></Grid>
                         <Grid item xs={3}><Button variant='contained' color='primary' onClick={() => cancelOrder(order.id)}>Cancelar Orden</Button></Grid>
                         <Grid item xs={3}><Button variant='contained' color='primary'
                                                   onClick={() => goToEditPage(order.id)}>Editar</Button></Grid>
+                        <Grid item xs={3}></Grid>
+                        <Grid item xs={3}><Button variant='contained' color='secondary' onClick={() => saveChanges()}>Guardar
+                            cambios</Button></Grid>
                     </Grid>
                     : null}
             </Grid>

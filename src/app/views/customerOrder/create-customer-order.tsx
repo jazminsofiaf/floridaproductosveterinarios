@@ -65,6 +65,13 @@ const CreateCustomerOrder = ({
     const [editMode, setEditMode] = useState(false)
 
     useEffect(() => {
+        if (selected && selected.id) {
+            const userId = selected.id;
+            fetchCustomerProducts(userId);
+        }
+    }, [selected, fetchCustomerProducts]);
+
+    useEffect(() => {
         if (location) {
             const urlParams = new URLSearchParams(location.search);
             const id = urlParams.get('id');
@@ -74,19 +81,16 @@ const CreateCustomerOrder = ({
                 setEditMode(true);
             }
         }
-        if (selected && selected.id) {
-            const userId = selected.id;
-            fetchCustomerProducts(userId);
-        }
-    }, [selected, fetchCustomerProducts, fetchCustomerOrderById, location]);
+    }, [fetchCustomerOrderById, location]);
 
-
-    if (editMode && !selected) {
-        const customer: ICustomerSummary | undefined = customers && customerOrder ? customers.filter(customer => customer.id === customerOrder.owner_id).pop() : undefined;
-        if (customer) {
-            setSelected(customer);
+    useEffect(() => {
+        if (editMode) {
+            const customer: ICustomerSummary | undefined = customers && customerOrder ? customers.filter(customer => customer.id === customerOrder.owner_id).pop() : undefined;
+            if (customer) {
+                setSelected(customer);
+            }
         }
-    }
+    }, [customerOrder, customers, editMode, setSelected]);
 
     function removeItem(id: string) {
         removeFromCart(id, cartItems);
