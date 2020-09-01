@@ -84,7 +84,7 @@ function ProductRowDetails(props) {
                         <Grid item xs={12} sm={9}>{productHeader(props)}</Grid>
                         <Grid item xs={12} sm={3}>{productPrice(product.price)}</Grid>
                         <Grid item xs={12} sm={9}>{product.brand}</Grid>
-                        <Grid item xs={12} sm={3}>{product.stock}2342</Grid>
+                        <Grid item xs={12} sm={3}><strong>{product.stock}</strong></Grid>
                         <Grid item xs={6} sm={9}>{getSpecies(product.species)}</Grid>
                         <Grid item xs={6} sm={3}>{AmountField({product, addToCart})}</Grid>
                         {product.promotions?.length > 0 ? <Promotions promotions={product.promotions}/> : null}
