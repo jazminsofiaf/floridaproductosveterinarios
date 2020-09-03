@@ -5,28 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {cancelCustomerOrder, refreshWithDelay2} from '../../actions/actions'
 import Loader from "../shared/Loader";
 
-function OrderDeliveredItem(props: any) {
-    const item = props.item;
-    const [price, setPrice] = useState(item.price)
-    const color = item.status === "AVAILABLE" ? "#CCFFCC" : item.status === "ORDERED" ? "#FFFFCC" : item.status === "MISSING" ? "#f5b8bf" : "#fdfceb";
-
-    function updatePrice(newPrice: any) {
-        item.price = parseFloat(newPrice);
-        setPrice(newPrice)
-    }
-
-    return (
-        <Grid item container xs={12} style={{backgroundColor: `${color}`}}>
-            <Grid item xs={6}>{item.name}</Grid>
-            <Grid item xs={1}>{item.amount}</Grid>
-            <Grid item xs={3}>{item.expiration_view ? item.expiration_view : "-"}</Grid>
-            <Grid item xs={1}><TextField type="decimal" fullWidth size="small" defaultValue={price}
-                                         onChange={(e) => updatePrice(e.target.value)}/></Grid>
-            <Grid item xs={1}>${price * item.amount}</Grid>
-        </Grid>
-    )
-}
-
 function DeliveredColumns() {
     return (
         <Grid item container xs={12} style={{fontWeight: 'bold'}}>
@@ -48,10 +26,35 @@ function calculateOrderTotal(order: any) {
 const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
     const history = useHistory();
     const [orderTotal, setOrderTotal] = useState(calculateOrderTotal(order));
+    const [saved, setSaved] = useState(true);
     const {error, success, submitting} = useSelector((state: any) => state);
     const dispatch = useDispatch();
     if (!order) {
         return null;
+    }
+
+    function OrderDeliveredItem(props: any) {
+        const item = props.item;
+        const [price, setPrice] = useState(item.price)
+        const color = item.status === "AVAILABLE" ? "#CCFFCC" : item.status === "ORDERED" ? "#FFFFCC" : item.status === "MISSING" ? "#f5b8bf" : "#fdfceb";
+
+        function updatePrice(newPrice: any) {
+            item.price = parseFloat(newPrice);
+            setPrice(newPrice);
+            setSaved(false);
+            setOrderTotal(calculateOrderTotal(order))
+        }
+
+        return (
+            <Grid item container xs={12} style={{backgroundColor: `${color}`}}>
+                <Grid item xs={6}>{item.name}</Grid>
+                <Grid item xs={1}>{item.amount}</Grid>
+                <Grid item xs={3}>{item.expiration_view ? item.expiration_view : "-"}</Grid>
+                <Grid item xs={1}><TextField type="decimal" fullWidth size="small" defaultValue={price}
+                                             onChange={(e) => updatePrice(e.target.value)}/></Grid>
+                <Grid item xs={1}>${price * item.amount}</Grid>
+            </Grid>
+        )
     }
 
     const itemList = order.products ? order.products.map((item: IOrderProduct) => (
@@ -72,7 +75,8 @@ const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
         order.total = orderTotal;
         updateCustomerOrder({
             order_id: order.id,
-            products: order.products
+            products: order.products,
+            owner_id: order.owner_id
         }, "prices");
     }
 
@@ -109,7 +113,7 @@ const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
                         <Grid item xs={3}><Button variant='contained' color='primary'
                                                   onClick={() => goToEditPage(order.id)}>Editar</Button></Grid>
                         <Grid item xs={3}></Grid>
-                        <Grid item xs={3}><Button variant='contained' color='secondary' onClick={() => saveChanges()}>Guardar
+                        <Grid item xs={3}><Button variant='contained' color='secondary' disabled={saved} onClick={() => saveChanges()}>Guardar
                             cambios</Button></Grid>
                     </Grid>
                     : null}

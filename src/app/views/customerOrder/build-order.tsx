@@ -85,7 +85,7 @@ const BuildOrder = ({order, assembleInstructions, fetchAssembleInstructions, del
                 {order.status === 'ASSEMBLED' ?
                     <Grid item xs={12}><Button variant='outlined' color='primary'
                                                onClick={() => deliver()}>Entregar</Button></Grid> :
-                    assembleStatus === 'AVAILABLE' ?
+                    assembleStatus === 'COMPLETE' ?
                         <Grid item xs={12}><Button variant='outlined' color='primary'
                                                    onClick={() => readyToDeliver()}>Listo, armado!</Button></Grid> :
                         assembleStatus === 'CONFLICTED' ?

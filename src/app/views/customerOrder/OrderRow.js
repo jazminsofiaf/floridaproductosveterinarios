@@ -33,7 +33,7 @@ function OrderRow(props) {
                     {order.status === 'DELIVERED' || order.status === 'CANCELED'? <Grid item xs={8}></Grid> : <Grid item xs={4}></Grid> }
                     <Grid item xs={4}><Button variant='contained' color='primary' onClick={() => props.viewClick(order)}>Ver</Button></Grid>
                     {order.status !== 'DELIVERED' && order.status !== 'CANCELED' ? <Grid item xs={4}><Button variant='contained' color='primary'
-                                              onClick={() => props.buildClick(order)}>{order.status === 'ASSEMBLED' ? "Entregar": "Armar"}</Button></Grid> : null}
+                                              onClick={() => props.buildClick(order)}>{order.status === 'ASSEMBLED' ? "Ver entrega": "Ver instructivo"}</Button></Grid> : null}
                 </Grid>
             </Grid>
         </Paper>

@@ -119,7 +119,8 @@ const CreateCustomerOrder = ({
         if (editMode) {
             await updateCustomerOrder({
                 order_id: customerOrder.id,
-                products: props.cartItems
+                products: props.cartItems,
+                owner_id: props.selected.id
             }, '');
         } else {
             await createCustomerOrder({

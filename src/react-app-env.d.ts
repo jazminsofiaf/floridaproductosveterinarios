@@ -219,6 +219,7 @@ declare global {
 
     export interface IOrderUpdatePostData {
         order_id: string;
+        owner_id: string;
         products: IOrderProduct[];
     }
 
