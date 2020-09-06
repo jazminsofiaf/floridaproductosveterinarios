@@ -40,6 +40,7 @@ import {
     DELIVER_CUSTOMER_ORDER,
     MARK_ORDER_ASSEMBLED,
     CANCEL_CUSTOMER_ORDER,
+    REMOVE_SUPPLIER_ORDER_ITEM,
 } from './types';
 
 import {Dispatch} from 'redux';
@@ -708,6 +709,26 @@ export function solicitSupplierOrder(orderId: string) {
 
             dispatch({
                 type: SOLICIT_SUPPLIER_ORDER,
+            });
+        } catch (e) {
+            return dispatch({
+                type: ERROR,
+            });
+        }
+    }
+}
+
+export function removeSupplierOrderItem(orderId: string, product :IOrderProduct) {
+    return async (dispatch: (arg0: { type: string }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            await SupplierService.removeOrderItem(orderId, product);
+
+            dispatch({
+                type: REMOVE_SUPPLIER_ORDER_ITEM,
             });
         } catch (e) {
             return dispatch({

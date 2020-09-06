@@ -64,13 +64,13 @@ import {
     //
     SOLICIT_SUPPLIER_ORDER,
     //
-    ADD_CUSTOMER_PAYMENT, IS_LOGGED
+    ADD_CUSTOMER_PAYMENT, IS_LOGGED, REMOVE_SUPPLIER_ORDER_ITEM
 } from './types';
 
 export default (state: [] = [], action: IAction) => {
     switch (action.type) {
         case ERROR:
-            return {...state, error: action.payload.message, success: false, submitting: false, loading: false};
+            return {...state, error: action.payload, success: false, submitting: false, loading: false};
         case SUBMITTING:
             return {...state, error: false, success: false, submitting: true, loading: false};
         case LOADING:
@@ -121,6 +121,8 @@ export default (state: [] = [], action: IAction) => {
 
         case SOLICIT_SUPPLIER_ORDER:
             return {...state, customersOrders:null,  error: false, success: true, submitting: false, loading: false};
+        case REMOVE_SUPPLIER_ORDER_ITEM:
+            return {...state,  error: false, success: true, submitting: false, loading: false};
 
 
         case FETCH_USER_BY_ID:

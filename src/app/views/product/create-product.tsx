@@ -1,5 +1,5 @@
 import React from 'react';
-// import * as Yup from "yup";
+import * as Yup from "yup";
 import {Theme} from "@material-ui/core";
 import UpperBar from "../upperBar/UpperBar";
 import Container from "@material-ui/core/Container";
@@ -45,47 +45,31 @@ const initialValues = {
     }
 };
 
-// const validationSchema = Yup.object().shape({
-//     email: Yup.string()
-//         .email('Mail invalido')
-//         .max(40, maxCharsMessage(40)),
-//     first_name: Yup.string()
-//         .matches(/^[a-zA-Z\s.]*$/, wordInputValidationMessage)
-//         .max(40, maxCharsMessage(40))
-//         .required("Debe setear un nombre."),
-//     surname: Yup.string()
-//         .matches(/^[a-zA-Z\s.]*$/, wordInputValidationMessage)
-//         .max(40, maxCharsMessage(40)),
-//     business_name: Yup.string()
-//         .max(40, maxCharsMessage(40)),
-//     id_number: Yup.string().matches(/^[0-9]*$/, numberMessageValidation)
-//         .max(15, maxCharsMessage(15)),
-//     phone: Yup.string()
-//         .max(15, maxCharsMessage(15))
-//         .required("Debe ingresar telefono."),
-//     category: Yup.string().required("Debe seleccionar la categoria."),
-//     addresses: Yup.array().of(Yup.object({
-//         country: Yup.string()
-//             .matches(/^[a-zA-Z\s.]*$/, wordInputValidationMessage)
-//             .max(20, maxCharsMessage(20)),
-//         province: Yup.string()
-//             .matches(/^[a-zA-Z\s.]*$/, wordInputValidationMessage)
-//             .max(40, maxCharsMessage(40)),
-//         city: Yup.string()
-//             .matches(/^[a-zA-Z\s.]*$/, wordInputValidationMessage)
-//             .max(40, maxCharsMessage(40)),
-//         street_name: Yup.string()
-//             .matches(/^[a-zA-Z\s.]*$/, wordInputValidationMessage)
-//             .max(40, maxCharsMessage(40)),
-//         street_number: Yup.string()
-//             .matches(/^[0-9]*$/, numberMessageValidation)
-//             .max(8, maxCharsMessage(8)),
-//         postal_code: Yup.string()
-//             .max(10, maxCharsMessage(10)),
-//         floor_number: Yup.string()
-//             .max(6, maxCharsMessage(6))
-//     })),
-// });
+const validationSchema = Yup.object().shape({
+    name: Yup.string()
+        .max(80, "Max 80 caracteres")
+        .required(''),
+    description: Yup.string()
+        .max(100, "Max 100 caracteres"),
+    category: Yup.string()
+        .max(150, "Max 150 caracteres")
+        .required('Debe asignar al menos una categoria'),
+    brand: Yup.string()
+        .max(50, "Max 50 caracteres")
+        .required('Asignar Laboratoria'),
+    application: Yup.string()
+        .required('Asignar modo de aplicacion'),
+    image: Yup.string()
+        .matches(/^http.*/, "Url invalida")
+        .max(300, "Link excedio el limite de caracteres")
+        .required('Copiar y pegar la url de la imagen'),
+    presentation: Yup.object({
+        amount: Yup.string()
+            .required('Asignar cantidad'),
+        measure: Yup.string()
+            .required('Asignar medida'),
+    }),
+});
 
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
@@ -218,6 +202,7 @@ const brands = [
     'Microsules Arg',
     'MSD',
     'Over',
+    'Paraquenos',
     'Paul',
     'Pharmagro',
     'Pharmavet',
@@ -322,6 +307,7 @@ function applicationField<Values>(values: any) {
                     <MenuItem value={'Externa'}>Externa</MenuItem>
                     <MenuItem value={'Inyectable'}>Inyactable</MenuItem>
                     <MenuItem value={'Oral'}>Oral</MenuItem>
+                    <MenuItem value={'Topica'}>Topica</MenuItem>
                 </Select>
             </FormControl>
         }
@@ -482,7 +468,7 @@ const CreateProduct = () => {
                         Crear nuevo producto
                     </Typography>
                     <Formik initialValues={initialValues}
-                        // validationSchema={validationSchema}
+                        validationSchema={validationSchema}
                             onSubmit={onSubmit}
                     >
                         {({values, isSubmitting}) => (
@@ -514,13 +500,13 @@ const CreateProduct = () => {
                                             Presentacion:
                                         </Typography>
                                     </Grid>
-                                    <Grid item xs={12} sm={7}>
+                                    <Grid item xs={12} sm={12}>
                                         {presentationFormatField(values)}
                                     </Grid>
-                                    <Grid item xs={12} sm={5}>
+                                    <Grid item xs={12} sm={6}>
                                         {presentationAmountField()}
                                     </Grid>
-                                    <Grid item xs={12} sm={7}>
+                                    <Grid item xs={12} sm={6}>
                                         {presentationMeasureField(values)}
                                     </Grid>
                                 </Grid>

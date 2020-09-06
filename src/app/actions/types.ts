@@ -59,6 +59,7 @@ export const EDIT_CATEGORY = 'edit_category';
 export const EDIT_COUNTRY = 'edit_country';
 
 export const SOLICIT_SUPPLIER_ORDER = 'solicit_supplier_order'
+export const REMOVE_SUPPLIER_ORDER_ITEM = 'remove_supplier_order_item'
 
 export const ADD_TO_CART = 'add_to_cart';
 export const REMOVE_FROM_CART = 'remove_from_cart';

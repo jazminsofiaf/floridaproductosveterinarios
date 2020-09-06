@@ -68,6 +68,16 @@ class SupplierService extends Service {
 
         return response.data;
     }
+
+    async removeOrderItem(orderId: string, data: IOrderProduct) {
+        const orderProduct = {order_product: data};
+
+        const response = await axios.put(`${this.BACKEND_URL}/orders/supplier/${orderId}/remove`, {
+            ...orderProduct
+        });
+
+        return response.data;
+    }
 }
 
 export default new SupplierService();

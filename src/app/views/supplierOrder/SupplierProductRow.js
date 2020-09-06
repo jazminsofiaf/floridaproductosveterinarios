@@ -16,6 +16,29 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+function PromoElement(props){
+    const promo = props.promo;
+    return (
+        <div style={{backgroundColor:'yellow'}}>
+            Llevando +de {promo.amount}: ~${promo.discount} c/u
+        </div>
+    )
+
+}
+
+function Promotions(props) {
+    const promotions = props.promotions;
+    const elements = promotions ? promotions.map((promo) => (
+        <PromoElement key={promo.amount} promo={promo}/>
+    )) : [];
+
+    return (
+        <div>
+            {elements}
+        </div>
+    )
+}
+
 const useStyles = makeStyles({
     table: {
         minWidth: 150,
@@ -107,6 +130,7 @@ function SupplierProductRow(props) {
                         </Button>}
                 </Grid>
             </Grid>
+            {item.promotions?.length > 0 ? <Promotions promotions={item.promotions}/> : null}
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                 <DialogContent dividers>
                     <CreateProductLink supplierProduct={item} handleClose={handleClose}/>

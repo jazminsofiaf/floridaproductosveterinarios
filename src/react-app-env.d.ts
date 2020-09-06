@@ -74,11 +74,21 @@ declare global {
         id: string
         name: string
         price: number
-        status: string
+        status?: string
         expiration_date?: any
         amount: number
 
-        expiration_view: string
+        expiration_view?: string
+    }
+
+    export interface IReceivedProduct {
+        id: string
+        amount: number
+        price: number
+        discount: string
+        expiration_date?: any
+        extra: number
+        final_cost: number
     }
 
     export interface ISupplierProduct {
@@ -120,9 +130,11 @@ declare global {
         emission_date: string;
         bill_number: number;
         bill_type: string;
-        gross_revenue: boolean;
-        received_products: IOrderProduct[];
+        received_products: IReceivedProduct[];
         bill_discount: number;
+        discount_dist: number;
+        gross_tax: number;
+        apply_tax: boolean;
     }
 
     export interface IService {

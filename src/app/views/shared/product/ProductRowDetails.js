@@ -51,7 +51,7 @@ function PromoElement(props){
     const promo = props.promo;
     return (
         <div style={{backgroundColor:'yellow'}}>
-            {"Llevando " + promo.amount +": "+ promo.discount + "% de descuento. ($" + promo.unit_price+ " c/u)"}
+            Llevando {promo.amount}: {promo.discount}% de descuento. (~$ {promo.unit_price} c/u)
         </div>
     )
 

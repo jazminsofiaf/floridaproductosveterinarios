@@ -29,6 +29,7 @@ const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
     const [saved, setSaved] = useState(true);
     const {error, success, submitting} = useSelector((state: any) => state);
     const dispatch = useDispatch();
+
     if (!order) {
         return null;
     }
@@ -41,6 +42,9 @@ const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
         function updatePrice(newPrice: any) {
             item.price = parseFloat(newPrice);
             setPrice(newPrice);
+        }
+
+        function allowSave() {
             setSaved(false);
             setOrderTotal(calculateOrderTotal(order))
         }
@@ -50,7 +54,7 @@ const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
                 <Grid item xs={6}>{item.name}</Grid>
                 <Grid item xs={1}>{item.amount}</Grid>
                 <Grid item xs={3}>{item.expiration_view ? item.expiration_view : "-"}</Grid>
-                <Grid item xs={1}><TextField type="decimal" fullWidth size="small" defaultValue={price}
+                <Grid item xs={1}><TextField type="decimal" fullWidth size="small" value={price} onPointerLeave={(e) =>allowSave()}
                                              onChange={(e) => updatePrice(e.target.value)}/></Grid>
                 <Grid item xs={1}>${price * item.amount}</Grid>
             </Grid>

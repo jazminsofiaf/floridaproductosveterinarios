@@ -30,14 +30,18 @@ function BillTable(props: any) {
                 </MuiPickersUtilsProvider>
             )
         },
-        {title: '$/u', field: 'unitPrice', type: 'numeric'},
+        {title: 'P.Lista', field: 'priceList', type: 'numeric'},
+        {title: `Desc.BM(%)`, field: 'discount', type: 'numeric'},
+        {title: `Desc.BM(-)`, field: 'discountBM', type: 'numeric', editable: 'never'},
+        {title: `Desc.Dist(-)`, field: 'discountDist', type: 'numeric', editable: 'never'},
+        {title: `Arancel`, field: 'itemTax', type: 'numeric'},
         {title: 'Subtotal', field: 'subtotalProduct', type: 'numeric', editable: 'never'},
-        {title: `Con Desc. (%${billMargins.discount})`, field: 'discount', type: 'numeric', editable: 'never'},
-        {title: `IIBB (%${billMargins.grossTax})`, field: 'taxOne', type: 'numeric', editable: 'never'},
-        {title: `IVA (%${billMargins.tax})`, field: 'taxTwo', type: 'numeric', editable: 'never'},
-        {title: 'Tot. Prod.', field: 'totalProduct', type: 'numeric', editable: 'never'},
-        {title: 'Costo u. c/iva', field: 'unitCost', type: 'numeric', editable: 'never'},
-        {title: 'Costo c/desc', field: 'unitCostBillDiscount', type: 'numeric', editable: 'never'},
+        {title: `IIBB(+)`, field: 'taxOne', type: 'numeric', editable: 'never'},
+        {title: `IVA(+)`, field: 'taxTwo', type: 'numeric', editable: 'never'},
+        {title: 'Total', field: 'totalProduct', type: 'numeric', editable: 'never'},
+        {title: 'Costo (xU.+IVA)', field: 'unitCost', type: 'numeric', editable: 'never'},
+        {title: 'Costo (Final)', field: 'unitCostBillDiscount', type: 'numeric', editable: 'never'},
+        {title: 'R.Lista', field: 'unitPrice', type: 'numeric', editable: 'never'},
     ]);
 
     return (
@@ -66,8 +70,8 @@ function BillTable(props: any) {
                             if (oldData) {
                                 const dataUpdate = [...data];
                                 const index = data.indexOf(oldData);
-                                newData = generateBillRow({id:newData.id, name:newData.name, price: newData.unitPrice, expiration_date:
-                                    newData.expirationDate, amount: newData.amount}, billMargins)
+                                newData = generateBillRow({id:newData.id, name:newData.name, refPrice:newData.unitPrice, price: newData.priceList, expiration_date:
+                                    newData.expirationDate, amount: newData.amount, itemTax:newData.itemTax , discount:newData.discount}, billMargins, false)
                                 dataUpdate[index] = newData;
                                 setData([...dataUpdate]);
 

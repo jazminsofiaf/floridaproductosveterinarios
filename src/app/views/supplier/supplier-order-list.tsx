@@ -1,22 +1,54 @@
 import React, {useState} from 'react';
-import {Button, createStyles, Grid, Paper, Typography} from "@material-ui/core";
+import {Button, createStyles, DialogActions, Grid, Paper, Typography} from "@material-ui/core";
 import SearchRow from "../shared/SearchRow";
 import Container from "@material-ui/core/Container";
 import {NavLink} from 'react-router-dom';
 import UpperBar from "../upperBar/UpperBar";
-import CartElementContainer from "../cart/CartElementContainer";
 import Loader from "../shared/Loader";
 import withStyles from "@material-ui/core/styles/withStyles";
-import SupplierSolicitView from "./supplier-solicit-view";
 import BillProductSelection from "../supplierOrder/bill-product-selection";
 import Dialog from "@material-ui/core/Dialog";
+import EnhancedTable from "./supplier-order-table";
+import {fetchSupplierInfo, solicitSupplierOrder} from "../../actions/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {makeStyles, Theme} from "@material-ui/core/styles";
+import ContactPhoneIcon from "@material-ui/icons/ContactPhone";
+import ContactMailIcon from "@material-ui/icons/ContactMail";
 
+const useDialogStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        dialogActions: {
+            justifyContent: "center",
+        },
+        contact: {
+            padding: theme.spacing(1),
+        },
+        contactInfo: {
+            display: 'flex',
+            alignItems: 'center',
+        },
+        contactText: {
+            fontWeight: "bold",
+            padding: 2,
+            color: theme.palette.text.secondary,
+        }
+    }),
+);
 
 const ViewModal = (props: any) => {
+    const classes = useDialogStyles();
     const {order} = props;
     const [open, setOpen] = React.useState(false);
+    const {supplierInfo} = useSelector((state: any) => state);
+    const dispatch = useDispatch();
+
+    const isPending = order.status === 'PENDING';
+    const isDelivered = order.status === 'RECEIVED';
 
     const handleClickOpen = () => {
+        if ((!supplierInfo || (supplierInfo && supplierInfo.id !== order.owner_id)) && !isDelivered) {
+            dispatch(fetchSupplierInfo(order.owner_id))
+        }
         setOpen(true);
     };
     const handleClose = () => {
@@ -27,42 +59,42 @@ const ViewModal = (props: any) => {
         return null;
     }
 
+    function solicitOrder() {
+        order.status = 'AWAITING'
+        handleClose();
+        dispatch(solicitSupplierOrder(order.id));
+    }
+
     return (
         <>
             <Button color={'secondary'} variant={'contained'} size='small' onClick={handleClickOpen}>
                 Ver pedido
             </Button>
             <Dialog onClose={handleClose} open={open} maxWidth='lg'>
-                <Grid container spacing={1} style={{padding:"1em"}}>
-                    <Grid container item style={{textAlign: 'left'}}>
-                        <Grid item xs={8}>
-                            <div>{order.owner_summary ? <div>{order.owner_summary}</div> :
-                                <div>Nothing selected</div>}</div>
+                <EnhancedTable element={order}/>
+                {supplierInfo && !isDelivered ?
+                    <Grid className={classes.contact} container>
+                        <Grid className={classes.contactInfo} item xs={8}>
+                            <ContactMailIcon color='secondary' fontSize={'large'}/>
+                            <Typography className={classes.contactText}> {supplierInfo.email}</Typography>
                         </Grid>
-                        <Grid item xs={4}>
-                            <div>{order.status}</div>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <div>{order.number}</div>
+                        <Grid className={classes.contactInfo} item xs={4}>
+                            <ContactPhoneIcon color='secondary' fontSize={'large'}/>
+                            <Typography className={classes.contactText}> {supplierInfo.company_phone}</Typography>
                         </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                        <CartElementContainer elements={order.products}/>
-                    </Grid>
-                    {order.status !== 'RECEIVED' ?
-                        <>
-                            <Grid item xs={2}/>
-                            <Grid item xs={4}>
-                                <Button variant="contained" color="primary">Editar</Button>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Button variant="contained" color="primary">Eliminar</Button>
-                            </Grid>
-                            <Grid item xs={2}/>
-                        </>
-                        : null
-                    }
-                </Grid>
+                    : null}
+                {isDelivered ? null :
+                    <DialogActions className={classes.dialogActions}>
+                        <Button disabled variant='contained' onClick={handleClose} color="secondary">
+                            Enviar mail
+                        </Button>
+                        <Button disabled={!isPending} variant='contained' autoFocus onClick={solicitOrder}
+                                color="primary">
+                            Ya lo pedi!
+                        </Button>
+                    </DialogActions>
+                }
             </Dialog>
         </>
     )
@@ -102,14 +134,10 @@ const SupplierOrderRow = withStyles(rowStyles)((props: any) => {
                     <Grid item xs={4}>Estado: {stateMessage}</Grid>
                     <Grid item xs={4}>Cant. items:{order.products.length}</Grid>
                     <Grid item xs={4}>Importe: {order.total}</Grid>
-                    <Grid item xs={4}></Grid>
-                    {order.status === 'PENDING' || order.status === 'AWAITING' ? <Grid item xs={4}></Grid> :
-                        <Grid item xs={8}></Grid>}
-                    <Grid item xs={4}><ViewModal order={order}/></Grid>
-                    {order.status === 'PENDING' ?
-                        <Grid item xs={4}><SupplierSolicitView order={order}/></Grid>
-                        : order.status === 'AWAITING' ?
-                            <Grid item xs={4}><BillProductSelection order={order}/></Grid> : null}
+                    <Grid container spacing={1} justify="flex-end" alignItems="center">
+                        <Grid item xs={4}><ViewModal order={order}/></Grid>
+                        {order.status === 'AWAITING' ? <Grid item xs={4}><BillProductSelection order={order}/></Grid> : null}
+                    </Grid>
                 </Grid>
             </Paper>
         </>
