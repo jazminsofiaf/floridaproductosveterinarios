@@ -40,7 +40,7 @@ import {
     DELIVER_CUSTOMER_ORDER,
     MARK_ORDER_ASSEMBLED,
     CANCEL_CUSTOMER_ORDER,
-    REMOVE_SUPPLIER_ORDER_ITEM,
+    REMOVE_SUPPLIER_ORDER_ITEM, CREATE_SUPPLIER, CREATE_SUPPLIER_PRODUCT,
 } from './types';
 
 import {Dispatch} from 'redux';
@@ -476,6 +476,28 @@ export const fetchSuppliers = async (dispatch: Dispatch) => {
     }
 };
 
+export function fetchSuppliers2() {
+    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await SupplierService.fetchSuppliers();
+
+            return dispatch({
+                type: FETCH_SUPPLIERS,
+                payload: response,
+            });
+        } catch (e) {
+            return dispatch({
+                type: ERROR,
+                payload: e.response,
+            });
+        }
+    };
+}
+
 export const fetchSupplierProducts = async (dispatch: Dispatch, id: string) => {
     dispatch({
         type: LOADING,
@@ -737,6 +759,47 @@ export function removeSupplierOrderItem(orderId: string, product :IOrderProduct)
         }
     }
 }
+
+export function createSupplier(supplierData : ISupplierData) {
+    return async (dispatch: (arg0: { type: string }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            await SupplierService.createSupplier(supplierData);
+
+            dispatch({
+                type: CREATE_SUPPLIER,
+            });
+        } catch (e) {
+            return dispatch({
+                type: ERROR,
+            });
+        }
+    }
+}
+
+export function createSupplierProduct(supplierProduct : ISupplierProduct) {
+    return async (dispatch: (arg0: { type: string }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            await SupplierService.createSupplierProduct(supplierProduct);
+
+            dispatch({
+                type: CREATE_SUPPLIER_PRODUCT,
+            });
+        } catch (e) {
+            return dispatch({
+                type: ERROR,
+            });
+        }
+    }
+}
+
 
 export function fetchSupplierInfo(orderId: string) {
     return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {

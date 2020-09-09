@@ -15,6 +15,8 @@ import CreateProduct from "./views/product/create-product"
 import ProductInfoPage from "./views/product/product-info-page"
 import PrivateRoute from "./providers/PrivateRoute";
 import {setPageAuthorizationStatus} from "./utils/authorizationToken";
+import CreateSupplier from "./views/supplier/create-supplier";
+import CreateSupplierProduct from "./views/supplier/create-supplier-product";
 
 
 const store = createStore();
@@ -70,6 +72,8 @@ function App() {
                                 <PrivateRoute exact path="/customer-order" component={CreateCustomerOrder} />
                                 <PrivateRoute exact path="/users-orders" component={CustomerOrderList} />
                                 <PrivateRoute exact path="/supplier-orders" component={SupplierOrders}/>
+                                <PrivateRoute exact path="/new-supplier" component={CreateSupplier}/>
+                                <PrivateRoute exact path="/new-supplier-product" component={CreateSupplierProduct}/>
                                 <PrivateRoute exact path="/supplier-order" component={CreateSupplierOrder} />
                                 <PrivateRoute exact path="/new-product" component={CreateProduct} />
                                 <PrivateRoute exact path="/products-info" component={ProductInfoPage} />

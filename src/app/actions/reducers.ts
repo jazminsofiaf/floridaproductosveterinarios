@@ -64,7 +64,7 @@ import {
     //
     SOLICIT_SUPPLIER_ORDER,
     //
-    ADD_CUSTOMER_PAYMENT, IS_LOGGED, REMOVE_SUPPLIER_ORDER_ITEM
+    ADD_CUSTOMER_PAYMENT, IS_LOGGED, REMOVE_SUPPLIER_ORDER_ITEM, CREATE_SUPPLIER, CREATE_SUPPLIER_PRODUCT
 } from './types';
 
 export default (state: [] = [], action: IAction) => {
@@ -181,6 +181,12 @@ export default (state: [] = [], action: IAction) => {
             };
         case CREATE_DISTRIBUTOR_PRODUCT:
             return {...state, success: 'Distributor product created successfully.', error: false, submitting: false, loading: false};
+
+        case CREATE_SUPPLIER:
+            return {...state, success: true, error: false, submitting: false, loading: false};
+        case CREATE_SUPPLIER_PRODUCT:
+                return {...state, success: true, error: false, submitting: false, loading: false};
+
 
         case DELETE_USER:
             return {...state, success: 'User deleted successfully.', error: false, submitting: false, loading: false};

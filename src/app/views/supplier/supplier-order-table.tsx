@@ -83,11 +83,11 @@ interface EnhancedTableProps {
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
     order: Order;
     orderBy: string;
-    isDelivered: boolean;
+    isPending: boolean;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-    const {classes, order, orderBy, onRequestSort, isDelivered} = props;
+    const {classes, order, orderBy, onRequestSort, isPending} = props;
     const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
@@ -95,7 +95,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     return (
         <TableHead>
             <TableRow>
-                {isDelivered ? null : <TableCell className={classes.tableHead} padding="checkbox"></TableCell>}
+                {isPending ? <TableCell className={classes.tableHead} padding="checkbox"></TableCell>:null}
                 {headCells.map((headCell) => (
                     <TableCell
                         className={classes.tableHead}
@@ -198,7 +198,8 @@ export default function EnhancedTable(props: any) {
     }
 
     const isDelivered = element.status === 'RECEIVED';
-    const stateMessage = isDelivered ? 'Recibido' : element.status === 'PENDING' ? 'Provisorio' : 'Solicitado'
+    const isPending = element.status === 'PENDING';
+    const stateMessage = isDelivered ? 'Recibido' : isPending ? 'Provisorio' : 'Solicitado'
     const emptyRows = 5 - Math.min(5, tableRows.length);
 
 
@@ -220,7 +221,7 @@ export default function EnhancedTable(props: any) {
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
-                            isDelivered={isDelivered}
+                            isPending={isPending}
                         />
                         <TableBody>
                             {stableSort(tableRows, getComparator(order, orderBy))
@@ -234,14 +235,14 @@ export default function EnhancedTable(props: any) {
                                             tabIndex={-1}
                                             key={row.name}
                                         >
-                                            { isDelivered ? null:
+                                            { isPending ?
                                             <TableCell padding="checkbox" onClick={(event) => removeItem(event, row.name)}>
                                                 <Tooltip title="Eliminar">
                                                     <IconButton aria-label="delete" color={"primary"}>
                                                         <DeleteIcon/>
                                                     </IconButton>
                                                 </Tooltip>
-                                            </TableCell>}
+                                            </TableCell>:null}
                                             <TableCell>{row.amount}</TableCell>
                                             <TableCell component="th" id={labelId} scope="row" padding={'none'}>
                                                 {row.name}

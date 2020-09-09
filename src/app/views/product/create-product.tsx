@@ -206,7 +206,10 @@ const brands = [
     'Paul',
     'Pharmagro',
     'Pharmavet',
+    'Ramallo',
+    'Ribbel',
     'Richmond',
+    'Rigecin',
     'Rio de Janeiro',
     'Rosenbusch',
     'Ruminal',
@@ -446,6 +449,7 @@ const CreateProduct = () => {
 
     function onSubmit(values: any) {
         values.category = values.category.join('+');
+        values.species = values.species !== '' ? values.species : null;
         if (values) {
             dispatch(createDistributorProduct(values))
         }

@@ -81,6 +81,19 @@ declare global {
         expiration_view?: string
     }
 
+    export interface ISupplierData {
+        name: string
+        street_name: string
+        street_number: string
+        postal_code: string
+        email: string
+        company_phone: string
+        cuit_number: string
+        gross_income_number: string
+        grossTax: number,
+        productDiscount: number,
+    }
+
     export interface IReceivedProduct {
         id: string
         amount: number

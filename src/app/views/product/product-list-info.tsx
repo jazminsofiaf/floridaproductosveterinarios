@@ -17,6 +17,7 @@ interface Row {
     indPrice: number;
     otherPrice: number;
     stock: number;
+    expDate: string;
     reserved: number;
     awaiting: number;
     missing: number;
@@ -58,6 +59,7 @@ export default function ProductListInfo() {
             {title: '$Ind', field: 'indPrice', type: 'numeric', editable: 'never'},
             {title: '$Otro', field: 'otherPrice', type: 'numeric', editable: 'never'},
             {title: 'Stock', field: 'stock', type: 'numeric', editable: 'never'},
+            {title: 'F.Venc.', field: 'expDate', editable: 'never'},
             {title: 'Reservado', field: 'reserved', type: 'numeric', editable: 'never'},
             {title: 'Espera', field: 'awaiting', type: 'numeric', editable: 'never'},
             {title: 'Faltante', field: 'missing', type: 'numeric', editable: 'never'},
@@ -84,6 +86,7 @@ export default function ProductListInfo() {
                         indPrice: calculateValue(productInfoData.cost, productInfoData.extra, productsInfo.ind_margin ),
                         otherPrice: calculateValue(productInfoData.cost, productInfoData.extra,productsInfo.other_margin ),
                         stock: productInfoData.stock,
+                        expDate: productInfoData.exp_date,
                         reserved: productInfoData.reserved,
                         awaiting: productInfoData.awaiting,
                         missing: productInfoData.missing,

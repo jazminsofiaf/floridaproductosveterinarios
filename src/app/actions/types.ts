@@ -34,6 +34,8 @@ export const CREATE_CATEGORY = 'create_category';
 export const CREATE_COUNTRY = 'create_country';
 export const CREATE_RECEPTION = 'create_reception';
 export const CREATE_DISTRIBUTOR_PRODUCT = 'create_distributor_product';
+export const CREATE_SUPPLIER = 'create_supplier';
+export const CREATE_SUPPLIER_PRODUCT = 'create_supplier_product';
 
 export const UPDATE_CUSTOMER_ORDER = 'update_customer_order'
 export const UPDATE_SUPPLIER_ORDER = 'update_supplier_order'

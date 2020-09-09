@@ -78,6 +78,26 @@ class SupplierService extends Service {
 
         return response.data;
     }
+
+    async createSupplier(data: ISupplierData) {
+        const supplier = {supplier: data};
+
+        const response = await axios.post(`${this.BACKEND_URL}/suppliers`, {
+            ...supplier
+        });
+
+        return response.data;
+    }
+
+    async createSupplierProduct(data: ISupplierProduct) {
+        const supplierProduct = {supplier_product: data};
+
+        const response = await axios.post(`${this.BACKEND_URL}/suppliers/product`, {
+            ...supplierProduct
+        });
+
+        return response.data;
+    }
 }
 
 export default new SupplierService();
