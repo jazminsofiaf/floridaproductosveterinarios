@@ -108,7 +108,7 @@ const validationSchema = Yup.object().shape({
         .required(),
     bill_discount: Yup.number()
         .required('Falta descuento'),
-    bill_number: Yup.number()
+    bill_number: Yup.string()
         .required('Falta numero')
 });
 
@@ -378,7 +378,7 @@ function BillForm(props: any) {
                                             {({field, meta}: any) =>
                                                 <TextField
                                                     {...field}
-                                                    type="number"
+                                                    type="text"
                                                     required
                                                     fullWidth
                                                     size='small'

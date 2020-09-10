@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import CustomerList from './customer-list';
 import { Dispatch } from 'redux';
-import {addCustomerPayment, fetchCustomers} from '../../actions/actions';
+import {fetchCustomers} from '../../actions/actions';
 
 const mapStateToProps = (state: any, ownProps: any) => {
     const classes = ownProps.classes;
@@ -12,9 +12,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         fetchCustomers: () => {
             fetchCustomers(dispatch);
-        },
-        addCustomerPayment: (data: IPaymentPostData) => {
-            addCustomerPayment(dispatch, data);
         }
     };
 };

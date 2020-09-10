@@ -1,6 +1,8 @@
 import React from 'react';
 import {Paper, Grid, Typography, Select, TextField, FormControl, InputLabel, MenuItem, Button} from '@material-ui/core'
 import {Field, FieldArray, Form, Formik} from "formik";
+import {useDispatch} from "react-redux";
+import {addCustomerPayment} from "../../actions/actions";
 
 const payment = {
     payment_method: 'CASH',
@@ -12,12 +14,14 @@ const initialValues = {
     payments: [payment]
 }
 
-const PaymentForm = ({ownerId, submitPayment}: IPaymentForm) => {
+const PaymentForm = (props: any) => {
+    const dispatch = useDispatch();
+    const {ownerId} = props;
 
     initialValues.owner_id = ownerId;
 
     function onSubmit(values: any) {
-        submitPayment(values);
+        dispatch(addCustomerPayment(values))
     }
 
     return (

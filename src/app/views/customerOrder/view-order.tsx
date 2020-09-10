@@ -56,7 +56,7 @@ const ViewOrder = ({order, updateCustomerOrder, handleClose}: any) => {
                 <Grid item xs={3}>{item.expiration_view ? item.expiration_view : "-"}</Grid>
                 <Grid item xs={1}><TextField type="decimal" fullWidth size="small" value={price} onPointerLeave={(e) =>allowSave()}
                                              onChange={(e) => updatePrice(e.target.value)}/></Grid>
-                <Grid item xs={1}>${price * item.amount}</Grid>
+                <Grid item xs={1}>${(price * item.amount).toFixed(2)}</Grid>
             </Grid>
         )
     }

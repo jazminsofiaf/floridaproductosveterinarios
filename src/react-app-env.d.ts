@@ -223,7 +223,7 @@ declare global {
     export interface IPayment {
         payment_method: string;
         amount: number;
-        ref_number: string;
+        ref_number?: string;
     }
 
     export interface IUserPostData {

@@ -185,6 +185,7 @@ const brands = [
     'Holliday',
     'Huellitas',
     'IDV',
+    'Interbiol',
     'Intervet',
     'Janvier',
     'John Martin',

@@ -9,7 +9,7 @@ import PaymentForm from '../payment/payment-form'
 import {createStyles, Theme} from "@material-ui/core";
 
 
-const CustomerList = ({fetchCustomers, customers, addCustomerPayment , classes}: ICustomerList) => {
+const CustomerList = ({fetchCustomers, customers , classes}: ICustomerList) => {
     const [selected, setSelected] = useState<ICustomerSummary>()
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const CustomerList = ({fetchCustomers, customers, addCustomerPayment , classes}:
     };
 
 
-    const paymentForm = selected ? PaymentForm({ownerId:selected.id, submitPayment: addCustomerPayment}) : null;
+    const paymentForm = selected ? PaymentForm({ownerId:selected.id}) : null;
 
     return (
         <>
@@ -48,7 +48,6 @@ const CustomerList = ({fetchCustomers, customers, addCustomerPayment , classes}:
 interface ICustomerList extends IComponent {
     fetchCustomers: () => {};
     customers: ICustomerSummary[];
-    addCustomerPayment: (data: IPaymentPostData) => void;
 
     classes: any;
 }

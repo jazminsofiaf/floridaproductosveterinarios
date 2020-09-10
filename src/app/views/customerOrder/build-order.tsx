@@ -4,7 +4,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import WarningIcon from '@material-ui/icons/Warning';
 import {useDispatch} from "react-redux";
-import {markAssembledForced} from "../../actions/actions";
+import {addCustomerPayment, markAssembledForced} from "../../actions/actions";
 
 
 function OrderItem(props: any) {
@@ -53,10 +53,28 @@ const BuildOrder = ({order, assembleInstructions, fetchAssembleInstructions, del
 
     const assembleStatus = assembleInstructions && assembleInstructions.status;
 
-    function deliver() {
+    async function deliver() {
         deliverOrder(order.id);
         order.status = "DELIVERED";
         handleClose();
+    }
+
+    const orderTotal = order && order.products ? order.products.map((elem:any) => (
+        elem.price * elem.amount
+    )).reduce((a: number, b: number) => a + b, 0).toFixed(2) : 0;
+
+    function deliverWithPayment() {
+        deliver().then(() => {
+            let paymentMethod: IPayment = {
+                payment_method: "CASH",
+                amount: orderTotal
+            }
+            let payment: IPaymentPostData = {
+                owner_id: order.owner_id,
+                payments: [paymentMethod]
+            }
+            dispatch(addCustomerPayment(payment));
+        });
     }
 
     function readyToDeliver() {
@@ -83,8 +101,12 @@ const BuildOrder = ({order, assembleInstructions, fetchAssembleInstructions, del
                     </Grid>
                 }
                 {order.status === 'ASSEMBLED' ?
-                    <Grid item xs={12}><Button variant='outlined' color='primary'
-                                               onClick={() => deliver()}>Entregar</Button></Grid> :
+                    <Grid container justify={"center"} alignContent={"center"} spacing={2}>
+                        <Grid item xs={4}><Button variant='outlined' color='primary'
+                                                  onClick={() => deliver()}>Entrega sin pago</Button></Grid>
+                        <Grid item xs={4}><Button variant='outlined' color='primary'
+                                                  onClick={() => deliverWithPayment()}>Entrega con pago</Button></Grid>
+                    </Grid> :
                     assembleStatus === 'COMPLETE' ?
                         <Grid item xs={12}><Button variant='outlined' color='primary'
                                                    onClick={() => readyToDeliver()}>Listo, armado!</Button></Grid> :

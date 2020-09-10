@@ -414,27 +414,26 @@ export const createCustomer = async (dispatch: Dispatch, data: ICustomer) => {
     }
 };
 
-export const addCustomerPayment = async (dispatch: Dispatch, data: IPaymentPostData) => {
-    dispatch({
-        type: SUBMITTING,
-    });
-
-    try {
-        await CustomerService.addPayment(data);
-
+export function addCustomerPayment(data: IPaymentPostData) {
+    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
         dispatch({
-            type: ADD_CUSTOMER_PAYMENT,
+            type: SUBMITTING,
         });
-        alert("Felicidades, Pago exitoso!");
 
-    } catch (e) {
-        dispatch({
-            type: ERROR,
-            payload: {message: e.message},
-        });
-        alert("Error, el pago fallo");
-    }
-};
+        try {
+            await CustomerService.addPayment(data);
+
+            dispatch({
+                type: ADD_CUSTOMER_PAYMENT,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: {message: e.message},
+            });
+        }
+    };
+}
 
 export const fetchCustomerProducts = async (dispatch: Dispatch, id: string) => {
     dispatch({
