@@ -1,11 +1,26 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
-import {Button, Container, Grid, TextField, Typography} from '@material-ui/core';
+import {
+    Button,
+    Container,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Grid,
+    Typography
+} from '@material-ui/core';
 import MaterialTable from "material-table";
 import {makeStyles} from "@material-ui/core/styles";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import {useDispatch, useSelector} from "react-redux";
+import {fetchArcurProduct, fetchArcurProducts} from "../../actions/actions";
+import Dialog from "@material-ui/core/Dialog";
+import AleternativesSlider from "./alternatives";
+import ArcurPromotions from "./ArcurPromotions";
+import {Home} from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
+
 
 const useStyles = makeStyles({
     button: {
@@ -14,8 +29,6 @@ const useStyles = makeStyles({
         border: 0,
         color: 'white',
         height: 48,
-        // padding: '0 30px',
-        // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     },
     buttonBlue: {
         background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
@@ -23,32 +36,42 @@ const useStyles = makeStyles({
 });
 
 let customStyle = {
-    padding: '0px, 0, 3px, 0',
+    padding: '0.4em',
     color: "#2196F3",
-    width: "20em",
-    selected: "blue"
+    width: "21em",
+    selected: "blue",
+    border: "2px solid #21CBF3",
+    borderRadius: '3px'
 };
 
 export default function ArcurList(props: any) {
     const classes = useStyles();
     const [cartOpen, setCartOpen] = useState(false);
-    const [detailsOpen, setDetailsOpen] = useState(false);
     const tableRef = React.createRef<any>();
+    const dispatch = useDispatch();
+    const {arcurProducts, arcurProduct} = useSelector((state: any) => state);
+    const [arcurItems, setArcurtItems] = useState<IArcurItem[]>([])
 
-    let data = [
-        {name: 'Super mega producto del Oeste', surname: 'Baran', price: 1987, birthCity: 63},
-        {name: 'Zerya Betül', surname: 'Baran', price: 2017, birthCity: 34},
-    ]
+    const [open, setOpen] = React.useState(false);
 
-    function details(data: any) {
-        console.log(data)
-    }
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    useEffect(() => {
+        dispatch(fetchArcurProducts())
+    }, [dispatch])
+
+    useEffect(() => {
+        setArcurtItems(arcurProducts)
+    }, [arcurProducts])
+
 
     let columns: any = [
-        {title: 'Nombre', field: 'name'},
-        {title: 'Laboratorio', field: 'surname'},
-        {title: 'Stock', field: 'price', type: 'numeric'},
-        {title: 'Precio', field: 'birthCity', type: 'numeric'},
+        {title: 'Nombre', field: 'description'},
+        {title: 'Laboratorio', field: 'lab'},
+        {title: 'Stock', field: 'current_stock', type: 'numeric'},
+        {title: 'Precio', field: 'price_list', type: 'numeric', render: (data: any) => <div>$ {data.price_list}</div>},
         // {
         //     render: (data: any) => <Button onClick={() => details(data)}><ArrowForwardIosIcon/></Button>,
         // },
@@ -58,17 +81,23 @@ export default function ArcurList(props: any) {
         setCartOpen(open);
     }
 
-    function viewItem(event: React.MouseEvent<Element, MouseEvent> | undefined, togglePanel: ((panelIndex?: number) => void) | undefined, rowData: any | undefined) {
-        console.log(tableRef.current.props.detailPanel);
-        console.log(rowData);
-        if (togglePanel) {
-            togglePanel()
-        }
+
+    function viewItem(rowData: any | undefined) {
+        dispatch(fetchArcurProduct(rowData.id))
+        setOpen(true);
+    }
+
+    const goHomePage = () => {
+        props.history.push('/');
     }
 
     return (
-        <Container maxWidth={"sm"}>
-            <Typography variant={"h5"}>Arcuri</Typography>
+        <Container maxWidth={"md"}>
+            <IconButton
+                onClick={goHomePage}>
+                <Home/>
+            </IconButton>
+            <Typography variant={"h5"}>Icarus</Typography>
             <Grid container>
                 <Grid item xs={6}>
                     <Button className={clsx(classes.button, {[classes.buttonBlue]: !cartOpen})} fullWidth
@@ -90,40 +119,7 @@ export default function ArcurList(props: any) {
                 <MaterialTable
                     tableRef={tableRef}
                     columns={columns}
-                    data={data}
-                    // data={query =>
-                    //     new Promise((resolve, reject) => {
-                    //         let url = 'https://reqres.in/api/users?'
-                    //         url += 'per_page=' + query.pageSize
-                    //         url += '&page=' + (query.page + 1)
-                    //         fetch(url)
-                    //             .then(response => response.json())
-                    //             .then(result => {
-                    //                 resolve({
-                    //                     data: result.data,
-                    //                     page: result.page - 1,
-                    //                     totalCount: result.total,
-                    //                 })
-                    //             })
-                    //     })
-                    // }
-                    detailPanel={rowData => {
-                        return (
-                            <div>
-                                {rowData.name}
-                                {rowData.price}
-                                {/*<iframe*/}
-                                {/*        width="100%"*/}
-                                {/*        height="315"*/}
-                                {/*        src="https://www.youtube.com/embed/C0DPdy98e4c"*/}
-                                {/*        frameBorder='0'*/}
-                                {/*        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"*/}
-                                {/*        allowFullScreen*/}
-                                {/*        onDragOver={() => console.log("Drag OVer")}*/}
-                                {/*/>*/}
-                            </div>
-                        )
-                    }}
+                    data={arcurItems}
                     options={{
                         padding: 'dense',
                         showTitle: false,
@@ -141,9 +137,53 @@ export default function ArcurList(props: any) {
                             backgroundColor: '#21CBF3'
                         },
                     }}
-                    onRowClick={(event, rowData, togglePanel) => viewItem(event, togglePanel, rowData)}
+                    onRowClick={(event, rowData) => viewItem(rowData)}
                 />}
-
+            <Dialog onClose={handleClose} open={open} maxWidth='xl'>
+                <DialogTitle id="customized-dialog-title">
+                    {arcurProduct ?
+                    <Grid container spacing={1}>
+                        <Grid item xs={12}>
+                                <div>
+                                    <Typography variant={"h5"}>{arcurProduct.description}</Typography>
+                                    <Typography variant={"body2"}>{arcurProduct.lab}</Typography>
+                                </div>
+                        </Grid>
+                        <Grid item xs={6}>${arcurProduct.price_list}</Grid>
+                        <Grid item xs={6}>Stock: {arcurProduct.current_stock}</Grid>
+                    </Grid> : null}
+                </DialogTitle>
+                <DialogContent dividers>
+                    {arcurProduct && arcurProduct.promotions ?
+                        <div>
+                            <Typography variant={"h6"}>Promociones por cantidad:</Typography>
+                            <ArcurPromotions promotions={arcurProduct.promotions}/>
+                        </div>
+                        : null}
+                    {arcurProduct && arcurProduct.detail_description ?
+                        <Grid container spacing={2}>
+                            {/*<Grid item xs={3}>*/}
+                            {/*    {arcurProduct && arcurProduct.image ?*/}
+                            {/*        <img src={arcurProduct.image} className="product-img" alt={"ProductImage"}/> : null}*/}
+                            {/*</Grid>*/}
+                            <Typography variant={"h6"}>Descripcion:</Typography>
+                            <Grid item xs={12}>
+                                {arcurProduct.detail_description}
+                            </Grid>
+                        </Grid> : null}
+                    {arcurProduct && arcurProduct.alternatives ?
+                        <div>
+                            <Typography variant={"h6"}>Alternativos:</Typography>
+                            <AleternativesSlider alternatives={arcurProduct.alternatives}/>
+                        </div>
+                        : null}
+                </DialogContent>
+                <DialogActions>
+                    <Button variant='contained' onClick={handleClose} color="secondary">
+                        cerrar
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     )
 

@@ -20,6 +20,7 @@ import {
     Home,
     AddBox,
     Storage,
+    Stars
 } from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -67,6 +68,10 @@ function UpperBar(props) {
         props.history.push('/supplier-orders');
     }
 
+    const goToIcarusPage = () => {
+        props.history.push('/arcur');
+    }
+
     const goToUserOrderPage = () => {
         props.history.push('/customer-order');
     }
@@ -97,7 +102,8 @@ function UpperBar(props) {
         "information": goToSuppliersPage,
         "newOrder": goToSupplierOrderPage,
         "orders": goToSupplierOrdersPage,
-        "reception": goToReceptionPage
+        "reception": goToReceptionPage,
+        "icarus": goToIcarusPage
     };
     const clientLinks = {
         "newCustomer": goToNewClientPage,
@@ -233,6 +239,12 @@ function SupplierMenu(props) {
                         <LocalShipping fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText primary="Pedidos" onClick={props.links.orders}/>
+                </StyledMenuItem>
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <Stars fontSize="small"/>
+                    </ListItemIcon>
+                    <ListItemText primary="Icarus" onClick={props.links.icarus}/>
                 </StyledMenuItem>
                 {/*<StyledMenuItem>*/}
                 {/*    <ListItemIcon>*/}

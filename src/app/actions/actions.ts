@@ -40,7 +40,7 @@ import {
     DELIVER_CUSTOMER_ORDER,
     MARK_ORDER_ASSEMBLED,
     CANCEL_CUSTOMER_ORDER,
-    REMOVE_SUPPLIER_ORDER_ITEM,
+    REMOVE_SUPPLIER_ORDER_ITEM, FETCH_ARCUR_PRODUCTS, FETCH_ARCUR_PRODUCT,
 } from './types';
 
 import {Dispatch} from 'redux';
@@ -50,6 +50,7 @@ import CustomerService from "../services/backoffice/customer-service"
 import OrderService from "../services/backoffice/order-service"
 import ProductService from "../services/backoffice/product-service"
 import AuthenticationService from "../services/backoffice/authentication-service"
+import ArcurService from "../services/backoffice/arcur-service"
 import {setAuthorizationToken} from "../utils/authorizationToken";
 
 export const refreshWithDelay = (dispatch: Dispatch) => {
@@ -96,6 +97,50 @@ export function userLogin(credentials: ICredential) {
             dispatch({
                 type: USER_LOGIN,
                 payload: response.user,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: e.response,
+            });
+        }
+    }
+};
+
+export function fetchArcurProducts() {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await ArcurService.fetchProducts();
+
+            dispatch({
+                type: FETCH_ARCUR_PRODUCTS,
+                payload: response,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: e.response,
+            });
+        }
+    }
+};
+
+export function fetchArcurProduct(id: string) {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await ArcurService.fetchProduct(id);
+
+            dispatch({
+                type: FETCH_ARCUR_PRODUCT,
+                payload: response,
             });
         } catch (e) {
             dispatch({
