@@ -17,6 +17,7 @@ import PrivateRoute from "./providers/PrivateRoute";
 import {setPageAuthorizationStatus} from "./utils/authorizationToken";
 import CreateSupplier from "./views/supplier/create-supplier";
 import CreateSupplierProduct from "./views/supplier/create-supplier-product";
+import ArcurList from "./views/supplier/arcur";
 
 
 const store = createStore();
@@ -77,6 +78,7 @@ function App() {
                                 <PrivateRoute exact path="/supplier-order" component={CreateSupplierOrder} />
                                 <PrivateRoute exact path="/new-product" component={CreateProduct} />
                                 <PrivateRoute exact path="/products-info" component={ProductInfoPage} />
+                                <PrivateRoute exact path="/arcur" component={ArcurList} />
                             </Switch>
                         </div>
                     </BrowserRouter>

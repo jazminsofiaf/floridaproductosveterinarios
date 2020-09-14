@@ -220,6 +220,19 @@ declare global {
         payments: [IPayment]
     }
 
+    export interface IArcurResponse {
+        data: IArcurItem[]
+    }
+
+    export interface IArcurItem {
+        id: string,
+        description: string,
+        current_stock: number,
+        price_list: number,
+        lab: string
+
+    }
+
     export interface IPayment {
         payment_method: string;
         amount: number;

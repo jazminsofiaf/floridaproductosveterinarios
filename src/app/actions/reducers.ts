@@ -64,7 +64,7 @@ import {
     //
     SOLICIT_SUPPLIER_ORDER,
     //
-    ADD_CUSTOMER_PAYMENT, IS_LOGGED, REMOVE_SUPPLIER_ORDER_ITEM, CREATE_SUPPLIER, CREATE_SUPPLIER_PRODUCT
+    ADD_CUSTOMER_PAYMENT, IS_LOGGED, REMOVE_SUPPLIER_ORDER_ITEM, CREATE_SUPPLIER, CREATE_SUPPLIER_PRODUCT, FETCH_ARCUR_PRODUCTS, FETCH_ARCUR_PRODUCT
 } from './types';
 
 export default (state: [] = [], action: IAction) => {
@@ -107,6 +107,11 @@ export default (state: [] = [], action: IAction) => {
             return {...state, distributorProducts: action.payload, error: false, submitting: false, loading: false};
         case FETCH_PRODUCTS_INFO:
             return {...state, productsInfo: action.payload, error: false, submitting: false, loading: false};
+
+        case FETCH_ARCUR_PRODUCTS:
+            return {...state, arcurProducts: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_ARCUR_PRODUCT:
+            return {...state, arcurProduct: action.payload, error: false, submitting: false, loading: false};
 
         case FETCH_ASSEMBLE_INSTRUCTIONS:
             return {...state, assembleInstructions: action.payload, error: false, submitting: false, loading: false};
