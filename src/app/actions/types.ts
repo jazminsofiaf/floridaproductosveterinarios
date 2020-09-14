@@ -39,6 +39,7 @@ export const CREATE_RECEPTION = 'create_reception';
 export const CREATE_DISTRIBUTOR_PRODUCT = 'create_distributor_product';
 export const CREATE_SUPPLIER = 'create_supplier';
 export const CREATE_SUPPLIER_PRODUCT = 'create_supplier_product';
+export const CREATE_ICARUS_ORDER = 'create_icarus_order';
 
 export const UPDATE_CUSTOMER_ORDER = 'update_customer_order'
 export const UPDATE_SUPPLIER_ORDER = 'update_supplier_order'
@@ -69,5 +70,8 @@ export const REMOVE_SUPPLIER_ORDER_ITEM = 'remove_supplier_order_item'
 export const ADD_TO_CART = 'add_to_cart';
 export const REMOVE_FROM_CART = 'remove_from_cart';
 export const EMPTY_CART = 'empty_cart';
+
+export const ADD_TO_ICARUS_CART = 'add_to_icarus_cart'
+export const REMOVE_FROM_ICARUS_CART = 'remove_from_icarus_cart'
 
 export const ADD_CUSTOMER_PAYMENT = 'add_customer_payment'

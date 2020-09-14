@@ -40,7 +40,12 @@ import {
     DELIVER_CUSTOMER_ORDER,
     MARK_ORDER_ASSEMBLED,
     CANCEL_CUSTOMER_ORDER,
-    REMOVE_SUPPLIER_ORDER_ITEM, CREATE_SUPPLIER, CREATE_SUPPLIER_PRODUCT, FETCH_ARCUR_PRODUCTS, FETCH_ARCUR_PRODUCT,
+    REMOVE_SUPPLIER_ORDER_ITEM,
+    CREATE_SUPPLIER,
+    CREATE_SUPPLIER_PRODUCT,
+    FETCH_ARCUR_PRODUCTS,
+    FETCH_ARCUR_PRODUCT,
+    ADD_TO_ICARUS_CART, REMOVE_FROM_ICARUS_CART, CREATE_ICARUS_ORDER,
 } from './types';
 
 import {Dispatch} from 'redux';
@@ -176,7 +181,7 @@ export function setLogged(value: boolean) {
 
 export function logOut() {
     return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
-        dispatch ({
+        dispatch({
             type: IS_LOGGED,
             payload: false,
         });
@@ -604,6 +609,34 @@ export function fetchProductsInfo() {
     };
 }
 
+export function createIcarusOrder(items: ICartItem[]) {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: SUBMITTING,
+        });
+
+        try {
+            const response = await ArcurService.createOrder(items);
+
+            alert(JSON.stringify(response, null,2));
+
+            setTimeout(() => {
+                dispatch({
+                    type: CREATE_ICARUS_ORDER,
+                });
+            }, 200);
+
+        } catch (e) {
+            setTimeout(() => {
+                dispatch({
+                    type: ERROR,
+                    payload: {message: e.message},
+                });
+            }, 200);
+        }
+    };
+}
+
 export const createCustomerOrder = async (dispatch: Dispatch, data: IOrderPostData) => {
     dispatch({
         type: SUBMITTING,
@@ -723,6 +756,53 @@ export const fetchCustomerOrderById = async (dispatch: Dispatch, id: string) => 
     }
 };
 
+export function addToIcarusCart(newItem: ICartItem, currentCartItems: ICartItem[]) {
+    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
+        console.log(currentCartItems);
+
+        let updatedCartItems: ICartItem[] = addItemToCart(newItem, currentCartItems);
+        console.log(updatedCartItems);
+        dispatch({
+            type: ADD_TO_ICARUS_CART,
+            payload: updatedCartItems
+        });
+    };
+}
+
+export function removeFromIcarusCart(itemId: string, cartItems: ICartItem[]) {
+    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
+        let updatedCartItems: ICartItem[] = removeItemFromCart(itemId, cartItems);
+
+        dispatch({
+            type: REMOVE_FROM_ICARUS_CART,
+            payload: updatedCartItems
+        });
+    }
+};
+
+function addItemToCart(newItem: ICartItem, cartItems: ICartItem[]) {
+    let updatedCartItems: ICartItem[] = [];
+
+    if (!cartItems) {
+        updatedCartItems.push(newItem);
+    } else {
+        if (newItem.amount > 0 && newItem.price && !Number.isNaN(newItem.price)) {
+            let added = false;
+            cartItems.forEach((item: ICartItem) => {
+                if (item.id === newItem.id) {
+                    item.amount = parseInt(String(item.amount)) + parseInt(String(newItem.amount));
+                    added = true;
+                }
+                updatedCartItems.push(item)
+            });
+            if (!added) {
+                updatedCartItems.push(newItem);
+            }
+        }
+    }
+    return updatedCartItems;
+}
+
 export const addToCart = (dispatch: Dispatch, newItem: ICartItem, cartItems: ICartItem[]) => {
     let updatedCartItems: ICartItem[] = [];
 
@@ -749,8 +829,13 @@ export const addToCart = (dispatch: Dispatch, newItem: ICartItem, cartItems: ICa
     }
 };
 
-export const removeFromCart = (dispatch: Dispatch, removeId: string, cartItems: ICartItem[]) => {
+function removeItemFromCart(removeId: string, cartItems: ICartItem[]) {
     let updatedCartItems: ICartItem[] = cartItems.filter((item: ICartItem) => item.id !== removeId);
+    return updatedCartItems;
+}
+
+export const removeFromCart = (dispatch: Dispatch, removeId: string, cartItems: ICartItem[]) => {
+    let updatedCartItems: ICartItem[] = removeItemFromCart(removeId, cartItems);
 
     dispatch({
         type: REMOVE_FROM_CART,
@@ -784,7 +869,7 @@ export function solicitSupplierOrder(orderId: string) {
     }
 }
 
-export function removeSupplierOrderItem(orderId: string, product :IOrderProduct) {
+export function removeSupplierOrderItem(orderId: string, product: IOrderProduct) {
     return async (dispatch: (arg0: { type: string }) => void) => {
         dispatch({
             type: LOADING,
@@ -804,7 +889,7 @@ export function removeSupplierOrderItem(orderId: string, product :IOrderProduct)
     }
 }
 
-export function createSupplier(supplierData : ISupplierData) {
+export function createSupplier(supplierData: ISupplierData) {
     return async (dispatch: (arg0: { type: string }) => void) => {
         dispatch({
             type: LOADING,
@@ -824,7 +909,7 @@ export function createSupplier(supplierData : ISupplierData) {
     }
 }
 
-export function createSupplierProduct(supplierProduct : ISupplierProduct) {
+export function createSupplierProduct(supplierProduct: ISupplierProduct) {
     return async (dispatch: (arg0: { type: string }) => void) => {
         dispatch({
             type: LOADING,

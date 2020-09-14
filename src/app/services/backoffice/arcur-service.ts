@@ -15,6 +15,20 @@ class ArcurService extends Service {
         return response.data;
     }
 
+    async createOrder(items: ICartItem[]) {
+        let data :IOrderUpdatePostData = {
+            order_id : '',
+            owner_id : '',
+            products :items
+        }
+        const orderData = {order: data};
+
+        const response = await axios.post(`${this.BACKEND_URL}/arcur/order`, {
+            ...orderData
+        });
+
+        return response.data;
+    }
 }
 
 export default new ArcurService();

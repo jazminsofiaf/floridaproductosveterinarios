@@ -64,7 +64,14 @@ import {
     //
     SOLICIT_SUPPLIER_ORDER,
     //
-    ADD_CUSTOMER_PAYMENT, IS_LOGGED, REMOVE_SUPPLIER_ORDER_ITEM, CREATE_SUPPLIER, CREATE_SUPPLIER_PRODUCT, FETCH_ARCUR_PRODUCTS, FETCH_ARCUR_PRODUCT
+    ADD_CUSTOMER_PAYMENT,
+    IS_LOGGED,
+    REMOVE_SUPPLIER_ORDER_ITEM,
+    CREATE_SUPPLIER,
+    CREATE_SUPPLIER_PRODUCT,
+    FETCH_ARCUR_PRODUCTS,
+    FETCH_ARCUR_PRODUCT,
+    ADD_TO_ICARUS_CART, REMOVE_FROM_ICARUS_CART, CREATE_ICARUS_ORDER
 } from './types';
 
 export default (state: [] = [], action: IAction) => {
@@ -191,6 +198,8 @@ export default (state: [] = [], action: IAction) => {
             return {...state, success: true, error: false, submitting: false, loading: false};
         case CREATE_SUPPLIER_PRODUCT:
                 return {...state, success: true, error: false, submitting: false, loading: false};
+        case CREATE_ICARUS_ORDER:
+                return {...state, success: true, error: false, submitting: false, loading: false};
 
 
         case DELETE_USER:
@@ -254,6 +263,11 @@ export default (state: [] = [], action: IAction) => {
             return {...state, cartItems: []};
         case ADD_CUSTOMER_PAYMENT:
             return {...state, success: 'Country edited successfully.', error: false, submitting: false, loading: false};
+
+        case ADD_TO_ICARUS_CART:
+            return {...state, icarusCart: action.payload};
+        case REMOVE_FROM_ICARUS_CART:
+            return {...state, icarusCart: action.payload};
 
         default:
             return {...state, error: false, success: false, submitting: false, loading: false};

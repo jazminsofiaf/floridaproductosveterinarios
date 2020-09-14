@@ -14,12 +14,16 @@ import {makeStyles} from "@material-ui/core/styles";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import {useDispatch, useSelector} from "react-redux";
-import {fetchArcurProduct, fetchArcurProducts} from "../../actions/actions";
+import {addToIcarusCart, fetchArcurProduct, fetchArcurProducts} from "../../actions/actions";
 import Dialog from "@material-ui/core/Dialog";
 import AleternativesSlider from "./alternatives";
 import ArcurPromotions from "./ArcurPromotions";
 import {Home} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import CloseIcon from '@material-ui/icons/Close';
+import IcarusCart from "./icarus-cart";
+
 
 
 const useStyles = makeStyles({
@@ -49,7 +53,7 @@ export default function ArcurList(props: any) {
     const [cartOpen, setCartOpen] = useState(false);
     const tableRef = React.createRef<any>();
     const dispatch = useDispatch();
-    const {arcurProducts, arcurProduct} = useSelector((state: any) => state);
+    const {arcurProducts, arcurProduct, icarusCart} = useSelector((state: any) => state);
     const [arcurItems, setArcurtItems] = useState<IArcurItem[]>([])
 
     const [open, setOpen] = React.useState(false);
@@ -91,6 +95,16 @@ export default function ArcurList(props: any) {
         props.history.push('/');
     }
 
+    function addToCart() {
+        let cartItem: ICartItem = {
+            id: arcurProduct.id,
+            name: arcurProduct.description,
+            amount: 1,
+            price: arcurProduct.price_list,
+        }
+        dispatch(addToIcarusCart(cartItem, icarusCart));
+    }
+
     return (
         <Container maxWidth={"md"}>
             <IconButton
@@ -111,11 +125,11 @@ export default function ArcurList(props: any) {
                             onClick={() => openCart(true)} variant={"contained"} size={'large'}>
                         Carrito
                         <ShoppingCartIcon/>
-                        +1
+                        {icarusCart && icarusCart.length > 0 ? `+${icarusCart.length}` : ""}
                     </Button>
                 </Grid>
             </Grid>
-            {cartOpen ? <></> :
+            {cartOpen ? <IcarusCart/> :
                 <MaterialTable
                     tableRef={tableRef}
                     columns={columns}
@@ -143,11 +157,16 @@ export default function ArcurList(props: any) {
                 <DialogTitle id="customized-dialog-title">
                     {arcurProduct ?
                     <Grid container spacing={1}>
-                        <Grid item xs={12}>
+                        <Grid item xs={10}>
                                 <div>
                                     <Typography variant={"h5"}>{arcurProduct.description}</Typography>
                                     <Typography variant={"body2"}>{arcurProduct.lab}</Typography>
                                 </div>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <IconButton onClick={handleClose}>
+                                <CloseIcon/>
+                            </IconButton>
                         </Grid>
                         <Grid item xs={6}>${arcurProduct.price_list}</Grid>
                         <Grid item xs={6}>Stock: {arcurProduct.current_stock}</Grid>
@@ -173,14 +192,14 @@ export default function ArcurList(props: any) {
                         </Grid> : null}
                     {arcurProduct && arcurProduct.alternatives ?
                         <div>
-                            <Typography variant={"h6"}>Alternativos:</Typography>
+                            <Typography variant={"h6"}>Relacionados:</Typography>
                             <AleternativesSlider alternatives={arcurProduct.alternatives}/>
                         </div>
                         : null}
                 </DialogContent>
                 <DialogActions>
-                    <Button variant='contained' onClick={handleClose} color="secondary">
-                        cerrar
+                    <Button className={classes.buttonBlue} fullWidth onClick={() => addToCart()} variant={"contained"} size={'large'}>
+                        <AddShoppingCartIcon/>
                     </Button>
                 </DialogActions>
             </Dialog>

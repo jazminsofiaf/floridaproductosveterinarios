@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             display: 'flex',
-            // flexWrap: 'wrap',
+            flexWrap: 'wrap',
             justifyContent: 'space-around',
             overflow: 'hidden',
             backgroundColor: theme.palette.background.paper,
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         tile: {
             border: '1px solid #2196F3',
-            margin: '2px'
+            margin: '2px',
         },
         title: {
             color: theme.palette.background.paper,
