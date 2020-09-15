@@ -20,10 +20,9 @@ import AleternativesSlider from "./alternatives";
 import ArcurPromotions from "./ArcurPromotions";
 import {Home} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import CloseIcon from '@material-ui/icons/Close';
 import IcarusCart from "./icarus-cart";
-
+import AmountButton from "../shared/AmountButton";
 
 
 const useStyles = makeStyles({
@@ -95,11 +94,11 @@ export default function ArcurList(props: any) {
         props.history.push('/');
     }
 
-    function addToCart() {
+    function addToCart(amount: number) {
         let cartItem: ICartItem = {
             id: arcurProduct.id,
             name: arcurProduct.description,
-            amount: 1,
+            amount: amount,
             price: arcurProduct.price_list,
         }
         dispatch(addToIcarusCart(cartItem, icarusCart));
@@ -153,56 +152,57 @@ export default function ArcurList(props: any) {
                     }}
                     onRowClick={(event, rowData) => viewItem(rowData)}
                 />}
-            <Dialog onClose={handleClose} open={open} maxWidth='xl'>
-                <DialogTitle id="customized-dialog-title">
-                    {arcurProduct ?
-                    <Grid container spacing={1}>
-                        <Grid item xs={10}>
+            {arcurProduct ?
+                <Dialog onClose={handleClose} open={open} maxWidth='xl'>
+                    <DialogTitle id="customized-dialog-title">
+                        <Grid container spacing={1}>
+                            <Grid item xs={11}>
                                 <div>
                                     <Typography variant={"h5"}>{arcurProduct.description}</Typography>
                                     <Typography variant={"body2"}>{arcurProduct.lab}</Typography>
                                 </div>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <IconButton onClick={handleClose}>
-                                <CloseIcon/>
-                            </IconButton>
-                        </Grid>
-                        <Grid item xs={6}>${arcurProduct.price_list}</Grid>
-                        <Grid item xs={6}>Stock: {arcurProduct.current_stock}</Grid>
-                    </Grid> : null}
-                </DialogTitle>
-                <DialogContent dividers>
-                    {arcurProduct && arcurProduct.promotions ?
-                        <div>
-                            <Typography variant={"h6"}>Promociones por cantidad:</Typography>
-                            <ArcurPromotions promotions={arcurProduct.promotions}/>
-                        </div>
-                        : null}
-                    {arcurProduct && arcurProduct.detail_description ?
-                        <Grid container spacing={2}>
-                            {/*<Grid item xs={3}>*/}
-                            {/*    {arcurProduct && arcurProduct.image ?*/}
-                            {/*        <img src={arcurProduct.image} className="product-img" alt={"ProductImage"}/> : null}*/}
-                            {/*</Grid>*/}
-                            <Typography variant={"h6"}>Descripcion:</Typography>
-                            <Grid item xs={12}>
-                                {arcurProduct.detail_description}
                             </Grid>
-                        </Grid> : null}
-                    {arcurProduct && arcurProduct.alternatives ?
-                        <div>
-                            <Typography variant={"h6"}>Relacionados:</Typography>
-                            <AleternativesSlider alternatives={arcurProduct.alternatives}/>
-                        </div>
+                            <Grid item xs={1}>
+                                <IconButton onClick={handleClose}>
+                                    <CloseIcon/>
+                                </IconButton>
+                            </Grid>
+                            <Grid item xs={6}>${arcurProduct.price_list}</Grid>
+                            <Grid item xs={6}>Stock: {arcurProduct.current_stock}</Grid>
+                        </Grid>
+                    </DialogTitle>
+                    {arcurProduct.promotions || arcurProduct.detail_description || arcurProduct.alternatives ?
+                        <DialogContent dividers>
+                            {arcurProduct.promotions ?
+                                <div>
+                                    <Typography variant={"h6"}>Promociones por cantidad:</Typography>
+                                    <ArcurPromotions promotions={arcurProduct.promotions}/>
+                                </div>
+                                : null}
+                            {arcurProduct.detail_description ?
+                                <Grid container spacing={2}>
+                                    {/*<Grid item xs={3}>*/}
+                                    {/*    {arcurProduct && arcurProduct.image ?*/}
+                                    {/*        <img src={arcurProduct.image} className="product-img" alt={"ProductImage"}/> : null}*/}
+                                    {/*</Grid>*/}
+                                    <Typography variant={"h6"}>Descripcion:</Typography>
+                                    <Grid item xs={12}>
+                                        {arcurProduct.detail_description}
+                                    </Grid>
+                                </Grid> : null}
+                            {arcurProduct.alternatives ?
+                                <div>
+                                    <Typography variant={"h6"}>Relacionados:</Typography>
+                                    <AleternativesSlider alternatives={arcurProduct.alternatives}/>
+                                </div>
+                                : null}
+                        </DialogContent>
                         : null}
-                </DialogContent>
-                <DialogActions>
-                    <Button className={classes.buttonBlue} fullWidth onClick={() => addToCart()} variant={"contained"} size={'large'}>
-                        <AddShoppingCartIcon/>
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                    <DialogActions>
+                        <AmountButton action={addToCart}/>
+                    </DialogActions>
+                </Dialog>
+                : null}
         </Container>
     )
 

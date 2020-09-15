@@ -202,7 +202,7 @@ export default function IcarusCart(props: any) {
 
     const emptyRows = 5 - Math.min(5, tableRows.length);
 
-    const cartEmpty = !icarusCart || icarusCart.length === 0;
+    // const cartEmpty = !icarusCart || icarusCart.length === 0;
 
     function buyItems(){
         dispatch(createIcarusOrder(icarusCart))
