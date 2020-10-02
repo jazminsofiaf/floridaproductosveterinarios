@@ -21,6 +21,9 @@ export const FETCH_DISTRIBUTOR_PRODUCTS = 'fetch_distributor_products';
 export const FETCH_PRODUCTS_INFO = 'fetch_products_info';
 export const FETCH_ARCUR_PRODUCTS = 'fetch_arcur_products';
 export const FETCH_ARCUR_PRODUCT = 'fetch_arcur_product';
+export const FETCH_RECEPTION_BUILD = 'fetch_reception_build';
+export const FETCH_USER_ACCOUNT = 'fetch_user_account';
+export const FETCH_SUPPLIERS_INFO = 'fetch_supplier_info';
 
 
 export const FETCH_ASSEMBLE_INSTRUCTIONS = 'fetch_assemble_instructions';

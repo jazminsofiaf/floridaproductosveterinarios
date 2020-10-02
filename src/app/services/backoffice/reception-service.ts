@@ -14,6 +14,16 @@ class ReceptionService extends Service {
         return response.data;
     }
 
+    async buildReception(data: IBuildReception) {
+        const receptionData = { build_reception : data };
+
+        const response = await axios.post(`${this.BACKEND_URL}/supplier/order/reception/build`, {...receptionData});
+
+        if (response.data.errors) {
+            throw new Error(response.data.errors.body.join());
+        }
+        return response.data;
+    }
 }
 
 export default new ReceptionService();

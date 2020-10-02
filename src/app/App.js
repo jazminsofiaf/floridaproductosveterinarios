@@ -18,6 +18,9 @@ import {setPageAuthorizationStatus} from "./utils/authorizationToken";
 import CreateSupplier from "./views/supplier/create-supplier";
 import CreateSupplierProduct from "./views/supplier/create-supplier-product";
 import ArcurList from "./views/supplier/arcur";
+import Account from "./views/account/account";
+import SupplierList from "./views/supplier/information/supplier-list";
+import UpperBar from "./views/upperBar/UpperBar";
 
 
 const store = createStore();
@@ -64,7 +67,8 @@ function App() {
                 <MuiThemeProvider theme={theme}>
                     <CssBaseline/>
                     <BrowserRouter>
-                        <div>
+                        <UpperBar />
+                        <div className={'container'}>
                             <Switch>
                                 <PrivateRoute exact path="/" component={Home}/>
                                 <Route exact path="/login" component={Login}/>
@@ -79,6 +83,8 @@ function App() {
                                 <PrivateRoute exact path="/new-product" component={CreateProduct} />
                                 <PrivateRoute exact path="/products-info" component={ProductInfoPage} />
                                 <PrivateRoute exact path="/arcur" component={ArcurList} />
+                                <PrivateRoute exact path="/account/:id" component={Account} />
+                                <PrivateRoute exact path="/suppliers" component={SupplierList} />
                             </Switch>
                         </div>
                     </BrowserRouter>

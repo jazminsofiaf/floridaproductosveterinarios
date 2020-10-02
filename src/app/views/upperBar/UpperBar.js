@@ -20,7 +20,7 @@ import {
     Home,
     AddBox,
     Storage,
-    Stars
+    Stars, Store
 } from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -53,7 +53,7 @@ function UpperBar(props) {
     // }
 
     const goToSuppliersPage = () => {
-        props.history.push('/supplier-orders');
+        props.history.push('/suppliers');
     }
 
     const goToSupplierOrderPage = () => {
@@ -222,12 +222,12 @@ function SupplierMenu(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                {/*<StyledMenuItem>*/}
-                {/*    <ListItemIcon>*/}
-                {/*        <Store fontSize="small"/>*/}
-                {/*    </ListItemIcon>*/}
-                {/*    <ListItemText primary="Informacion" onClick={props.links.information}/>*/}
-                {/*</StyledMenuItem>*/}
+                <StyledMenuItem>
+                    <ListItemIcon>
+                        <Store fontSize="small"/>
+                    </ListItemIcon>
+                    <ListItemText primary="Proveedores" onClick={props.links.information}/>
+                </StyledMenuItem>
                 <StyledMenuItem>
                     <ListItemIcon>
                         <ShoppingBasket fontSize="small"/>

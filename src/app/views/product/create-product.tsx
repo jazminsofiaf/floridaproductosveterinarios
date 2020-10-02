@@ -190,7 +190,7 @@ const brands = [
     'Janvier',
     'John Martin',
     'Konig',
-    'Kualkos',
+    'Kualcos',
     'Lab Vetue',
     'Labyes',
     'Lamar',
@@ -218,6 +218,7 @@ const brands = [
     'Vetanco',
     'Virbac',
     'Von Franken',
+    'Weizur',
     'Zoetis',
     'Zoovet',
     ''
@@ -309,7 +310,7 @@ function applicationField<Values>(values: any) {
                     label="Aplicacion"
                 >
                     <MenuItem value={'Externa'}>Externa</MenuItem>
-                    <MenuItem value={'Inyectable'}>Inyactable</MenuItem>
+                    <MenuItem value={'Inyectable'}>Inyectable</MenuItem>
                     <MenuItem value={'Oral'}>Oral</MenuItem>
                     <MenuItem value={'Topica'}>Topica</MenuItem>
                 </Select>
@@ -462,7 +463,6 @@ const CreateProduct = () => {
 
     return (
         <>
-            <UpperBar/>
             <Container component="main" maxWidth='sm'>
                 <CssBaseline/>
                 <div className={classes.paper}>

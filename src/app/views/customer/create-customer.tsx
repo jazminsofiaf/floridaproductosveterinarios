@@ -12,7 +12,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { Field, FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
 import IconAnimation from "../shared/iconAnimation/IconAnimation";
-import UpperBar from "../upperBar/UpperBar"
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -139,7 +138,6 @@ const CreateCustomer = (({createCustomer, classes, success, error, submitting, r
 
         return (
             <>
-                <UpperBar />
                 <Container component="main" maxWidth='sm'>
                     <CssBaseline />
                     <div className={classes.paper}>

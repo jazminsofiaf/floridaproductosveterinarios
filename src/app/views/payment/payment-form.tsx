@@ -16,12 +16,13 @@ const initialValues = {
 
 const PaymentForm = (props: any) => {
     const dispatch = useDispatch();
-    const {ownerId} = props;
+    const {ownerId, handleClose} = props;
 
     initialValues.owner_id = ownerId;
 
     function onSubmit(values: any) {
         dispatch(addCustomerPayment(values))
+        handleClose();
     }
 
     return (

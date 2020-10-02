@@ -71,7 +71,12 @@ import {
     CREATE_SUPPLIER_PRODUCT,
     FETCH_ARCUR_PRODUCTS,
     FETCH_ARCUR_PRODUCT,
-    ADD_TO_ICARUS_CART, REMOVE_FROM_ICARUS_CART, CREATE_ICARUS_ORDER
+    ADD_TO_ICARUS_CART,
+    REMOVE_FROM_ICARUS_CART,
+    CREATE_ICARUS_ORDER,
+    FETCH_RECEPTION_BUILD,
+    FETCH_USER_ACCOUNT,
+    FETCH_SUPPLIERS_INFO
 } from './types';
 
 export default (state: [] = [], action: IAction) => {
@@ -114,11 +119,19 @@ export default (state: [] = [], action: IAction) => {
             return {...state, distributorProducts: action.payload, error: false, submitting: false, loading: false};
         case FETCH_PRODUCTS_INFO:
             return {...state, productsInfo: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_USER_ACCOUNT:
+            return {...state, accountInfo: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_SUPPLIERS_INFO:
+            return {...state, suppliersInfo: action.payload, error: false, submitting: false, loading: false};
 
         case FETCH_ARCUR_PRODUCTS:
             return {...state, arcurProducts: action.payload, error: false, submitting: false, loading: false};
         case FETCH_ARCUR_PRODUCT:
             return {...state, arcurProduct: action.payload, error: false, submitting: false, loading: false};
+
+        case FETCH_RECEPTION_BUILD:
+            return {...state, receptionInfo: action.payload, error: false, submitting: false, loading: false};
+
 
         case FETCH_ASSEMBLE_INSTRUCTIONS:
             return {...state, assembleInstructions: action.payload, error: false, submitting: false, loading: false};

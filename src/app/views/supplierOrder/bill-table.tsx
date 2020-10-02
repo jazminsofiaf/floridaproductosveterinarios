@@ -1,33 +1,64 @@
 import React from 'react'
 import MaterialTable, {Column} from "material-table";
-import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import {BillRow, generateBillRow} from "./bill-form";
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {TextField} from "@material-ui/core";
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        container: {
+            // display: 'flex',
+            // flexWrap: 'wrap',
+        },
+        textField: {
+            // marginLeft: theme.spacing(1),
+            // marginRight: theme.spacing(1),
+            // width: 200,
+        },
+    }),
+);
 
 
 function BillTable(props: any) {
+    const classes = useStyles();
     const {useState} = React;
     const {data, setData, billMargins} = props;
+    dayjs.extend(customParseFormat)
+
 
     const [columns] = useState<Array<Column<BillRow>>>([
         {title: 'Nombre', field: 'name', editable: 'never'},
         {title: 'Cant.', field: 'amount', type: 'numeric'},
         {
             title: 'FechaVencimiento', field: 'expirationDate', width: 100, editComponent: props => (
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                        disableToolbar
-                        disablePast
-                        fullWidth
-                        key={props.value}
-                        label="Fecha venc."
-                        format="dd/MM/yyyy"
-                        value={props.value}
-                        onChange={(date) => props.onChange(date?.toLocaleDateString())}
-                        inputVariant="standard"
-                        size={'small'}
-                    />
-                </MuiPickersUtilsProvider>
+                <TextField
+                    id="date"
+                    label="Vencimiento"
+                    type="date"
+                    defaultValue={dayjs(props.value, "DD/MM/YYYY").format('YYYY-MM-DD')}
+                    className={classes.textField}
+                    onChange={(date: any) => props.onChange(dayjs(date.target.value, 'YYYY-MM-DD').toDate())}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    size={'small'}
+                />
+                // <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                //     <KeyboardDatePicker
+                //         disableToolbar
+                //         disablePast
+                //         fullWidth
+                //         key={props.value}
+                //         label="Fecha venc."
+                //         format="dd/MM/yyyy"
+                //         value={props.value}
+                //         onChange={(date) => props.onChange(date?.toLocaleString())}
+                //         inputVariant="standard"
+                //         size={'small'}
+                //     />
+                // </MuiPickersUtilsProvider>
             )
         },
         {title: 'P.Lista', field: 'priceList', type: 'numeric'},

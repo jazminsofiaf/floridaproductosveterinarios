@@ -3,7 +3,6 @@ import CustomersList from './CustomersList'
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import UpperBar from "../upperBar/UpperBar";
 import CommonModal from '../shared/CommonModal'
 import PaymentForm from '../payment/payment-form'
 import {createStyles, Theme} from "@material-ui/core";
@@ -30,11 +29,10 @@ const CustomerList = ({fetchCustomers, customers , classes}: ICustomerList) => {
     };
 
 
-    const paymentForm = selected ? PaymentForm({ownerId:selected.id}) : null;
+    const paymentForm = selected ? PaymentForm({ownerId:selected.id, handleClose:handleClose}) : null;
 
     return (
         <>
-            <UpperBar />
             <Container maxWidth="lg" className={classes.container}>
                 <Typography variant="h3">Clientes</Typography>
                 <CustomersList customers={customers} onClick={clickPayment}/>

@@ -6,7 +6,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import UpperBar from "../upperBar/UpperBar";
 import Paper from '@material-ui/core/Paper';
 import Loader from '../shared/Loader'
 import {useDispatch} from "react-redux";
@@ -145,8 +144,7 @@ const CreateCustomerOrder = ({
 
     return (
         <>
-            <UpperBar/>
-            <Container maxWidth="lg" style={{marginTop: "6em"}}>
+            <Container maxWidth="lg">
                 {editMode ? <Typography variant="h3">Editar pedido de cliente:</Typography> :
                     <Typography variant="h3">Nuevo pedido de cliente</Typography>
                 }

@@ -11,7 +11,6 @@ import Container from '@material-ui/core/Container';
 import {Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import IconAnimation from "../shared/iconAnimation/IconAnimation";
-import UpperBar from "../upperBar/UpperBar"
 import {createStyles, Theme} from "@material-ui/core";
 import Loader from "../shared/Loader";
 import {useDispatch, useSelector} from "react-redux";
@@ -147,7 +146,6 @@ const CreateSupplierProduct = () => {
 
     return (
         <>
-            <UpperBar/>
             <Container component="main" maxWidth='sm'>
                 <CssBaseline/>
                 <div className={classes.paper}>

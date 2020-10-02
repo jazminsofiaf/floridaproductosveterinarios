@@ -3,7 +3,6 @@ import {Button, createStyles, DialogActions, Grid, Paper, Typography} from "@mat
 import SearchRow from "../shared/SearchRow";
 import Container from "@material-ui/core/Container";
 import {NavLink} from 'react-router-dom';
-import UpperBar from "../upperBar/UpperBar";
 import Loader from "../shared/Loader";
 import withStyles from "@material-ui/core/styles/withStyles";
 import BillProductSelection from "../supplierOrder/bill-product-selection";
@@ -175,8 +174,7 @@ const SupplierOrderList = ({orders, fetchOrders, success, error, submitting, ref
 
     return (
         <>
-            <UpperBar/>
-            <Container maxWidth='lg' style={{marginTop: "6em"}}>
+            <Container maxWidth='lg'>
                 <Typography variant="h3">Pedidos a proveedores</Typography>
                 <div style={{margin: '0.5em'}}>
                     <Button size="small" variant='contained' color='primary'><NavLink to="/supplier-order">Crear

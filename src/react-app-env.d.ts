@@ -138,6 +138,11 @@ declare global {
         }
     }
 
+    export interface IBuildReception {
+        order_id: string;
+        received_products: string[];
+    }
+
     export interface IReceptionOrderPostData {
         order_id: string;
         emission_date: string;

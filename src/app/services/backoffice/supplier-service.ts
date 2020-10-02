@@ -98,6 +98,12 @@ class SupplierService extends Service {
 
         return response.data;
     }
+
+    async fetchSuppliersInfo() {
+        const response = await axios.get(`${this.BACKEND_URL}/suppliers`);
+
+        return response.data.supplier_list;
+    }
 }
 
 export default new SupplierService();

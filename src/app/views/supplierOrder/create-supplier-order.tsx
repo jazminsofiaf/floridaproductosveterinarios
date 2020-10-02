@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import UpperBar from "../upperBar/UpperBar";
 import Grid from '@material-ui/core/Grid'
 import SupplierProductFilter from './SupplierProductFilter'
 import Loader from "../shared/Loader";
@@ -84,8 +83,7 @@ const CreateSupplierOrder = ({createSupplierOrder, supplierProducts, fetchSuppli
 
     return (
         <>
-            <UpperBar/>
-            <Container maxWidth="lg" style={{marginTop: "6em"}}>
+            <Container maxWidth="lg">
                 <Typography variant="h3">Orden a proveedor</Typography>
                 <Grid container spacing={1}>
                     <Grid item container

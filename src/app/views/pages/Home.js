@@ -5,7 +5,6 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import PetsIcon from "@material-ui/icons/Pets";
 import Toolbar from "@material-ui/core/Toolbar";
-import UpperBar from "../upperBar/UpperBar";
 
 function Home(props) {
 
@@ -13,7 +12,6 @@ function Home(props) {
 
     return (
         <div className={classes.root}>
-            <UpperBar/>
             <Toolbar/>
             <div>
                 <Grid container spacing={3} className={classes.image}>

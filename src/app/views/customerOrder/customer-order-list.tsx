@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import UpperBar from "../upperBar/UpperBar";
 import Orders from './Orders';
 import BuildOrder from './build-order'
 import CommonModal from '../shared/CommonModal'
@@ -43,8 +42,7 @@ const CustomerOrderList = ({fetchCustomersOrders, customersOrders, classes, asse
 
     return (
         <>
-            <UpperBar />
-            <Container maxWidth="lg" className={classes.container}>
+            <Container maxWidth="lg">
                 <Typography variant="h3">Ordenes clientes</Typography>
                 <Orders orders={customersOrders} onClick={{handleBuild, openView}}/>
             </Container>

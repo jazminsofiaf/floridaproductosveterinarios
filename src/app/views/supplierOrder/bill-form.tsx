@@ -14,9 +14,11 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import DateFnsUtils from "@date-io/date-fns";
 import Button from "@material-ui/core/Button";
 import BillTable from "./bill-table";
-import {useDispatch} from "react-redux";
-import {createReception} from "../../actions/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {buildReception, createReception} from "../../actions/actions";
 import {Checkbox, FormControlLabel} from "@material-ui/core";
+import dayjs from 'dayjs'
+
 
 // import {bool, boolean} from "yup";
 
@@ -195,7 +197,12 @@ export function generateBillRow(item: any, billMargins: IMargins, init: boolean)
     let unitCost = priceWithDiscount + taxOne + taxTwo;
     let totalProduct = (item.amount * unitCost);
     let costWithBillDiscount = unitCost * (1 - billMargins.billDiscount / 100);
-    let formattedDate = item.expiration_date && item.expiration_date !== '' ? format(Date.parse(item.expiration_date), "dd/MM/yyyy") : '';
+    let formattedDate;
+    if (dayjs(item.expiration_date, "DD/MM/YYYY").isValid()) {
+        formattedDate = item.expiration_date;
+    } else {
+        formattedDate = item.expiration_date && item.expiration_date !== '' ? format(item.expiration_date, "dd/MM/yyyy") : '';
+    }
     return createData(item.id, item.name, item.amount, formattedDate, fixDecimals(priceList), fixDecimals(init ? item.price : item.refPrice),
         fixDecimals(subtotalProduct), fixDecimals(productDiscount), fixDecimals(discountBM), fixDecimals(priceWithDiscount), fixDecimals(taxOne), fixDecimals(taxTwo),
         fixDecimals(itemTax), fixDecimals(totalProduct), fixDecimals(unitCost), fixDecimals(costWithBillDiscount));
@@ -257,6 +264,7 @@ function BillForm(props: any) {
     const [billDiscount, setBillDiscount] = useState(0);
     const [checkedTax, setTax] = React.useState(true);
     const [data, setData] = useState<BillRow[]>([]);
+    const {receptionInfo} = useSelector((state: any) => state);
 
     const billMargins: IMargins = {
         discountDist: distDiscount,
@@ -277,11 +285,30 @@ function BillForm(props: any) {
     };
 
     React.useEffect(() => {
-        if (products && products.length > 0) {
-            const items = products.map((item: IOrderProduct) => generateBillRow(item, billMargins, true));
+        if (order) {
+            console.log('BUILD ORDER')
+            const buildReceptionData: IBuildReception = {
+                order_id: order.id,
+                received_products: order.products.map((item: IOrderProduct) => item.id)
+            }
+            dispatch(buildReception(buildReceptionData))
+        }
+    }, [order]);
+
+    React.useEffect(() => {
+        console.log('RECEPTION INFO')
+        if (receptionInfo && receptionInfo.received_products?.length > 0) {
+            const items = products.map((item: IOrderProduct) => {
+                const rcvProdcut = receptionInfo.received_products.find((element: IReceivedProduct) => element.id === item.id)
+                if (rcvProdcut && rcvProdcut.expiration_date) {
+                    item.expiration_date = new Date(rcvProdcut.expiration_date);
+                }
+                item.price = rcvProdcut.price;
+                return generateBillRow(item, billMargins, true)
+            });
             setData(items);
         }
-    }, [setData, products]);
+    }, [setData, receptionInfo]);
 
     React.useEffect(() => {
         if (data && data.length > 0) {

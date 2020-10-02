@@ -45,7 +45,12 @@ import {
     CREATE_SUPPLIER_PRODUCT,
     FETCH_ARCUR_PRODUCTS,
     FETCH_ARCUR_PRODUCT,
-    ADD_TO_ICARUS_CART, REMOVE_FROM_ICARUS_CART, CREATE_ICARUS_ORDER,
+    ADD_TO_ICARUS_CART,
+    REMOVE_FROM_ICARUS_CART,
+    CREATE_ICARUS_ORDER,
+    FETCH_RECEPTION_BUILD,
+    FETCH_USER_ACCOUNT,
+    FETCH_SUPPLIERS_INFO,
 } from './types';
 
 import {Dispatch} from 'redux';
@@ -123,6 +128,28 @@ export function fetchArcurProducts() {
 
             dispatch({
                 type: FETCH_ARCUR_PRODUCTS,
+                payload: response,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: e.response,
+            });
+        }
+    }
+};
+
+export function fetchSuppliersInfo() {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await SupplierService.fetchSuppliersInfo();
+
+            dispatch({
+                type: FETCH_SUPPLIERS_INFO,
                 payload: response,
             });
         } catch (e) {
@@ -609,6 +636,28 @@ export function fetchProductsInfo() {
     };
 }
 
+export function fetchUserAccount(customerId: string) {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await CustomerService.fetchAccount(customerId);
+
+            return dispatch({
+                type: FETCH_USER_ACCOUNT,
+                payload: response,
+            });
+        } catch (e) {
+            return dispatch({
+                type: ERROR,
+                payload: e.response,
+            });
+        }
+    };
+}
+
 export function createIcarusOrder(items: ICartItem[]) {
     return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
         dispatch({
@@ -618,7 +667,7 @@ export function createIcarusOrder(items: ICartItem[]) {
         try {
             const response = await ArcurService.createOrder(items);
 
-            alert(JSON.stringify(response, null,2));
+            alert(JSON.stringify(response, null, 2));
 
             setTimeout(() => {
                 dispatch({
@@ -660,6 +709,29 @@ export const createCustomerOrder = async (dispatch: Dispatch, data: IOrderPostDa
         }, 200);
     }
 };
+
+export function buildReception(data: IBuildReception) {
+    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
+        dispatch({
+            type: SUBMITTING,
+        });
+
+        try {
+            const response = await ReceptionService.buildReception(data);
+
+            dispatch({
+                type: FETCH_RECEPTION_BUILD,
+                payload: response
+            });
+
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: {message: e.message},
+            });
+        }
+    };
+}
 
 export function createReception(data: IReceptionOrderPostData) {
     return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {

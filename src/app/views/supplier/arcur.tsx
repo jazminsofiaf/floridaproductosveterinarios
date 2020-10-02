@@ -90,10 +90,6 @@ export default function ArcurList(props: any) {
         setOpen(true);
     }
 
-    const goHomePage = () => {
-        props.history.push('/');
-    }
-
     function addToCart(amount: number) {
         let cartItem: ICartItem = {
             id: arcurProduct.id,
@@ -106,10 +102,6 @@ export default function ArcurList(props: any) {
 
     return (
         <Container maxWidth={"md"}>
-            <IconButton
-                onClick={goHomePage}>
-                <Home/>
-            </IconButton>
             <Typography variant={"h5"}>Icarus</Typography>
             <Grid container>
                 <Grid item xs={6}>

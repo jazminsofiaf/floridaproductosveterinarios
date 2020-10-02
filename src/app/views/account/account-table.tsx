@@ -1,38 +1,37 @@
-import React, {useEffect} from 'react';
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import {useDispatch, useSelector} from "react-redux";
-import {createIcarusOrder, removeFromIcarusCart} from "../../actions/actions";
-import {IcarusFooterToolbar, IcarusTableToolbar} from "./icarus-cart-toolbar";
-import {Button} from "@material-ui/core";
-import SendIcon from '@material-ui/icons/Send';
+import React, {useEffect} from "react";
+import Paper from "@material-ui/core/Paper";
+import {AccountFooterToolbar, AccountTableToolbar} from "./account-toolbar";
+import TableContainer from "@material-ui/core/TableContainer";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import TableHead from "@material-ui/core/TableHead";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+
 
 interface Data {
-    id: string
-    name: string;
+    id: string;
+    date: string;
+    description: string;
     amount: number;
-    price: number;
-    total: number;
+    accumulated: number;
+    type: string;
 }
 
 function createData(
     id: string,
-    name: string,
+    date: string,
+    description: string,
     amount: number,
-    price: number,
-    total: number,
+    accumulated: number,
+    type: string,
 ): Data {
-    return {id, name, amount, price, total};
+    return {id, date, description, amount, accumulated, type};
 }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -74,10 +73,10 @@ interface HeadCell {
 }
 
 const headCells: HeadCell[] = [
-    {id: 'amount', numeric: true, disablePadding: false, label: 'Cant.'},
-    {id: 'name', numeric: false, disablePadding: true, label: 'Nombre'},
-    {id: 'price', numeric: true, disablePadding: false, label: 'Precio'},
-    {id: 'total', numeric: true, disablePadding: false, label: 'Total'},
+    {id: 'date', numeric: false, disablePadding: false, label: 'Fecha'},
+    {id: 'description', numeric: false, disablePadding: false, label: 'Descripcion'},
+    {id: 'amount', numeric: true, disablePadding: false, label: 'Monto'},
+    {id: 'accumulated', numeric: true, disablePadding: false, label: 'Acumulado'},
 ];
 
 interface EnhancedTableProps {
@@ -112,8 +111,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                             {headCell.label}
                             {orderBy === headCell.id ? (
                                 <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
+            {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+            </span>
                             ) : null}
                         </TableSortLabel>
                     </TableCell>
@@ -137,7 +136,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: 15,
             fontWeight: "bold",
             color: "white",
-            backgroundColor: '#21CBF3'
+            backgroundColor: theme.palette.primary.light,
         },
         table: {
             minWidth: 450,
@@ -148,6 +147,9 @@ const useStyles = makeStyles((theme: Theme) =>
             '&:nth-of-type(odd)': {
                 backgroundColor: theme.palette.action.hover,
             },
+        },
+        paymentTableRow: {
+            backgroundColor: '#baf1ba',
         },
         visuallyHidden: {
             border: 0,
@@ -160,8 +162,8 @@ const useStyles = makeStyles((theme: Theme) =>
             top: 20,
             width: 1,
         },
-        deleteIcon:{
-            color: '#21CBF3'
+        deleteIcon: {
+            color: theme.palette.primary.main,
         },
         buttonBlue: {
             color: 'white',
@@ -170,23 +172,21 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function IcarusCart(props: any) {
+export default function AccountTable(props: any) {
     const classes = useStyles();
+    const {tableData: {transactions, balance}, tableName, total} = props;
     const [tableRows, setTableRows] = React.useState<Data[]>([]);
     const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
-    const [total, setTotal] = React.useState<string>('0.00');
-    const {icarusCart} = useSelector((state: any) => state);
-    const dispatch = useDispatch();
+    const [orderBy, setOrderBy] = React.useState<keyof Data>('date');
 
     useEffect(() => {
-        setTableRows(icarusCart ? icarusCart.map((elem:any) => createData(elem.id, elem.name, elem.amount, elem.price, Number((elem.price * elem.amount).toFixed(2)))) : []);
-    },[icarusCart])
+        setTableRows(transactions ? transactions.map((elem: any) => createData(elem.id, elem.date, elem.description, elem.amount, elem.accumulated, elem.type)) : []);
+    }, [transactions])
 
-    useEffect(() => {
-        const total = tableRows ? tableRows.map((item: Data) => (item.price * item.amount)).reduce((a:number, b:number) => a + b, 0) : 0;
-        setTotal(total.toFixed(2));
-    },[tableRows,total, setTotal])
+    // useEffect(() => {
+    //     const total = tableRows ? tableRows.map((row: Data) => row.amount).reduce((a: number, b: number) => a + b, 0) : 0;
+    //     setTotal(total.toFixed(2));
+    // }, [tableRows, total, setTotal])
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -194,25 +194,18 @@ export default function IcarusCart(props: any) {
         setOrderBy(property);
 
     };
-    const removeItem = (event: React.MouseEvent<unknown>, id: string) => {
-        dispatch(removeFromIcarusCart(id,icarusCart));
+    const seeInfo = (event: React.MouseEvent<unknown>, id: string) => {
+        // dispatch(removeFromIcarusCart(id, icarusCart));
 
-        setTableRows(tableRows.filter(row => row.id !== id))
+        // setTableRows(tableRows.filter(row => row.id !== id))
     };
 
-    const emptyRows = 5 - Math.min(5, tableRows.length);
-
-    // const cartEmpty = !icarusCart || icarusCart.length === 0;
-
-    function buyItems(){
-        dispatch(createIcarusOrder(icarusCart))
-    }
-
+    const emptyRows = 8 - Math.min(8, tableRows.length);
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <IcarusTableToolbar/>
+                <AccountTableToolbar title={tableName}/>
                 <TableContainer>
                     <Table
                         className={classes.table}
@@ -235,40 +228,39 @@ export default function IcarusCart(props: any) {
 
                                     return (
                                         <TableRow
-                                            className={classes.tableRow}
+                                            className={row.type !== 'PAYMENT' ? classes.tableRow : classes.paymentTableRow}
                                             hover
                                             tabIndex={-1}
-                                            key={row.name}
+                                            key={row.id}
                                         >
-                                            <TableCell padding="checkbox" onClick={(event) => removeItem(event, row.id)}>
-                                                <Tooltip title="Eliminar">
-                                                    <IconButton aria-label="delete" className={classes.deleteIcon}>
-                                                        <DeleteIcon/>
-                                                    </IconButton>
-                                                </Tooltip>
+                                            <TableCell padding="checkbox"
+                                                       onClick={(event) => seeInfo(event, row.id)}>
+                                                {row.type !== 'ORDER' ? null :
+                                                    <Tooltip title="Ver">
+                                                        <IconButton className={classes.deleteIcon}>
+                                                            <VisibilityIcon/>
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                }
                                             </TableCell>
-                                            <TableCell>{row.amount}</TableCell>
+                                            <TableCell>{row.date}</TableCell>
                                             <TableCell component="th" id={labelId} scope="row" padding={'none'}>
-                                                {row.name}
+                                                {row.description}
                                             </TableCell>
-                                            <TableCell>${row.price}</TableCell>
-                                            <TableCell>${row.total}</TableCell>
+                                            <TableCell>${row.amount}</TableCell>
+                                            <TableCell>${row.accumulated}</TableCell>
                                         </TableRow>
                                     );
                                 })}
                             {emptyRows > 0 && (
-                                <TableRow style={{ height: 25 * emptyRows }}>
-                                    <TableCell colSpan={6} />
+                                <TableRow style={{height: 25 * emptyRows}}>
+                                    <TableCell colSpan={6}/>
                                 </TableRow>
                             )}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <IcarusFooterToolbar total={total}/>
-                <Button className={classes.buttonBlue} disabled={false} fullWidth onClick={buyItems} variant={"contained"} size={'large'}>
-                    Comprar
-                    <SendIcon/>
-                </Button>
+                <AccountFooterToolbar total={balance}/>
             </Paper>
         </div>
     );
