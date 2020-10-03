@@ -212,7 +212,7 @@ export default (state: [] = [], action: IAction) => {
         case CREATE_SUPPLIER_PRODUCT:
                 return {...state, success: true, error: false, submitting: false, loading: false};
         case CREATE_ICARUS_ORDER:
-                return {...state, success: true, error: false, submitting: false, loading: false};
+                return {...state, icarusCart:[], success: true, error: false, submitting: false, loading: false};
 
 
         case DELETE_USER:

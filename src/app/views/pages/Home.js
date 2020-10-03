@@ -12,7 +12,6 @@ function Home(props) {
 
     return (
         <div className={classes.root}>
-            <Toolbar/>
             <div>
                 <Grid container spacing={3} className={classes.image}>
                     <Grid item xs={false} sm={4} md={7}></Grid>
@@ -46,13 +45,14 @@ const styles = theme => ({
             theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
         backgroundSize: 'cover',
 
-        height: '70vh',
+        height: '80vh',
         backgroundPosition: 'center',
 
         //para el cuadrado contenido dentro
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
+        marginTop: '-9vh'
     },
 
     titleContainer: {
