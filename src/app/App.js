@@ -9,7 +9,7 @@ import { SupplierOrders } from "./views/supplier"
 import {Provider} from 'react-redux';
 import createStore from './create-store';
 import { CreateSupplierOrder } from "./views/supplierOrder";
-import { CreateCustomer, CustomerList } from "./views/customer"
+import { CreateCustomer } from "./views/customer"
 import { CreateCustomerOrder, CustomerOrderList } from "./views/customerOrder"
 import CreateProduct from "./views/product/create-product"
 import ProductInfoPage from "./views/product/product-info-page"
@@ -21,6 +21,8 @@ import ArcurList from "./views/supplier/arcur";
 import Account from "./views/account/account";
 import SupplierList from "./views/supplier/information/supplier-list";
 import UpperBar from "./views/upperBar/UpperBar";
+import SupplierAccount from "./views/account/supplier-account";
+import CustomerList from "./views/customer/customer-list";
 
 
 const store = createStore();
@@ -83,8 +85,9 @@ function App() {
                                 <PrivateRoute exact path="/new-product" component={CreateProduct} />
                                 <PrivateRoute exact path="/products-info" component={ProductInfoPage} />
                                 <PrivateRoute exact path="/arcur" component={ArcurList} />
-                                <PrivateRoute exact path="/account/:id" component={Account} />
+                                <PrivateRoute exact path="/customers/:id/account" component={Account} />
                                 <PrivateRoute exact path="/suppliers" component={SupplierList} />
+                                <PrivateRoute exact path="/suppliers/:id/account" component={SupplierAccount} />
                             </Switch>
                         </div>
                     </BrowserRouter>

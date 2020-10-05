@@ -24,6 +24,7 @@ export const FETCH_ARCUR_PRODUCT = 'fetch_arcur_product';
 export const FETCH_RECEPTION_BUILD = 'fetch_reception_build';
 export const FETCH_USER_ACCOUNT = 'fetch_user_account';
 export const FETCH_SUPPLIERS_INFO = 'fetch_supplier_info';
+export const FETCH_SUPPLIER_ACCOUNT = 'fetch_supplier_account';
 
 
 export const FETCH_ASSEMBLE_INSTRUCTIONS = 'fetch_assemble_instructions';
@@ -78,3 +79,4 @@ export const ADD_TO_ICARUS_CART = 'add_to_icarus_cart'
 export const REMOVE_FROM_ICARUS_CART = 'remove_from_icarus_cart'
 
 export const ADD_CUSTOMER_PAYMENT = 'add_customer_payment'
+export const ADD_SUPPLIER_PAYMENT = 'add_supplier_payment'

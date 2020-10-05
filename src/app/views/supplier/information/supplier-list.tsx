@@ -13,7 +13,8 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {SupplierTableToolbar} from "./supplier-toolbar";
 import {useDispatch, useSelector} from "react-redux";
-import { fetchSuppliersInfo} from "../../../actions/actions";
+import {fetchSuppliersInfo} from "../../../actions/actions";
+import {useHistory} from "react-router-dom";
 
 interface Data {
     id: string;
@@ -161,7 +162,7 @@ const useStyles = makeStyles((theme: Theme) =>
             top: 20,
             width: 1,
         },
-        deleteIcon: {
+        visibilityIcon: {
             color: theme.palette.primary.main,
         },
         buttonBlue: {
@@ -173,11 +174,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SupplierList() {
     const classes = useStyles();
+    const history = useHistory();
     const dispatch = useDispatch();
     const [tableRows, setTableRows] = React.useState<Data[]>([]);
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
-    const {suppliersInfo} = useSelector((state:any) => state);
+    const {suppliersInfo} = useSelector((state: any) => state);
 
     useEffect(() => {
         setTableRows(suppliersInfo ?
@@ -194,11 +196,10 @@ export default function SupplierList() {
         setOrderBy(property);
 
     };
-    const seeInfo = (event: React.MouseEvent<unknown>, id: string) => {
-        // dispatch(removeFromIcarusCart(id, icarusCart));
 
-        // setTableRows(tableRows.filter(row => row.id !== id))
-    };
+    function goToAccount(id: string) {
+        history.push(`/suppliers/${id}/account`);
+    }
 
     const emptyRows = 8 - Math.min(8, tableRows.length);
 
@@ -234,12 +235,12 @@ export default function SupplierList() {
                                             key={row.id}
                                         >
                                             <TableCell padding="checkbox"
-                                                       onClick={(event) => seeInfo(event, row.id)}>
-                                                    <Tooltip title="Ver">
-                                                        <IconButton className={classes.deleteIcon}>
-                                                            <VisibilityIcon/>
-                                                        </IconButton>
-                                                    </Tooltip>
+                                                       onClick={() => goToAccount(row.id)}>
+                                                <Tooltip title="Ver">
+                                                    <IconButton className={classes.visibilityIcon}>
+                                                        <VisibilityIcon/>
+                                                    </IconButton>
+                                                </Tooltip>
                                             </TableCell>
                                             <TableCell>{row.name}</TableCell>
                                             <TableCell component="th" id={labelId} scope="row" padding={'none'}>

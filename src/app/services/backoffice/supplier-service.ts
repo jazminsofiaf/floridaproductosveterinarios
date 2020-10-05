@@ -10,7 +10,7 @@ class SupplierService extends Service {
     }
 
     public async createOrder(data: IOrderPostData) {
-        const order = {order : data };
+        const order = {order: data};
 
         const response = await axios.post(`${this.BACKEND_URL}/suppliers/new-order`, {
             ...order,
@@ -103,6 +103,22 @@ class SupplierService extends Service {
         const response = await axios.get(`${this.BACKEND_URL}/suppliers`);
 
         return response.data.supplier_list;
+    }
+
+    async fetchAccount(supplierId: string) {
+        const response = await axios.get(`${this.BACKEND_URL}/suppliers/${supplierId}/account`);
+
+        return response.data.account_transactions;
+    }
+
+    async addPayment(data: IPaymentPostData) {
+        const payment = {payment: data};
+
+        const response = await axios.post(`${this.BACKEND_URL}/suppliers/payment`, {
+            ...payment,
+        });
+
+        return response.data;
     }
 }
 

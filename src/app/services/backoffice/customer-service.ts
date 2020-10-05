@@ -54,7 +54,7 @@ class CustomerService extends Service {
     async fetchAccount(customerId: string) {
         const response = await axios.get(`${this.BACKEND_URL}/profiles/${customerId}/account`);
 
-        return response.data.customer_account;
+        return response.data.account_transactions;
     }
 }
 

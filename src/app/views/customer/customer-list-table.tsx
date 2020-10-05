@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import Paper from "@material-ui/core/Paper";
-import {AccountFooterToolbar, AccountTableToolbar} from "./account-toolbar";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -12,26 +11,26 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-
+import {useHistory} from "react-router-dom";
 
 interface Data {
     id: string;
-    date: string;
-    description: string;
-    amount: number;
-    accumulated: number;
-    type: string;
+    name: string;
+    contact: string;
+    address: string;
+    category: string;
+    balance: number;
 }
 
 function createData(
     id: string,
-    date: string,
-    description: string,
-    amount: number,
-    accumulated: number,
-    type: string,
+    name: string,
+    contact: string,
+    address: string,
+    category: string,
+    balance: number,
 ): Data {
-    return {id, date, description, amount, accumulated, type};
+    return {id, name, contact, address, category, balance};
 }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -73,10 +72,11 @@ interface HeadCell {
 }
 
 const headCells: HeadCell[] = [
-    {id: 'date', numeric: false, disablePadding: false, label: 'Fecha'},
-    {id: 'description', numeric: false, disablePadding: false, label: 'Descripcion'},
-    {id: 'amount', numeric: true, disablePadding: false, label: 'Monto'},
-    {id: 'accumulated', numeric: true, disablePadding: false, label: 'Acumulado'},
+    {id: 'name', numeric: false, disablePadding: false, label: 'Nombre'},
+    {id: 'contact', numeric: false, disablePadding: false, label: 'Contacto'},
+    {id: 'address', numeric: false, disablePadding: false, label: 'Direccion'},
+    {id: 'category', numeric: false, disablePadding: false, label: 'Categoria'},
+    {id: 'balance', numeric: true, disablePadding: false, label: 'Saldo'},
 ];
 
 interface EnhancedTableProps {
@@ -169,24 +169,34 @@ const useStyles = makeStyles((theme: Theme) =>
             color: 'white',
             background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
         },
+        redBalance: {
+            color: 'red',
+        },
+        greenBalance: {
+            color: 'green',
+        },
+        blueBalance: {
+            color: 'blue',
+        }
     }),
 );
 
-export default function AccountTable(props: any) {
+interface ICustomerList {
+    customers: []
+}
+
+export default function CustomerListTable(props: ICustomerList) {
     const classes = useStyles();
-    const {tableData: {transactions, balance}, tableName, total} = props;
+    const history = useHistory();
     const [tableRows, setTableRows] = React.useState<Data[]>([]);
     const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof Data>('date');
+    const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
+    const {customers} = props;
 
     useEffect(() => {
-        setTableRows(transactions ? transactions.map((elem: any) => createData(elem.id, elem.date, elem.description, elem.amount, elem.accumulated, elem.type)) : []);
-    }, [transactions])
-
-    // useEffect(() => {
-    //     const total = tableRows ? tableRows.map((row: Data) => row.amount).reduce((a: number, b: number) => a + b, 0) : 0;
-    //     setTotal(total.toFixed(2));
-    // }, [tableRows, total, setTotal])
+        setTableRows(customers ?
+            customers.map((elem: any) => createData(elem.id, elem.name_summary, elem.contact_summary, elem.address_summary, elem.category, elem.balance)) : []);
+    }, [customers])
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -194,18 +204,17 @@ export default function AccountTable(props: any) {
         setOrderBy(property);
 
     };
-    const seeInfo = (event: React.MouseEvent<unknown>, id: string) => {
-        // dispatch(removeFromIcarusCart(id, icarusCart));
 
-        // setTableRows(tableRows.filter(row => row.id !== id))
-    };
+    function goToAccount(id: string) {
+        history.push(`/customers/${id}/account`);
+    }
 
     const emptyRows = 8 - Math.min(8, tableRows.length);
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <AccountTableToolbar title={tableName}/>
+                {/*<SupplierTableToolbar title={"Proveedores"}/>*/}
                 <TableContainer>
                     <Table
                         className={classes.table}
@@ -228,27 +237,30 @@ export default function AccountTable(props: any) {
 
                                     return (
                                         <TableRow
-                                            className={row.type !== 'PAYMENT' ? classes.tableRow : classes.paymentTableRow}
+                                            className={classes.tableRow}
                                             hover
                                             tabIndex={-1}
                                             key={row.id}
                                         >
                                             <TableCell padding="checkbox"
-                                                       onClick={(event) => seeInfo(event, row.id)}>
-                                                {row.type !== 'ORDER' ? null :
-                                                    <Tooltip title="Ver">
-                                                        <IconButton className={classes.visibilityIcon}>
-                                                            <VisibilityIcon/>
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                }
+                                                       onClick={() => goToAccount(row.id)}>
+                                                <Tooltip title="Ver">
+                                                    <IconButton className={classes.visibilityIcon}>
+                                                        <VisibilityIcon/>
+                                                    </IconButton>
+                                                </Tooltip>
                                             </TableCell>
-                                            <TableCell>{row.date}</TableCell>
+                                            <TableCell>{row.name}</TableCell>
                                             <TableCell component="th" id={labelId} scope="row" padding={'none'}>
-                                                {row.description}
+                                                {row.contact}
                                             </TableCell>
-                                            <TableCell>${row.amount}</TableCell>
-                                            <TableCell>${row.accumulated}</TableCell>
+                                            <TableCell>{row.address}</TableCell>
+                                            <TableCell>{row.category}</TableCell>
+                                            <TableCell className={Math.abs(row.balance) < 2
+                                                ? classes.blueBalance : row.balance < 0
+                                                    ? classes.redBalance : classes.greenBalance}>
+                                                    $ {Math.abs(row.balance) > 2 ? row.balance : 0}
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -260,7 +272,6 @@ export default function AccountTable(props: any) {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <AccountFooterToolbar total={balance}/>
             </Paper>
         </div>
     );

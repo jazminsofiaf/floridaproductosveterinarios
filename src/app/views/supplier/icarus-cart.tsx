@@ -160,7 +160,7 @@ const useStyles = makeStyles((theme: Theme) =>
             top: 20,
             width: 1,
         },
-        deleteIcon:{
+        visibilityIcon:{
             color: '#21CBF3'
         },
         buttonBlue: {
@@ -242,7 +242,7 @@ export default function IcarusCart(props: any) {
                                         >
                                             <TableCell padding="checkbox" onClick={(event) => removeItem(event, row.id)}>
                                                 <Tooltip title="Eliminar">
-                                                    <IconButton aria-label="delete" className={classes.deleteIcon}>
+                                                    <IconButton aria-label="delete" className={classes.visibilityIcon}>
                                                         <DeleteIcon/>
                                                     </IconButton>
                                                 </Tooltip>

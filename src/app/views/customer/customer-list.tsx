@@ -1,60 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import CustomersList from './CustomersList'
-import withStyles from "@material-ui/core/styles/withStyles";
+import React, {useEffect, useState} from 'react';
+import SearchRow from "../shared/SearchRow"
+import Grid from '@material-ui/core/Grid';
+import CustomerListTable from "./customer-list-table";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCustomersNew} from "../../actions/actions";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import CommonModal from '../shared/CommonModal'
-import PaymentForm from '../payment/payment-form'
-import {createStyles, Theme} from "@material-ui/core";
 
 
-const CustomerList = ({fetchCustomers, customers , classes}: ICustomerList) => {
-    const [selected, setSelected] = useState<ICustomerSummary>()
+function CustomerList() {
+    const [filterText, setFilterText] = useState('');
+    const {customers} = useSelector((state: any) => state);
+    const dispatch = useDispatch();
+
+    const customersList = filterText.length > 2 && customers ? customers.filter((customer: ICustomerSummary) => passesFilter(customer)) : customers ? customers : [];
+
+    function passesFilter(customer: ICustomerSummary) {
+        return !(customer?.name_summary?.toLowerCase().indexOf(filterText.toLowerCase()) === -1)
+    }
 
     useEffect(() => {
-        if(!customers) {
-            fetchCustomers();
-        }
-    }, [fetchCustomers, customers])
-
-    const [open, setOpen] = useState(false);
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    function clickPayment(customer: ICustomerSummary) {
-        setSelected(customer);
-        setOpen(true);
-    };
-
-
-    const paymentForm = selected ? PaymentForm({ownerId:selected.id, handleClose:handleClose}) : null;
+        dispatch(fetchCustomersNew());
+    }, [dispatch])
 
     return (
-        <>
-            <Container maxWidth="lg" className={classes.container}>
-                <Typography variant="h3">Clientes</Typography>
-                <CustomersList customers={customers} onClick={clickPayment}/>
-            </Container>
-            <CommonModal render={paymentForm} state={open} handleClose={handleClose} />
-        </>
+        <Container maxWidth="lg">
+            <Typography variant="h3">Clientes</Typography>
+            <Grid container spacing={1}>
+                <Grid item xs={12}><SearchRow filterText={filterText} label={'Buscar cliente'} update={setFilterText}/></Grid>
+                <CustomerListTable customers={customersList}/>
+            </Grid>
+        </Container>
     )
 
 }
 
-interface ICustomerList extends IComponent {
-    fetchCustomers: () => {};
-    customers: ICustomerSummary[];
-
-    classes: any;
-}
-
-const styles = (theme: Theme) => createStyles({
-    container: {
-        marginTop: theme.spacing(16),
-    },
-});
-
-
-export default withStyles(styles)(CustomerList);
+export default CustomerList;

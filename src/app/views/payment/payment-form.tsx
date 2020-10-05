@@ -1,8 +1,6 @@
 import React from 'react';
 import {Paper, Grid, Typography, Select, TextField, FormControl, InputLabel, MenuItem, Button} from '@material-ui/core'
 import {Field, FieldArray, Form, Formik} from "formik";
-import {useDispatch} from "react-redux";
-import {addCustomerPayment} from "../../actions/actions";
 
 const payment = {
     payment_method: 'CASH',
@@ -15,19 +13,14 @@ const initialValues = {
 }
 
 const PaymentForm = (props: any) => {
-    const dispatch = useDispatch();
-    const {ownerId, handleClose} = props;
-
-    initialValues.owner_id = ownerId;
+    const {submit} = props;
 
     function onSubmit(values: any) {
-        dispatch(addCustomerPayment(values))
-        handleClose();
+        submit(values);
     }
 
     return (
         <Paper style={{padding: '2px'}}>
-            <Typography variant="subtitle1">Ingresar Pago</Typography>
             <Grid container spacing={1}>
                 <Formik initialValues={initialValues}
                         onSubmit={onSubmit}>
@@ -130,7 +123,7 @@ const PaymentForm = (props: any) => {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                color="primary">
+                                color="secondary">
                                 Cargar pago
                             </Button>
 

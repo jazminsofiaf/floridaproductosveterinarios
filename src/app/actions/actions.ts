@@ -50,7 +50,7 @@ import {
     CREATE_ICARUS_ORDER,
     FETCH_RECEPTION_BUILD,
     FETCH_USER_ACCOUNT,
-    FETCH_SUPPLIERS_INFO,
+    FETCH_SUPPLIERS_INFO, FETCH_SUPPLIER_ACCOUNT, ADD_SUPPLIER_PAYMENT,
 } from './types';
 
 import {Dispatch} from 'redux';
@@ -402,6 +402,29 @@ export const fetchCustomers = async (dispatch: Dispatch) => {
     }
 };
 
+export function fetchCustomersNew() {
+    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
+
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await CustomerService.fetchCustomers();
+
+            dispatch({
+                type: FETCH_CUSTOMERS,
+                payload: response,
+            });
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: e.response,
+            });
+        }
+    }
+};
+
 export const fetchCustomersOrders = async (dispatch: Dispatch) => {
     dispatch({
         type: LOADING,
@@ -492,7 +515,7 @@ export const createCustomer = async (dispatch: Dispatch, data: ICustomer) => {
 };
 
 export function addCustomerPayment(data: IPaymentPostData) {
-    return async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
+    return async (dispatch: (arg: any) => void) => {
         dispatch({
             type: SUBMITTING,
         });
@@ -503,6 +526,27 @@ export function addCustomerPayment(data: IPaymentPostData) {
             dispatch({
                 type: ADD_CUSTOMER_PAYMENT,
             });
+            dispatch(fetchUserAccount(data.owner_id));
+        } catch (e) {
+            dispatch({
+                type: ERROR,
+                payload: {message: e.message},
+            });
+        }
+    };
+}
+
+export function addSupplierPayment(data: IPaymentPostData) {
+    return async (dispatch: (arg: any) => void) => {
+        dispatch({
+            type: SUBMITTING,
+        });
+
+        try {
+            await SupplierService.addPayment(data);
+
+            dispatch({type: ADD_SUPPLIER_PAYMENT,});
+            dispatch(fetchSupplierAccount(data.owner_id));
         } catch (e) {
             dispatch({
                 type: ERROR,
@@ -647,6 +691,28 @@ export function fetchUserAccount(customerId: string) {
 
             return dispatch({
                 type: FETCH_USER_ACCOUNT,
+                payload: response,
+            });
+        } catch (e) {
+            return dispatch({
+                type: ERROR,
+                payload: e.response,
+            });
+        }
+    };
+}
+
+export function fetchSupplierAccount(supplierId: string) {
+    return async (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+        dispatch({
+            type: LOADING,
+        });
+
+        try {
+            const response = await SupplierService.fetchAccount(supplierId);
+
+            return dispatch({
+                type: FETCH_SUPPLIER_ACCOUNT,
                 payload: response,
             });
         } catch (e) {

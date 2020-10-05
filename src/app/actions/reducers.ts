@@ -76,10 +76,10 @@ import {
     CREATE_ICARUS_ORDER,
     FETCH_RECEPTION_BUILD,
     FETCH_USER_ACCOUNT,
-    FETCH_SUPPLIERS_INFO
+    FETCH_SUPPLIERS_INFO, FETCH_SUPPLIER_ACCOUNT, ADD_SUPPLIER_PAYMENT
 } from './types';
 
-export default (state: [] = [], action: IAction) => {
+export default (state: any, action: IAction) => {
     switch (action.type) {
         case ERROR:
             return {...state, error: action.payload, success: false, submitting: false, loading: false};
@@ -123,6 +123,8 @@ export default (state: [] = [], action: IAction) => {
             return {...state, accountInfo: action.payload, error: false, submitting: false, loading: false};
         case FETCH_SUPPLIERS_INFO:
             return {...state, suppliersInfo: action.payload, error: false, submitting: false, loading: false};
+        case FETCH_SUPPLIER_ACCOUNT:
+            return {...state, supplierAccount: action.payload, error: false, submitting: false, loading: false};
 
         case FETCH_ARCUR_PRODUCTS:
             return {...state, arcurProducts: action.payload, error: false, submitting: false, loading: false};
@@ -275,7 +277,10 @@ export default (state: [] = [], action: IAction) => {
         case EMPTY_CART:
             return {...state, cartItems: []};
         case ADD_CUSTOMER_PAYMENT:
-            return {...state, success: 'Country edited successfully.', error: false, submitting: false, loading: false};
+            return {...state, success: 'Customer payment success', error: false, submitting: false, loading: false};
+        case ADD_SUPPLIER_PAYMENT: {
+            return {...state, success: 'Supplier payment success', error: false, submitting: false, loading: false};
+        }
 
         case ADD_TO_ICARUS_CART:
             return {...state, icarusCart: action.payload};
