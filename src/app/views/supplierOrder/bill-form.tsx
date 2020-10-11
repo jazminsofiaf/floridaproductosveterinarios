@@ -303,6 +303,7 @@ function BillForm(props: any) {
                 if (rcvProdcut && rcvProdcut.expiration_date) {
                     item.expiration_date = new Date(rcvProdcut.expiration_date);
                 }
+                item.amount = rcvProdcut.amount;
                 item.price = rcvProdcut.price;
                 return generateBillRow(item, billMargins, true)
             });

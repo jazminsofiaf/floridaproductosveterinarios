@@ -190,7 +190,7 @@ export default function CustomerListTable(props: ICustomerList) {
     const history = useHistory();
     const [tableRows, setTableRows] = React.useState<Data[]>([]);
     const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
+    const [orderBy, setOrderBy] = React.useState<keyof Data>('balance');
     const {customers} = props;
 
     useEffect(() => {
