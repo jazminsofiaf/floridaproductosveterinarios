@@ -67,11 +67,11 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
-        .matches(/^[a-zA-Z0-9\s.]*$/, wordInputValidationMessage)
+        // .matches(/^[a-zA-Z0-9\s.]*$/, wordInputValidationMessage)
         .max(50, maxCharsMessage(50))
         .required("Debe setear un nombre."),
     brand: Yup.string()
-        .matches(/^[a-zA-Z\s.]*$/, wordInputValidationMessage)
+        // .matches(/^[a-zA-Z\s.]*$/, wordInputValidationMessage)
         .max(40, maxCharsMessage(40))
         .required("Debe setear una marca."),
     cost: Yup.string().matches(/^[0-9]*[.,]?[0-9]*$/, numberMessageValidation)

@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchProductsInfo} from "../../actions/actions";
 
 interface Row {
-    // id: string;
+    id: string;
     url: string;
     name: string;
     presentation: string;
@@ -63,6 +63,7 @@ export default function ProductListInfo() {
             {title: 'Reservado', field: 'reserved', type: 'numeric', editable: 'never'},
             {title: 'Espera', field: 'awaiting', type: 'numeric', editable: 'never'},
             {title: 'Faltante', field: 'missing', type: 'numeric', editable: 'never'},
+            {title: 'ID', field: 'id', editable: 'never'}
         ];
 
     React.useEffect(() => {
@@ -90,6 +91,7 @@ export default function ProductListInfo() {
                         reserved: productInfoData.reserved,
                         awaiting: productInfoData.awaiting,
                         missing: productInfoData.missing,
+                        id: productInfoData.id
                     }
                 }
             ) : [];
