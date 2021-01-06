@@ -15,7 +15,7 @@
     "@types/react": "^16.9.41",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "date-fns": "^2.14.0",
     "dayjs": "^1.8.36",
     "firebase": "^7.15.5",
