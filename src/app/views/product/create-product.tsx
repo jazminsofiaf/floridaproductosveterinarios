@@ -1,7 +1,6 @@
 import React from 'react';
 import * as Yup from "yup";
 import {Theme} from "@material-ui/core";
-import UpperBar from "../upperBar/UpperBar";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -21,14 +20,6 @@ import { fieldToTextField } from 'formik-material-ui';
 import {useDispatch, useSelector} from "react-redux";
 import {createDistributorProduct, refreshWithDelay2} from "../../actions/actions";
 import Loader from "../shared/Loader";
-
-
-// const numberMessageValidation = 'Solo numeros';
-// const wordInputValidationMessage = "Letras unicamente"
-//
-// function maxCharsMessage(max: number) {
-//     return 'Maximo de ' + max + ' caracteres';
-// }
 
 const initialValues = {
     name: '',
@@ -172,6 +163,7 @@ const categories = [
 
 const brands = [
     'Afford',
+    'AS',
     'Aton',
     'Bayer',
     'Boehringer Ingelheim',
@@ -189,6 +181,7 @@ const brands = [
     'Intervet',
     'Janvier',
     'John Martin',
+    'Kiara',
     'Konig',
     'Kualcos',
     'Lab Vetue',
